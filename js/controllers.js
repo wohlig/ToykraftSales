@@ -103,6 +103,15 @@ angular.module('starter.controllers', ['myservices'])
 })
 
 .controller('HomeCtrl', function ($scope, $stateParams, $location, MyServices) {
+    
+    //GET ZONE DATA
+     $scope.zonedata = [];
+    var onzonesuccess = function (data, status) {
+        console.log("DATA SUCCESS");
+        console.log(data);
+        $scope.zonedata = data;
+    };
+    MyServices.findzonebyuser().success(onzonesuccess);
 
     //$ionicSideMenuDelegate.canDragContent(false);
 

@@ -97,8 +97,8 @@ var myservices = angular.module('myservices', [])
         setretailer: function ( retail ){
             retailer = retail;
         },
-        findzone: function () {
-            return $http.get(adminurl + "zone/find", {});
+        findzonebyuser: function () {
+            return $http.get(adminurl + "zone/find", {params: {user: user}});
         },
         findstate: function (zone) {
             return $http.get(adminurl + "state/findbyzone", {
