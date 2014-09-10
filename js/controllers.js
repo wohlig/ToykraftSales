@@ -701,13 +701,18 @@ angular.module('starter.controllers', ['myservices'])
 })
 
 .controller('AddshopCtrl', function ($scope, $stateParams, Camera, $http, MyServices, $location) {
-    addretailer.lat = "abh";
+    
+    var aid = $stateParams.areaid;
+    $scope.addretailer = {
+        area: aid
+    };
+   
    //GEO-LOCATION
     var onSuccess = function (position) {
         /*console.log('Latitude: ' + position.coords.latitude + '\n' +
             'Longitude: ' + position.coords.longitude);*/
-        $scope.lat = position.coords.latitude;
-        $scope.long = position.coords.longitude;
+        $scope.addretailer.lat = position.coords.latitude;
+        $scope.addretailer.long = position.coords.longitude;
     };
 
     function onError(error) {
@@ -718,11 +723,7 @@ angular.module('starter.controllers', ['myservices'])
         enableHighAccuracy: false
     });
     
-    var aid = $stateParams.areaid;
-    $scope.addretailer = {
-        area: aid
-    };
-
+    
     $scope.addRetailerFunction = function () {
         console.log("retailer name is " + $scope.addretailer.name);
         console.log($scope.addretailer);
