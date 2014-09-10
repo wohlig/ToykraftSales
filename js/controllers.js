@@ -113,6 +113,12 @@ angular.module('starter.controllers', ['myservices'])
     };
     $scope.user = user;
     $scope.lastretailer = MyServices.getretailer();
+    
+    $scope.gotolastretailer = function()
+    {
+        var pathtolast = "/app/dealer/"+$scope.lastretailer+"/6";
+      $location.path(pathtolast);  
+    };
 
     todaytallydatasuccess = function (data, status) {
         if(data == "false") 
