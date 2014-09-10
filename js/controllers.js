@@ -236,18 +236,21 @@ angular.module('starter.controllers', ['myservices'])
 
     $scope.total = 0;
     $scope.user = user;
+    
+    //CHECK IF NEW RETAILER
+    $scope.retailerid = $stateParams.id;
+    MyServices.checkretailer($scope.retailerID);
+    //SET RETAILER
+    MyServices.setretailer($scope.retailerid);
+    //GET CART
     $scope.mycart = MyServices.getCart();
-
-    //console.log("YOUR CART "+mycart);
 
     $scope.retailerID = $stateParams.id;
     if ($scope.retailerID == 0) {
         $location.path("/app/home");
     };
 
-    //CHECK IF NEW RETAILER
-    $scope.retailerid = $stateParams.id;
-    MyServices.checkretailer($scope.retailerID);
+    
 
     // console.log('retailer ID is ' + retailerID);
 

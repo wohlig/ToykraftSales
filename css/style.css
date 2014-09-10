@@ -282,7 +282,7 @@ p.info {
     color: #ffffff;
 }
 .description {
-    overflow-y: scroll;
+    overflow: hidden;
     height: 100px;
     padding: 5px 10px;
     border: 1px solid #ccc;
