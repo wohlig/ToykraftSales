@@ -4,53 +4,65 @@
             <div class="row">
                 <div class="col">
                     <label class="item item-input">
-                        <span class="input-label">Name</span>
+                        <span class="input-label">Company Name</span>
                         <input type="text" name="name" ng-model="addretailer.name">
                     </label>
-                    <label class="item item-input">
+                    <!--<label class="item item-input">
                         <span class="input-label">Code</span>
                         <input type="text" name="code" ng-model="addretailer.code">
+                    </label>-->
+                    <label class="item item-input">
+                        <span class="input-label">Company Number</span>
+                        <input type="tel" name="componyname" ng-model="addretailer.number">
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Company Name</span>
-                        <input type="text" name="componyname" ng-model="addretailer.compony_name">
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label">Email</span>
+                        <span class="input-label">Company Email</span>
                         <input type="email" name="email" ng-model="addretailer.email"> 
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label">Contact Number</span>
-                        <input type="text" name="contact" ng-model="addretailer.contactno">
                     </label>
                     <label class="item item-input item-stacked-label">
                         <span class="input-label">Address</span>
                         <textarea name="address" ng-model="addretailer.address"></textarea>
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Contact Person</span>
-                        <input type="text" name="contactperson" ng-model="addretailer.contactperson">
+                        <span class="input-label">Contact Person Name</span>
+                        <input type="text" name="contact" ng-model="addretailer.contactname">
+                    </label>
+                    
+                    <label class="item item-input">
+                        <span class="input-label">Contact Person Number</span>
+                        <input type="text" name="contactperson" ng-model="addretailer.contactnumber">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Business Owner Name</span>
+                        <input type="text" name="contact" ng-model="addretailer.ownername">
+                    </label>
+                    
+                    <label class="item item-input">
+                        <span class="input-label">Business Owner Number</span>
+                        <input type="text" name="contactperson" ng-model="addretailer.ownernumber">
                     </label>
                 </div>
                 <div class="col">
+                   
                     <label class="item item-input">
-                        <span class="input-label">Latitude</span>
-                        <input type="text" name="latitude" ng-model="addretailer.lat">
+                        <span class="input-label">Birthdate</span>
+                        <input type="date" name="dob" ng-model="addretailer.dob">
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Longitude</span>
-                        <input type="text" name="longitude" ng-model="addretailer.long">
+                        <span class="input-label">Latitude </span>
+                        <input type="text" name="latitude" ng-model="addretailer.lat" value="{{lat}}" disabled>
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Longitude </span>
+                        <input type="text" name="longitude" ng-model="addretailer.long" value="{{long}}" disabled>
                     </label>
                     <label class="item item-input">
                         <div class="input-label">
                             Select Area
                         </div>
-                        <input name="area" ng-model="addretailer.area" readonly>        
+                        <input type="text" name="area" ng-model="addretailer.area" disabled>        
                     </label>
-                    <label class="item item-input">
-                        <span class="input-label">Birthdate</span>
-                        <input type="date" name="dob" ng-model="addretailer.dob">
-                    </label>
+                    
                     <label class="item item-input item-select">
                         <div class="input-label">
                             Type Of Area

@@ -9,8 +9,11 @@
     </ion-nav-buttons>
 
     <ion-nav-buttons side="right">
-        <button class="button button-assertive" ng-click="gettopten();">
+        <button class="button button-assertive" ng-click="gettopten();" >
             Top Ten Products
+        </button>
+        <button class="button button-assertive" ng-click="gettopen();">
+            Edit Retailer
         </button>
         <a class="button icon ion-home" href="#/app/home">
 
@@ -37,12 +40,13 @@
                         <h4>Code: {{categoryproductdata.productcode}}</h4>
                         <h4>Age: {{categoryproductdata.age}} years</h4>
                         <h4>USPs: </h4>
+                        <p class="description">{{categoryproductdata.description}}</p>
                     </div>
                     <div class="col">
                         <div class="row">
                             <div class="col col-25">
-                                <h4>Quantity:</h4>
-                                <h4>Amount:</h4>
+                                <h4>Quantity</h4>
+                                <h4>Amount</h4>
                             </div>
                             <div class="col">
                                 <input class="navbox inputborder" type="text" ng-model="productquantity">

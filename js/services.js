@@ -272,6 +272,10 @@ var myservices = angular.module('myservices', [])
         {
             return $http.get(adminurl + "product/gettoptenproducts");
         },
+        editretailerdetails: function(data)
+        {
+            return $http.get(adminurl + "retailer/updatecontact");  
+        },
        
     }
 });

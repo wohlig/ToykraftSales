@@ -386,6 +386,32 @@ angular.module('starter.controllers', ['myservices'])
         MyServices.gettoptenproducts().success(toptendatasuccess);
     };
     
+    //EDIT RETAILERS
+    $scope.editretailer = {};
+    
+    $ionicModal.fromTemplateUrl('templates/editretailer.html', {
+        id: '2',
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        $scope.oModal2 = modal;
+    });
+    var editretailersuccess = function(data , status)
+    {
+      //$scope.toptendata = data;
+        $scope.oModal2.hide();
+    };
+    $scope.gettopen = function () 
+    {
+        $scope.oModal2.show();        
+    };
+    $scope.editRetailerFunction = function()
+    {
+        console.log($scope.editretailer.number);
+        MyServices.editretailerdetails($scope.editretailer).success(editretailersuccess);
+        $scope.oModal2.hide();
+    }
+    
     
 /*    //PREVIOUS BUTTON
     $scope.getpreviousproduct = function () 
@@ -675,6 +701,23 @@ angular.module('starter.controllers', ['myservices'])
 })
 
 .controller('AddshopCtrl', function ($scope, $stateParams, Camera, $http, MyServices, $location) {
+    addretailer.lat = "abh";
+   //GEO-LOCATION
+    var onSuccess = function (position) {
+        /*console.log('Latitude: ' + position.coords.latitude + '\n' +
+            'Longitude: ' + position.coords.longitude);*/
+        $scope.lat = position.coords.latitude;
+        $scope.long = position.coords.longitude;
+    };
+
+    function onError(error) {
+        console.log('code: ' + error.code + '\n' +
+            'message: ' + error.message + '\n');
+    }
+    window.navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+        enableHighAccuracy: false
+    });
+    
     var aid = $stateParams.areaid;
     $scope.addretailer = {
         area: aid
@@ -697,7 +740,7 @@ angular.module('starter.controllers', ['myservices'])
 
         MyServices.addNewRetailer($scope.addretailer).success(addRetailerSuccess);
 
-
+        
 
         //sqfeet type dob area latitude longitude contactperson address contactnumber email compony code name
     };
