@@ -274,7 +274,9 @@ var myservices = angular.module('myservices', [])
         },
         editretailerdetails: function(data)
         {
-            return $http.get(adminurl + "retailer/updatecontact");  
+            console.log("DATA/////////////////////");
+            console.log(data);
+            return $http.get(adminurl + "retailer/updatecontact", {params:  data });  
         },
        
     }

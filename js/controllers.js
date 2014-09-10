@@ -388,6 +388,7 @@ angular.module('starter.controllers', ['myservices'])
     
     //EDIT RETAILERS
     $scope.editretailer = {};
+    $scope.editretailer.id = $scope.retailerID;
     
     $ionicModal.fromTemplateUrl('templates/editretailer.html', {
         id: '2',
