@@ -731,18 +731,13 @@ angular.module('starter.controllers', ['myservices'])
    
    //GEO-LOCATION
     var onSuccess = function (position) {
-        /*console.log('Latitude: ' + position.coords.latitude + '\n' +
-            'Longitude: ' + position.coords.longitude);*/
-        
-        $scope.addretailer.lat = position.coords.latitude;
-        $scope.addretailer.long = position.coords.longitude;
-        alert($scope.addretailer.long +" and "+$scope.addretailer.lat);
+        alert('Latitude: ' + position.coords.latitude + '\n' +
+            'Longitude: ' + position.coords.longitude);
     };
 
     function onError(error) {
         alert('code: ' + error.code + '\n' +
             'message: ' + error.message + '\n');
-        
     }
     window.navigator.geolocation.getCurrentPosition(onSuccess, onError, {
         enableHighAccuracy: false
