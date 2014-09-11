@@ -105,14 +105,12 @@ angular.module('starter.controllers', ['myservices'])
 .controller('HomeCtrl', function ($scope, $stateParams, $location, MyServices) {
     
     //GET ZONE DATA
+    var user = MyServices.getuser();
+    var userzone = user.zone;
+    console.log("THE ZOOOOOONNNNNEEEE ISSSSSS "+userzone)
      $scope.zonedata = [];
-    var onzonesuccess = function (data, status) {
-        console.log("DATA SUCCESS");
-        console.log(data);
-        $scope.zonedata = data;
-    };
-    //MyServices.findzonebyuser().success(onzonesuccess);
-    $scope.zonedata.id = 4;
+   
+    $scope.zonedata.id = userzone;
 
     //$ionicSideMenuDelegate.canDragContent(false);
 
@@ -255,7 +253,7 @@ angular.module('starter.controllers', ['myservices'])
     
     //CHECK IF NEW RETAILER
     $scope.retailerid = $stateParams.id;
-    MyServices.checkretailer($scope.retailerID);
+    MyServices.checkretailer($scope.retailerid);
     //SET RETAILER
     MyServices.setretailer($scope.retailerid);
     //GET CART
@@ -280,6 +278,7 @@ angular.module('starter.controllers', ['myservices'])
     };
     MyServices.findoneretailer($scope.retailerID).success(retailSuccess2);
     $scope.productquantity = 1;
+    
     //PRODUCT INFORMATION
     var pronumber = 1;
     $scope.pname;
@@ -358,7 +357,7 @@ angular.module('starter.controllers', ['myservices'])
         MyServices.setsearchtxt("");
         MyServices.setcategory(cid);
         var retailer = MyServices.getretailer();
-        $location.path("/app/dealer/" + retailer + "/" + cid);
+        $location.path("/app/dealer/" + $scope.retailerid + "/" + cid);
         $location.replace();
     };
     
@@ -481,7 +480,7 @@ angular.module('starter.controllers', ['myservices'])
 
             MyServices.addItemToCart(id, name, quantity, mrp, $scope.totalprice);
             $scope.mycart = MyServices.getCart();
-            //console.log("YOUR CART "+ mycart);
+            //console.log("YOUR CART "+ mycart);+
         };
 
     };
@@ -505,6 +504,10 @@ angular.module('starter.controllers', ['myservices'])
         console.log("Send ORder pressed");
 
         MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
+        
+    //E-MAIL
+        //MyServices.sendemail().success(onemailsuccess);
+        var call = "https://mandrillapp.com/api/1.0/messages/send.json";
     };
 
     //RETRIEVE DATA
@@ -540,10 +543,11 @@ angular.module('starter.controllers', ['myservices'])
 .controller('OrderCtrl', function ($scope, $stateParams, MyServices, $ionicModal) {
     console.log("ORDER CONTROLLER IS WRKING");
 
-
-
+    var user = MyServices.getuser();
+    console.log(user.zone);
+    var zid = user.zone;
+    
     $scope.filter = {
-        zone: "",
         state: "",
         city: "",
         area: "",
@@ -551,18 +555,15 @@ angular.module('starter.controllers', ['myservices'])
     };
 
     $scope.ordersdata = 'false';
-    zonesuccess = function (data, status) {
-        $scope.zonedata = data;
-    };
-    MyServices.findzone().success(zonesuccess);
+
+    //MyServices.findzone().success(zonesuccess);
     //STATE
     statesuccess = function (data, status) {
         console.log(data);
         $scope.statedata = data;
     };
-    $scope.zonechange = function (zid) {
-        MyServices.findstate(zid).success(statesuccess);
-    };
+    MyServices.findstate(zid).success(statesuccess);
+
     //CITY
     citysuccess = function (data, status) {
         $scope.citydata = data;

@@ -54,13 +54,16 @@ var myservices = angular.module('myservices', [])
             return $http.get(adminurl + "user/authenticate", {
                  params: {
                     username: userinfo.username,
-                     password: userinfo.password
+                    password: userinfo.password
                 }
             });
         },
         setuser: function (data) {
             user=data;
             $.jStorage.set("user",data);
+        },
+         getuser: function () {
+            return user;
         },
         gettodaytally: function(userid){
             return $http.get(adminurl + "orders/gettodaystally", { params: {
