@@ -111,7 +111,8 @@ angular.module('starter.controllers', ['myservices'])
         console.log(data);
         $scope.zonedata = data;
     };
-    MyServices.findzonebyuser().success(onzonesuccess);
+    //MyServices.findzonebyuser().success(onzonesuccess);
+    $scope.zonedata.id = 4;
 
     //$ionicSideMenuDelegate.canDragContent(false);
 
@@ -732,13 +733,16 @@ angular.module('starter.controllers', ['myservices'])
     var onSuccess = function (position) {
         /*console.log('Latitude: ' + position.coords.latitude + '\n' +
             'Longitude: ' + position.coords.longitude);*/
+        
         $scope.addretailer.lat = position.coords.latitude;
         $scope.addretailer.long = position.coords.longitude;
+        alert($scope.addretailer.long +" and "+$scope.addretailer.lat);
     };
 
     function onError(error) {
-        console.log('code: ' + error.code + '\n' +
+        alert('code: ' + error.code + '\n' +
             'message: ' + error.message + '\n');
+        
     }
     window.navigator.geolocation.getCurrentPosition(onSuccess, onError, {
         enableHighAccuracy: false
