@@ -25,7 +25,7 @@
                         <td>{{singlecart.id}}</td>
                         <td>{{singlecart.name}}</td>
                         <td>{{singlecart.quantity}}</td>
-                        <td>₹{{singlecart.mrp}}</td>
+                        <td>{{singlecart.mrp|decimal2|currency}}</td>
                         <td>{{singlecart.totalprice}}</td>
                         
                     </tr>
@@ -33,7 +33,7 @@
                         <td>{{singlecart.id}}</td>
                         <td>{{singlecart.name}}</td>
                         <td>{{singlecart.quantity}}</td>
-                        <td>₹{{singlecart.mrp}}</td>
+                        <td>{{singlecart.mrp|decimal2|currency}}</td>
                         <td>{{singlecart.totalprice}}</td>
                         
                     </tr>
@@ -41,13 +41,13 @@
                         <td>{{singlecart.id}}</td>
                         <td>{{singlecart.name}}</td>
                         <td>{{singlecart.quantity}}</td>
-                        <td>₹{{singlecart.mrp}}</td>
+                        <td>{{singlecart.mrp|decimal2|currency}}</td>
                         <td>{{singlecart.totalprice}}</td>
                        
                     </tr>
                 </tbody>
             </table>
-            <h4>Total: ₹{{gettotal()}}</h4>
+            <h4>Total: {{gettotal()|decimal2|currency}}</h4>
 
             </table>
             <div> <span class="list list-royal pull-right marker"> SCHEME </span><span class="list list-energized pull-right marker"> NEW PRODUCTS </span>

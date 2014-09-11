@@ -42,7 +42,7 @@
    
 
 
-    <icon src="logo.png" />
+    <icon src="img/logo1.png" />
     <gap:splash src="img/splash.png" />
     
     <access origin="*" />

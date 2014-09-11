@@ -2,53 +2,54 @@
     <ion-content class="has-header">
         <ion-nav-buttons side="right">
             <a class="button icon ion-home" href="#/app/home">
-                
+
             </a>
         </ion-nav-buttons>
         <div class="padding">
             <h4 class="pull-right">{{user}}</h4>
-           
+
             <!-- {{orderdetailsdata|json}} -->
-            <table class="yourorderstable">
-                <tr>
-                    <th>ID</th>
-                    <th>PRODUCT NAME</th>
-                    <th>QUANTITY</th>
-                    <th>MRP</th>
-                    <th>AMOUNT</th>
-                </tr>
-                <tr ng-repeat="orderdetails in orderdetailsdata|filter:cartnotschemenew">
+            <table class="table2">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product name</th>
+                        <th>Quantity</th>
+                        <th>MRP</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="orderdetails in orderdetailsdata">
                         <td>{{orderdetails.id}}</td>
                         <td>{{orderdetails.name}}</td>
                         <td>{{orderdetails.quantity}}</td>
-                        <td>₹{{orderdetails.amount}}</td>
-                        <td>{{orderdetails.amount * orderdetails.quantity}}</td>
-                        
+                        <td>{{orderdetails.amount / orderdetails.quantity|decimal2|currency}}</td>
+                        <td>{{orderdetails.amount |decimal2|currency}}</td>
                     </tr>
+
                     <tr class="list list-royal" ng-repeat="orderdetails in orderdetailsdata|filter:{category:'scheme'}">
                         <td>{{orderdetails.id}}</td>
                         <td>{{orderdetails.name}}</td>
                         <td>{{orderdetails.quantity}}</td>
-                        <td>₹{{orderdetails.amount}}</td>
-                        <td>{{orderdetails.amount * orderdetails.quantity}}</td>
-                        
+                        <td>{{orderdetails.amount / orderdetails.quantity|decimal2|currency}}</td>
+                        <td>{{orderdetails.amount |decimal2|currency}}</td>
+
                     </tr>
                     <tr class="list list-energized" ng-repeat="orderdetails in orderdetailsdata|filter:{category:'new'}">
                         <td>{{orderdetails.id}}</td>
                         <td>{{orderdetails.name}}</td>
                         <td>{{orderdetails.quantity}}</td>
-                        <td>₹{{orderdetails.amount}}</td>
-                        <td>{{orderdetails.amount * orderdetails.quantity}}</td>
+                        <td>{{orderdetails.amount / orderdetails.quantity|decimal2|currency}}</td>
+                        <td>{{orderdetails.amount |decimal2|currency}}</td>
                     </tr>
-            </table>
-            <table class="table">
-                <tr>
-                    <th style="width:50px">Total: {{total}}</th>
-                    <!--<td>{{gettotal()}}</td> -->
-                </tr>
 
+                </tbody>
             </table>
-<!--            <button class="button button-assertive button-block" ng-click="sendOrder(retailerdata2);">Confirm Order</button>-->
+
+            <h3 class="pull-right">Total: {{total|decimal2|currency}}</h3>
+            <!--            <button class="button button-assertive button-block" ng-click="sendOrder(retailerdata2);">Confirm Order</button>-->
         </div>
     </ion-content>
 </ion-view>

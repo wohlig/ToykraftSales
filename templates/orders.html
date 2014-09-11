@@ -10,7 +10,7 @@
             
  <div class="row">
     <div class="col"><button class="button button-assertive button-block" ng-click="openDate();">date</button></div>
-     <div class="col"><button class="button button-assertive button-block" ng-click="openRetailer();">retialer</button></div>
+     <div class="col"><button class="button button-assertive button-block" ng-click="openRetailer();">Retailer</button></div>
 </div>
            
             <p class="assertive text-center" ng-show="ordersdata=='false'" style="padding:20%;">No order found</p>
@@ -29,7 +29,7 @@
                          <tr ng-repeat="userorder in ordersdata">
                             <td>{{userorder.id}}</td>
                             <td>{{userorder.retail}}</td>
-                            <td>{{userorder.amount}}</td>
+                             <td>{{userorder.amount|decimal2|currency}}</td>
                             <td>{{userorder.timestamp}}</td>
                             <td><a class="button button-assertive button-small" href="#/app/orderdetails/{{userorder.id}}">Details</a>
                             </td>

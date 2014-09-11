@@ -29,7 +29,7 @@
                         <h2>{{categoryproductdata.name}}</h2>
                     </div>
                     <div class="col">
-                        <h3>MRP: ₹{{categoryproductdata.mrp}}</h3>
+                        <h3>MRP: {{categoryproductdata.mrp|decimal2|currency}}</h3>
                     </div>
                 </div>
                 <div class="row">
@@ -46,7 +46,7 @@
                             </div>
                             <div class="col">
                                 <input class="navbox inputborder" type="text" ng-model="productquantity">
-                                <input class="navbox inputborder" type="text" value="₹{{categoryproductdata.mrp * productquantity}}" disabled>
+                                <input class="navbox inputborder" type="text" value="{{categoryproductdata.mrp * productquantity|decimal2|currency}}" disabled>
                             </div>
                         </div>
                         <button class="button button-block button-assertive" ng-click="addToCart(categoryproductdata.id,categoryproductdata.name,productquantity,categoryproductdata.mrp);">
@@ -56,19 +56,12 @@
                 </div>
 
                 <h4>Photos:</h4>
-                <div class="row image-scroll">
-                    <div class="col col-10">
-                        <img src="img/2.png" class="full-image">
+                <div class="row image-scroll" ng-controller="PhotoSliderCtrl" > 
+
+                    <div class="col col-10" ng-repeat="image in categoryproductdata.images" ng-click="openModal($index);" >
+                        <img src="http://www.mywebsite-demo.com/toy-kraft/media/catalog/product{{image.image}}" class="full-image">
                     </div>
-                    <div class="col col-10">
-                        <img src="img/3.png" class="full-image">
-                    </div>
-                    <div class="col col-10">
-                        <img src="img/4.png" class="full-image">
-                    </div>
-                    <div class="col col-10">
-                        <img src="img/5.png" class="full-image">
-                    </div>
+
                 </div>
              
                 <div class="row" style="padding:20px">  
@@ -98,7 +91,7 @@
                             <!--<td>{{retailerrecent.sales}}</td>-->
                             <td>{{retailerrecent.timestamp}}</td>
                             <td>{{retailerrecent.quantity}}</td>
-                            <td>₹{{retailerrecent.amount}}</td>
+                            <td>{{retailerrecent.amount|decimal2|currency}}</td>
                             <td><a class="button button-assertive button-small" href="#/app/orderdetails/{{retailerrecent.id}}">Details</a></td>
                         </tr>
                     </tbody>
@@ -124,7 +117,7 @@
                             <td>
                                 <input class="text-center" type="text" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)">
                             </td>
-                            <td>₹{{singlecart.mrp}}</td>
+                            <td>{{singlecart.mrp|decimal2|currency}}</td>
                             <td>{{singlecart.totalprice}}</td>
                             <td>
                                 <a class="icon ion-android-close" ng-click="remove();"></a>
@@ -135,7 +128,7 @@
                             <td>
                                 <input type="text" class="text-center" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)">
                             </td>
-                            <td>₹{{singlecart.mrp}}</td>
+                            <td>{{singlecart.mrp|decimal2|currency}}</td>
                             <td>{{singlecart.totalprice}}</td>
                             <td>
                                 <a class="icon ion-android-close" ng-click="remove();"></a>
@@ -146,7 +139,7 @@
                             <td>
                                 <input type="text" class="text-center" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)">
                             </td>
-                            <td>₹{{singlecart.mrp}}</td>
+                            <td>{{singlecart.mrp|decimal2|currency}}</td>
                             <td>{{singlecart.totalprice}}</td>
                             <td>
                                 <a class="icon ion-android-close" ng-click="remove();"></a>
@@ -156,7 +149,7 @@
                 </table>
                
                 
-                <p class="pull-right">Total: ₹{{gettotal()}}</p>
+                <p class="pull-right">Total: {{gettotal()|decimal2|currency}}</p>
 
 
                 <a href="#/app/confirm-order/{{retailerid}}" class="button button-block button-assertive" >Order Now</a>

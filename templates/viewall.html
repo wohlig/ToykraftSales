@@ -21,7 +21,7 @@
                 <tr ng-repeat="userorder in userordersdata" ng-show="noorder">
                     <td>{{userorder.id}}</td>
                     <td>{{userorder.retail}}</td>
-                    <td>{{userorder.amount}}</td>
+                    <td>{{userorder.amount|decimal2|currency}}</td>
                     <td>{{userorder.timestamp}}</td>
                     <td><a class="button button-assertive button-small" href="#/app/orderdetails/{{userorder.id}}">Details</a></td>
                 </tr>
