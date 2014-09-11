@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.toykraft.dealer" versionCode="1" version="1.0.0">
+
+    <name>Toykraft Dealer</name>
+
+    <description>
+        Dealer's App
+    </description>
+
+    <author href="toy-kraft.in" email="ramprasad.bordikar@yahoo.com.">
+        Toykraft
+    </author>
+    
+    <preference name="phonegap-version" value="3.5.0" />
+    <preference name="fullscreen" value="true" />
+    <preference name="orientation" value="landscape" />
+    <preference name="splash-screen-duration" value="5000" />
+    <preference name="android-minSdkVersion" value="7" />
+    <preference name="LoadUrlTimeoutValue" value="100000" />
+    <preference name="phonegap-version" value="3.5.0" />
+    <preference name="target-device" value="universal" />
+    <preference name="webviewbounce" value="true" />
+    <preference name="prerendered-icon" value="true" />
+    <preference name="stay-in-webview" value="false" />
+    <preference name="ios-statusbarstyle" value="black-opaque" />
+    <preference name="detect-data-types" value="true" />
+    <preference name="exit-on-suspend" value="false" />
+    <preference name="show-splash-screen-spinner" value="true" />
+    <preference name="auto-hide-splash-screen" value="true" />
+    <preference name="disable-cursor" value="false" />
+    <preference name="android-installLocation" value="auto" />
+    <gap:plugin name="org.apache.cordova.camera" />
+    <gap:plugin name="org.apache.cordova.media-capture" />
+    <gap:plugin name="org.apache.cordova.console" />
+    <gap:plugin name="org.apache.cordova.file" />
+    <gap:plugin name="org.apache.cordova.file-transfer" />
+    <gap:plugin name="org.apache.cordova.splashscreen" />
+    <gap:plugin name="org.apache.cordova.device" />
+    <gap:plugin name="org.transistorsoft.cordova.background-geolocation" />
+   
+
+
+    <icon src="logo.png" />
+    <gap:splash src="img/splash.png" />
+    
+    <access origin="*" />
+    <!-- allow all pages, use for development -->
+    <!-- allow pushwoosh service -->
+
+</widget>
