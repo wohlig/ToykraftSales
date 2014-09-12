@@ -40,7 +40,9 @@
                         <h4>Code: {{categoryproductdata.productcode}}</h4>
                         <h4>Age: {{categoryproductdata.age}} years</h4>
                         <h4>USPs: </h4>
-                        <p class="description scroll">{{categoryproductdata.description}}</p>
+                        <ion-scroll zooming="false" direction="y" class="description">
+                            <p>{{categoryproductdata.description}}</p>
+                        </ion-scroll>
                     </div>
                     <div class="col">
                         <div class="row">

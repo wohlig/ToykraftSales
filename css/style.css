@@ -156,8 +156,7 @@ input.inputborder {
 }
 .border-left {
     border-left: 1px solid #b22;
-    min-height: 600px;
-    overflow-y: scroll;
+    margin: -5px 0;
 }
 .bar .title {
     font-weight: 600;
@@ -282,7 +281,6 @@ p.info {
     color: #ffffff;
 }
 .description {
-    overflow: hidden;
     height: 100px;
     padding: 5px 10px;
     border: 1px solid #ccc;
