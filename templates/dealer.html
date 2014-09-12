@@ -3,7 +3,7 @@
     
 
     <ion-nav-buttons>
-        <input class="search navbox" type="text" ng-model="searchtext" placeholder="Search">
+        <input class="search navbox" type="search" ng-model="searchtext" placeholder="Search">
         <a class="button button-icon icon ion-ios7-search" ng-click="searchproduct(searchtext);"></a>
         
     </ion-nav-buttons>
@@ -51,7 +51,7 @@
                                 <h4>Amount</h4>
                             </div>
                             <div class="col">
-                                <input class="navbox inputborder" type="text" ng-model="productquantity">
+                                <input class="navbox inputborder" type="number" ng-model="productquantity">
                                 <input class="navbox inputborder" type="text" value="{{categoryproductdata.mrp * productquantity|decimal2|currency}}" disabled>
                             </div>
                         </div>
