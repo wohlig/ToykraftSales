@@ -208,8 +208,8 @@ angular.module('starter.controllers', ['myservices'])
 
 })
 
-.controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicModal) {
-
+.controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicModal, $window) {
+    $scope.heightVal = $window.innerHeight-44;
     /*   //WATCH
     $scope.changetext = {name:"abhay"};
     $scope.$watch('changetext', function() {
@@ -219,7 +219,7 @@ angular.module('starter.controllers', ['myservices'])
         MyServices.setproductCatdata([{name: "Abhay"},{name:"Chintan"}]);
     };*/
 
-
+    
     //GEO-LOCATION
     var onSuccess = function (position) {
         console.log('Latitude: ' + position.coords.latitude + '\n' +
@@ -496,6 +496,8 @@ angular.module('starter.controllers', ['myservices'])
 
 
 
+    
+    
 })
 
 .controller('ViewallCtrl', function ($scope, $stateParams, MyServices) {

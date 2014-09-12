@@ -288,3 +288,6 @@ p.info {
     border: 1px solid #ccc;
     text-align: justify;
 }
+.button+.button {
+    margin-left: 8px;
+}
