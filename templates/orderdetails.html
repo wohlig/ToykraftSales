@@ -6,8 +6,8 @@
             </a>
         </ion-nav-buttons>
         <div class="padding">
-               <h2>{{shopname}}</h2>
-               <h3>{{name}}</h3>
+               <h2>{{retailerdata.name}}</h2>
+               <h3>{{retailerdata.contactname}}</h3>
 
             <!-- {{orderdetailsdata|json}} -->
             <table class="table2">
@@ -22,7 +22,7 @@
                 </thead>
 
                 <tbody>
-                    <tr ng-repeat="orderdetails in orderdetailsdata">
+                    <tr ng-repeat="orderdetails in orderdetailsdata|filter:cartnotschemenew">
                         <td>{{orderdetails.id}}</td>
                         <td>{{orderdetails.name}}</td>
                         <td>{{orderdetails.quantity}}</td>
@@ -48,7 +48,7 @@
                     <tr>
                         <td><strong>Total:</strong></td>
                         <td></td>
-                        <td><strong>2</strong> </td>
+                        <td><strong>{{quantitytotal }}</strong> </td>
                         <td></td>
                         <td><strong>{{total|decimal2|currency}}</strong></td>
                     </tr>

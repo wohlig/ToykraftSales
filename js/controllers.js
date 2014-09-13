@@ -31,7 +31,7 @@ angular.module('starter.controllers', ['myservices'])
     $scope.setslide = function () {
         var path = $location.path();
         var path2 = path.slice(0, 12)
-        //console.log(path);
+            //console.log(path);
 
         if (path2 == "/app/dealer/") {
             //console.log("true");
@@ -103,13 +103,13 @@ angular.module('starter.controllers', ['myservices'])
 })
 
 .controller('HomeCtrl', function ($scope, $stateParams, $location, MyServices) {
-    
+
     //GET ZONE DATA
     var user = MyServices.getuser();
     var userzone = user.zone;
-    console.log("THE ZOOOOOONNNNNEEEE ISSSSSS "+userzone)
-     $scope.zonedata = [];
-   
+    console.log("THE ZOOOOOONNNNNEEEE ISSSSSS " + userzone)
+    $scope.zonedata = [];
+
     $scope.zonedata.id = userzone;
 
     //$ionicSideMenuDelegate.canDragContent(false);
@@ -121,22 +121,19 @@ angular.module('starter.controllers', ['myservices'])
     };
     $scope.user = user;
     $scope.lastretailer = MyServices.getretailer();
-    
-    $scope.gotolastretailer = function()
-    {
-        var pathtolast = "/app/dealer/"+$scope.lastretailer+"/6";
-      $location.path(pathtolast);  
+
+    $scope.gotolastretailer = function () {
+        var pathtolast = "/app/dealer/" + $scope.lastretailer + "/6";
+        $location.path(pathtolast);
     };
 
     todaytallydatasuccess = function (data, status) {
-        if(data == "false") 
-        {
+        if (data == "false") {
             $scope.todtallydata = data;
-        }else
-        {
-           $scope.todtallydata = data; 
+        } else {
+            $scope.todtallydata = data;
         }
-        
+
     };
 
     monthtallydatasuccess = function (data, status) {
@@ -223,7 +220,7 @@ angular.module('starter.controllers', ['myservices'])
 })
 
 .controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicModal, $window) {
-    $scope.heightVal = $window.innerHeight-44;
+    $scope.heightVal = $window.innerHeight - 44;
     /*   //WATCH
     $scope.changetext = {name:"abhay"};
     $scope.$watch('changetext', function() {
@@ -233,7 +230,7 @@ angular.module('starter.controllers', ['myservices'])
         MyServices.setproductCatdata([{name: "Abhay"},{name:"Chintan"}]);
     };*/
 
-    
+
     //GEO-LOCATION
     var onSuccess = function (position) {
         console.log('Latitude: ' + position.coords.latitude + '\n' +
@@ -250,7 +247,7 @@ angular.module('starter.controllers', ['myservices'])
 
     $scope.total = 0;
     $scope.user = user;
-    
+
     //CHECK IF NEW RETAILER
     $scope.retailerid = $stateParams.id;
     MyServices.checkretailer($scope.retailerid);
@@ -264,7 +261,7 @@ angular.module('starter.controllers', ['myservices'])
         $location.path("/app/home");
     };
 
-    
+
 
     // console.log('retailer ID is ' + retailerID);
 
@@ -278,7 +275,7 @@ angular.module('starter.controllers', ['myservices'])
     };
     MyServices.findoneretailer($scope.retailerID).success(retailSuccess2);
     $scope.productquantity = 1;
-    
+
     //PRODUCT INFORMATION
     var pronumber = 1;
     $scope.pname;
@@ -297,11 +294,10 @@ angular.module('starter.controllers', ['myservices'])
 
     //GET LAST THREE ORDERS OF RETAIlER
     var retailerrecentorders = function (data, status) {
-        if(data != "false")
-        {
-        $scope.retailerrecentdata = data;
-        }else{
-        //$scope.retailerrecentdata = [{0,0,0,0},{0,0,0,0},{0,0,0,0}];
+        if (data != "false") {
+            $scope.retailerrecentdata = data;
+        } else {
+            //$scope.retailerrecentdata = [{0,0,0,0},{0,0,0,0},{0,0,0,0}];
         };
     };
     MyServices.getrecentorders($scope.retailerid).success(retailerrecentorders);
@@ -317,7 +313,7 @@ angular.module('starter.controllers', ['myservices'])
     };
 
 
-/*    //FIND PRODUCT
+    /*    //FIND PRODUCT
     var productSuccess = function (data, status) {
         console.log(data.name);
         $scope.product = data;
@@ -333,13 +329,13 @@ angular.module('starter.controllers', ['myservices'])
         MyServices.findoneproduct(id).success(productSuccess);
     };*/
 
-    
+
     //INITIAL CALLING PRODUCTS ON PAGE LOAD
     $scope.choice = "scheme";
     //CAEGORY AND PRODUCTS
     $scope.categoryid = $stateParams.cid;
     MyServices.setcategory($stateParams.cid);
-    
+
     //DEFINING THE ARRAY VARIABLE
     $scope.categoryproductdata = {};
 
@@ -349,43 +345,39 @@ angular.module('starter.controllers', ['myservices'])
         //findproduct(data.id);
     };
     //INITITAL FUNCTION ON PAGE CALL
-    MyServices.findnext(0,1).success(oncategoryproductsuccess);    
-    
+    MyServices.findnext(0, 1).success(oncategoryproductsuccess);
+
     //SCHEME AND NEW PRODUCTS
-    $scope.getscheme = function (cid) 
-    {
+    $scope.getscheme = function (cid) {
         MyServices.setsearchtxt("");
         MyServices.setcategory(cid);
         var retailer = MyServices.getretailer();
         $location.path("/app/dealer/" + $scope.retailerid + "/" + cid);
         $location.replace();
     };
-    
+
     //NEXT BUTTON AN PREVIOUS BUTTON (1 FOR NEXT, 0 FOR PREVIOUS)
-    $scope.getnextproduct = function (next) 
-    {
+    $scope.getnextproduct = function (next) {
         console.log("SENDING ID " + $scope.categoryproductdata.id);
         MyServices.findnext($scope.categoryproductdata.id, next).success(oncategoryproductsuccess);
     };
-    
-    
+
+
     //SEARCH
     var searchtxt = MyServices.getsearchtxt();
-    if (searchtxt != "")
-    {
+    if (searchtxt != "") {
         $scope.searchtext = searchtxt;
     }
-    $scope.searchproduct = function(searchvalue) 
-    {
+    $scope.searchproduct = function (searchvalue) {
         var retail = MyServices.getretailer();
         MyServices.setsearchtxt(searchvalue);
         console.log(searchvalue);
-        var searchtext = "f"+searchvalue;
+        var searchtext = "f" + searchvalue;
         console.log(searchtext);
         MyServices.setcategory(searchtext);
-        $location.path("/app/dealer/"+retail+"/"+searchtext);
+        $location.path("/app/dealer/" + retail + "/" + searchtext);
     };
-    
+
     //TOP TEN ORDERS
     $scope.toptendata = {};
     $ionicModal.fromTemplateUrl('templates/topten.html', {
@@ -395,19 +387,18 @@ angular.module('starter.controllers', ['myservices'])
     }).then(function (modal) {
         $scope.oModal1 = modal;
     });
-    var toptendatasuccess = function(data , status)
-    {
-      $scope.toptendata = data;
+    var toptendatasuccess = function (data, status) {
+        $scope.toptendata = data;
     };
     $scope.gettopten = function () {
         $scope.oModal1.show();
         MyServices.gettoptenproducts().success(toptendatasuccess);
     };
-    
+
     //EDIT RETAILERS
     $scope.editretailer = {};
     $scope.editretailer.id = $scope.retailerID;
-    
+
     $ionicModal.fromTemplateUrl('templates/editretailer.html', {
         id: '2',
         scope: $scope,
@@ -415,31 +406,28 @@ angular.module('starter.controllers', ['myservices'])
     }).then(function (modal) {
         $scope.oModal2 = modal;
     });
-    var editretailersuccess = function(data , status)
-    {
-      //$scope.toptendata = data;
+    var editretailersuccess = function (data, status) {
+        //$scope.toptendata = data;
         $scope.oModal2.hide();
     };
-    $scope.gettopen = function () 
-    {
-        $scope.oModal2.show();        
+    $scope.gettopen = function () {
+        $scope.oModal2.show();
     };
-    $scope.editRetailerFunction = function()
-    {
+    $scope.editRetailerFunction = function () {
         console.log($scope.editretailer.number);
         MyServices.editretailerdetails($scope.editretailer).success(editretailersuccess);
         $scope.oModal2.hide();
     }
-    
-    
-/*    //PREVIOUS BUTTON
+
+
+    /*    //PREVIOUS BUTTON
     $scope.getpreviousproduct = function () 
     {
         console.log("SENDING ID " + $scope.pid);
         MyServices.findnext($scope.pid, 0).success(oncategoryproductsuccess);
     };*/
-    
-/*    //NEXT AND id
+
+    /*    //NEXT AND id
     var onnextid = function (data) {
         $scope.newnid = data.id;
         console.log("getting id: " + data.id);
@@ -452,25 +440,22 @@ angular.module('starter.controllers', ['myservices'])
         findproduct(data.id);
     }*/
 
-    
+
 
     //$scope.productquantity = 1;
-    
-    
-    $scope.cartnotschemenew=function(category,$index) {
+
+
+    $scope.cartnotschemenew = function (category, $index) {
         //console.log("CATEGORY>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         //console.log(category);
-        if(category.category=="new" || category.category=="scheme")
-        {
+        if (category.category == "new" || category.category == "scheme") {
             return false;
-        }
-        else
-        {
+        } else {
             return true;
         }
     };
-    
-    
+
+
     //ADD TO CART
     $scope.addToCart = function (id, name, quantity, mrp) {
 
@@ -504,76 +489,75 @@ angular.module('starter.controllers', ['myservices'])
         console.log("Send ORder pressed");
 
         MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
-        
-    //E-MAIL
+
+        //E-MAIL
         $scope.params = {};
         $scope.params = {
-    "key": 'tNasiy2x9H5rIO0Ni2g-NA',
-    "message": {
-        "html": "<p>Tushar is mad</p>",
-        "text": "Tushar is mad",
-        "subject": "Tushar pagal hai",
-        "from_email": "tushar@wohlig.com",
-        "from_name": "Tushar Sachde",
-        "to": [
-            {
-                "email": "contactabhay2@gmail.com",
-                "name": "Recipient Name",
-                "type": "to"
-            }
-        ],
-        "headers": {
-            "Reply-To": "contactabhay2@gmail.com"
-        },
-        "important": true,
-        "track_opens": null,
-        "track_clicks": null,
-        "auto_text": null,
-        "auto_html": null,
-        "inline_css": null,
-        "url_strip_qs": null,
-        "preserve_recipients": null,
-        "view_content_link": null,
-        "tracking_domain": null,
-        "signing_domain": null,
-        "return_path_domain": null,
-        "merge": true,
-        "global_merge_vars": [
-            {
-                "name": "merge1",
-                "content": "merge1 content"
-            }
-        ],
-        "merge_vars": [
-            {
-                "rcpt": "contactabhay2@gmail.com",
-                "vars": [
+            "key": 'tNasiy2x9H5rIO0Ni2g-NA',
+            "message": {
+                "html": "<p>Tushar is mad</p>",
+                "text": "Tushar is mad",
+                "subject": "Tushar pagal hai",
+                "from_email": "tushar@wohlig.com",
+                "from_name": "Tushar Sachde",
+                "to": [
                     {
-                        "name": "merge2",
-                        "content": "merge2 content"
+                        "email": "contactabhay2@gmail.com",
+                        "name": "Recipient Name",
+                        "type": "to"
+            }
+        ],
+                "headers": {
+                    "Reply-To": "contactabhay2@gmail.com"
+                },
+                "important": true,
+                "track_opens": null,
+                "track_clicks": null,
+                "auto_text": null,
+                "auto_html": null,
+                "inline_css": null,
+                "url_strip_qs": null,
+                "preserve_recipients": null,
+                "view_content_link": null,
+                "tracking_domain": null,
+                "signing_domain": null,
+                "return_path_domain": null,
+                "merge": true,
+                "global_merge_vars": [
+                    {
+                        "name": "merge1",
+                        "content": "merge1 content"
+            }
+        ],
+                "merge_vars": [
+                    {
+                        "rcpt": "contactabhay2@gmail.com",
+                        "vars": [
+                            {
+                                "name": "merge2",
+                                "content": "merge2 content"
                     }
                 ]
             }
         ],
-     
-      
-        "recipient_metadata": [
-            {
-                "rcpt": "contactabhay2@gmail.com",
-                "values": {
-                    "user_id": 123456
-                }
+
+
+                "recipient_metadata": [
+                    {
+                        "rcpt": "contactabhay2@gmail.com",
+                        "values": {
+                            "user_id": 123456
+                        }
             }
         ]
-    },
-    "async": false
-} ;
-   
-        var onemailsuccess = function(data, status)
-        {
+            },
+            "async": false
+        };
+
+        var onemailsuccess = function (data, status) {
             alert(data);
         };
-        
+
         MyServices.sendemail($scope.params).success(onemailsuccess);
         var call = "https://mandrillapp.com/api/1.0/messages/send.json";
     };
@@ -610,7 +594,7 @@ angular.module('starter.controllers', ['myservices'])
     var user = MyServices.getuser();
     console.log(user.zone);
     var zid = user.zone;
-    
+
     $scope.filter = {
         state: "",
         city: "",
@@ -761,28 +745,34 @@ angular.module('starter.controllers', ['myservices'])
 
 .controller('OrderdetailCtrl', function ($scope, $stateParams, MyServices) {
 
+
+
     var orderID = $stateParams.id;
-    console.log(user);
+    //console.log(user);
     var orderdetails = function (data, status) {
         console.log(data);
         $scope.user = data.sales;
         $scope.total = data.amount;
         $scope.retailerdata = data.retailer;
-        console.log($scope.retailerdata.name);
         $scope.orderdetailsdata = data.orderproduct;
+        $scope.gettotalquantity();
+
     };
     MyServices.getorderdetail(orderID).success(orderdetails);
-    
+
+    $scope.gettotalquantity = function () {
+        $scope.quantitytotal = 0;
+        for (var i=0; i< $scope.orderdetailsdata.length; i++) {
+            $scope.quantitytotal += parseInt($scope.orderdetailsdata[i].quantity);
+        };
+        return $scope.quantitytotal;
+    };
+
     //FUNCTION TO DISPLAY PRODUCTS FILTER
-    $scope.cartnotschemenew=function(category,$index) {
-        //console.log("CATEGORY>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        //console.log(category);
-        if(category.category=="new" || category.category=="scheme")
-        {
+    $scope.cartnotschemenew = function (category, $index) {
+       if (category.category == "new" || category.category == "scheme") {
             return false;
-        }
-        else
-        {
+        } else {
             return true;
         }
     };
@@ -791,13 +781,13 @@ angular.module('starter.controllers', ['myservices'])
 })
 
 .controller('AddshopCtrl', function ($scope, $stateParams, Camera, $http, MyServices, $location) {
-    
+
     var aid = $stateParams.areaid;
     $scope.addretailer = {
         area: aid
     };
-   
-   //GEO-LOCATION
+
+    //GEO-LOCATION
     var onSuccess = function (position) {
         alert('Latitude: ' + position.coords.latitude + '\n' +
             'Longitude: ' + position.coords.longitude);
@@ -810,8 +800,8 @@ angular.module('starter.controllers', ['myservices'])
     window.navigator.geolocation.getCurrentPosition(onSuccess, onError, {
         enableHighAccuracy: false
     });
-    
-    
+
+
     $scope.addRetailerFunction = function () {
         console.log("retailer name is " + $scope.addretailer.name);
         console.log($scope.addretailer);
@@ -829,7 +819,7 @@ angular.module('starter.controllers', ['myservices'])
 
         MyServices.addNewRetailer($scope.addretailer).success(addRetailerSuccess);
 
-        
+
 
         //sqfeet type dob area latitude longitude contactperson address contactnumber email compony code name
     };
@@ -915,64 +905,62 @@ angular.module('starter.controllers', ['myservices'])
 
     $scope.errMove = function() {}*/
 })
-.controller('PhotoSliderCtrl', function ($scope, $stateParams, MyServices,  $ionicModal, $ionicSlideBoxDelegate) {
-    $ionicModal.fromTemplateUrl('templates/image-slider.html', {
-        scope: $scope,
-        animation: 'slide-in-up'
-    }).then(function(modal) {
-        $scope.modal = modal;
-    });
+    .controller('PhotoSliderCtrl', function ($scope, $stateParams, MyServices, $ionicModal, $ionicSlideBoxDelegate) {
+        $ionicModal.fromTemplateUrl('templates/image-slider.html', {
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function (modal) {
+            $scope.modal = modal;
+        });
 
-    $scope.openModal = function(index2) {
+        $scope.openModal = function (index2) {
 
-        $scope.modal.show();
-        // Important: This line is needed to update the current ion-slide's width
-        // Try commenting this line, click the button and see what happens
+            $scope.modal.show();
+            // Important: This line is needed to update the current ion-slide's width
+            // Try commenting this line, click the button and see what happens
 
-        $ionicSlideBoxDelegate.start();
-        $ionicSlideBoxDelegate.update();
-        for(var i=0;i<20;i++)
-        {
-            $ionicSlideBoxDelegate.previous();
-        }
-        for(var i=0;i<index2;i++)
-        {
+            $ionicSlideBoxDelegate.start();
+            $ionicSlideBoxDelegate.update();
+            for (var i = 0; i < 20; i++) {
+                $ionicSlideBoxDelegate.previous();
+            }
+            for (var i = 0; i < index2; i++) {
+                $ionicSlideBoxDelegate.next();
+            }
+
+        };
+
+        $scope.closeModal = function () {
+            $scope.modal.hide();
+        };
+
+        // Cleanup the modal when we're done with it!
+        $scope.$on('$destroy', function () {
+            $scope.modal.remove();
+        });
+        // Execute action on hide modal
+        $scope.$on('modal.hide', function () {
+            // Execute action
+        });
+        // Execute action on remove modal
+        $scope.$on('modal.removed', function () {
+            // Execute action
+        });
+        $scope.$on('modal.shown', function () {
+            console.log('Modal is shown!');
+        });
+
+        // Call this functions if you need to manually control the slides
+        $scope.next = function () {
             $ionicSlideBoxDelegate.next();
-        }
+        };
 
-    };
+        $scope.previous = function () {
+            $ionicSlideBoxDelegate.previous();
+        };
 
-    $scope.closeModal = function() {
-        $scope.modal.hide();
-    };
-
-    // Cleanup the modal when we're done with it!
-    $scope.$on('$destroy', function() {
-        $scope.modal.remove();
+        // Called each time the slide changes
+        $scope.slideChanged = function (index) {
+            $scope.slideIndex = index;
+        };
     });
-    // Execute action on hide modal
-    $scope.$on('modal.hide', function() {
-        // Execute action
-    });
-    // Execute action on remove modal
-    $scope.$on('modal.removed', function() {
-        // Execute action
-    });
-    $scope.$on('modal.shown', function() {
-        console.log('Modal is shown!');
-    });
-
-    // Call this functions if you need to manually control the slides
-    $scope.next = function() {
-        $ionicSlideBoxDelegate.next();
-    };
-
-    $scope.previous = function() {
-        $ionicSlideBoxDelegate.previous();
-    };
-
-    // Called each time the slide changes
-    $scope.slideChanged = function(index) {
-        $scope.slideIndex = index;
-    };
-});
