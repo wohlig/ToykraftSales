@@ -764,8 +764,11 @@ angular.module('starter.controllers', ['myservices'])
     var orderID = $stateParams.id;
     console.log(user);
     var orderdetails = function (data, status) {
+        console.log(data);
         $scope.user = data.sales;
         $scope.total = data.amount;
+        $scope.retailerdata = data.retailer;
+        console.log($scope.retailerdata.name);
         $scope.orderdetailsdata = data.orderproduct;
     };
     MyServices.getorderdetail(orderID).success(orderdetails);
