@@ -506,7 +506,7 @@ angular.module('starter.controllers', ['myservices'])
         MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
         
     //E-MAIL
-        //MyServices.sendemail().success(onemailsuccess);
+        MyServices.sendemail().success(onemailsuccess);
         var call = "https://mandrillapp.com/api/1.0/messages/send.json";
     };
 
