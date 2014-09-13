@@ -525,7 +525,7 @@ angular.module('starter.controllers', ['myservices'])
 };
 
         var onemailsuccess = function (data, status) {
-            alert(data);
+            //alert(data);
         };
 
         MyServices.sendemail($scope.params).success(onemailsuccess);
