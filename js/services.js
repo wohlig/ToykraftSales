@@ -281,9 +281,9 @@ var myservices = angular.module('myservices', [])
             console.log(data);
             return $http.get(adminurl + "retailer/updatecontact", {params:  data });  
         },
-        sendemail: function()
+        sendemail: function(data)
         {
-            return $http.post("https://mandrillapp.com/api/1.0/messages/send.json");  
+            return $http.post("https://mandrillapp.com/api/1.0/messages/send.json",  data );  
         },
        
     }

@@ -506,7 +506,75 @@ angular.module('starter.controllers', ['myservices'])
         MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
         
     //E-MAIL
-        MyServices.sendemail().success(onemailsuccess);
+        $scope.params = {};
+        $scope.params = {
+    "key": 'tNasiy2x9H5rIO0Ni2g-NA',
+    "message": {
+        "html": "<p>Tushar is mad</p>",
+        "text": "Tushar is mad",
+        "subject": "Tushar pagal hai",
+        "from_email": "tushar@wohlig.com",
+        "from_name": "Tushar Sachde",
+        "to": [
+            {
+                "email": "contactabhay2@gmail.com",
+                "name": "Recipient Name",
+                "type": "to"
+            }
+        ],
+        "headers": {
+            "Reply-To": "contactabhay2@gmail.com"
+        },
+        "important": true,
+        "track_opens": null,
+        "track_clicks": null,
+        "auto_text": null,
+        "auto_html": null,
+        "inline_css": null,
+        "url_strip_qs": null,
+        "preserve_recipients": null,
+        "view_content_link": null,
+        "tracking_domain": null,
+        "signing_domain": null,
+        "return_path_domain": null,
+        "merge": true,
+        "global_merge_vars": [
+            {
+                "name": "merge1",
+                "content": "merge1 content"
+            }
+        ],
+        "merge_vars": [
+            {
+                "rcpt": "contactabhay2@gmail.com",
+                "vars": [
+                    {
+                        "name": "merge2",
+                        "content": "merge2 content"
+                    }
+                ]
+            }
+        ],
+     
+      
+        "recipient_metadata": [
+            {
+                "rcpt": "contactabhay2@gmail.com",
+                "values": {
+                    "user_id": 123456
+                }
+            }
+        ]
+    },
+    "async": false
+} ;
+   
+        var onemailsuccess = function(data, status)
+        {
+            alert(data);
+        };
+        
+        MyServices.sendemail($scope.params).success(onemailsuccess);
         var call = "https://mandrillapp.com/api/1.0/messages/send.json";
     };
 
@@ -516,10 +584,6 @@ angular.module('starter.controllers', ['myservices'])
         //console.log(display);
     };
 
-
-
-    
-    
 })
 
 .controller('ViewallCtrl', function ($scope, $stateParams, MyServices) {
