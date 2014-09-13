@@ -493,66 +493,36 @@ angular.module('starter.controllers', ['myservices'])
         //E-MAIL
         $scope.params = {};
         $scope.params = {
-            "key": 'tNasiy2x9H5rIO0Ni2g-NA',
-            "message": {
-                "html": "<p>Tushar is mad</p>",
-                "text": "Tushar is mad",
-                "subject": "Tushar pagal hai",
-                "from_email": "tushar@wohlig.com",
-                "from_name": "Tushar Sachde",
-                "to": [
-                    {
-                        "email": "contactabhay2@gmail.com",
-                        "name": "Recipient Name",
-                        "type": "to"
+    "key": "tNasiy2x9H5rIO0Ni2g-NA",
+    "message": {
+        "html": "<p>Kitne dyaan se kaam karega ?</p>",
+        "text": "Kitne dyaan se kaam karega ?",
+        "subject": "Kitne dyaan se kaam karega ?",
+        "from_email": "chintan@wohlig.com",
+        "from_name": "Chintan Shah",
+        "to": [
+            {
+                "email": "dhruv@wohlig.com",
+                "name": "Dhruv",
+                "type": "to"
             }
         ],
-                "headers": {
-                    "Reply-To": "contactabhay2@gmail.com"
-                },
-                "important": true,
-                "track_opens": null,
-                "track_clicks": null,
-                "auto_text": null,
-                "auto_html": null,
-                "inline_css": null,
-                "url_strip_qs": null,
-                "preserve_recipients": null,
-                "view_content_link": null,
-                "tracking_domain": null,
-                "signing_domain": null,
-                "return_path_domain": null,
-                "merge": true,
-                "global_merge_vars": [
-                    {
-                        "name": "merge1",
-                        "content": "merge1 content"
-            }
-        ],
-                "merge_vars": [
-                    {
-                        "rcpt": "contactabhay2@gmail.com",
-                        "vars": [
-                            {
-                                "name": "merge2",
-                                "content": "merge2 content"
-                    }
-                ]
-            }
-        ],
-
-
-                "recipient_metadata": [
-                    {
-                        "rcpt": "contactabhay2@gmail.com",
-                        "values": {
-                            "user_id": 123456
-                        }
+        "headers": {
+            "Reply-To": "contactabhay2@gmail.com"
+        },
+        "important": true,
+  
+        "recipient_metadata": [
+            {
+                "rcpt": "dhruv@wohlig.com",
+                "values": {
+                    "user_id": 123456
+                }
             }
         ]
-            },
-            "async": false
-        };
+    },
+    "async": false
+};
 
         var onemailsuccess = function (data, status) {
             alert(data);
@@ -776,7 +746,6 @@ angular.module('starter.controllers', ['myservices'])
             return true;
         }
     };
-
 
 })
 
