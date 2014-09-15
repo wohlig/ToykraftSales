@@ -286,7 +286,7 @@ p.info {
     border: 1px solid #ccc;
     text-align: justify;
 }
-.button+.button {
+.buttons span+span, .button+.button {
     margin-left: 8px;
 }
 .clearfix:before, .clearfix:after {
