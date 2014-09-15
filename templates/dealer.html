@@ -37,9 +37,9 @@
                         <h4>Code: {{categoryproductdata.productcode}}</h4>
                         <h4>Age: {{categoryproductdata.age}} years</h4>
                         <h4>USPs: </h4>
-                        <ion-scroll zooming="false" direction="y" class="description">
+                        <ion-scroll zooming="false" direction="y" class="description" ng-click="openusp();">
                             <p>{{categoryproductdata.description}}</p>
-                        </ion-scroll>
+                            </ion-scroll>
                     </div>
                     <div class="col">
                         <div class="row">
@@ -161,8 +161,10 @@
                         <tr>
                             <td></td>
                             <td></td>
-                            <td><strong>Total:</strong></td>
-                            <td><strong>{{gettotal()|decimal2|currency}}</strong></td>
+                            <td><strong>Total:</strong>
+                            </td>
+                            <td><strong>{{gettotal()|decimal2|currency}}</strong>
+                            </td>
                             <td></td>
                         </tr>
                     </tbody>

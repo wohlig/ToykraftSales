@@ -285,6 +285,7 @@ p.info {
     padding: 5px 10px;
     border: 1px solid #ccc;
     text-align: justify;
+    overflow: hidden;
 }
 .buttons span+span, .button+.button {
     margin-left: 8px;

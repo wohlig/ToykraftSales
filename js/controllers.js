@@ -419,9 +419,24 @@ angular.module('starter.controllers', ['myservices'])
             console.log($scope.editretailer.number);
             MyServices.editretailerdetails($scope.editretailer).success(editretailersuccess);
             $scope.oModal2.hide();
-        }
+        };
+        
 
-
+    //USPs
+    $ionicModal.fromTemplateUrl('templates/usp.html', {
+        id: '3',
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        $scope.oModal3 = modal;
+    });
+    $scope.closeusp = function () {
+        $scope.oModal3.hide();
+    };
+    $scope.openusp = function () {
+        $scope.oModal3.show();
+    };
+    
         /*    //PREVIOUS BUTTON
     $scope.getpreviousproduct = function () 
     {
