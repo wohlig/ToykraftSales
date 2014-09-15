@@ -128,10 +128,10 @@
                         <tr ng-repeat="singlecart in mycart|filter:cartnotschemenew">
                             <td>{{singlecart.name}}</td>
                             <td>
-                                <input class="text-center" type="text" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)">
+                                <input class="text-center" type="text" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)" style="width: 35px;">
                             </td>
                             <td>{{singlecart.mrp|decimal2|currency}}</td>
-                            <td>{{singlecart.totalprice}}</td>
+                            <td>{{singlecart.totalprice|decimal2|currency}}</td>
                             <td>
                                 <a class="icon ion-android-close" ng-click="remove();"></a>
                             </td>
@@ -139,10 +139,10 @@
                         <tr class="list list-royal" ng-repeat="singlecart in mycart|filter:{category:'scheme'}">
                             <td>{{singlecart.name}}</td>
                             <td>
-                                <input type="text" class="text-center" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)">
+                                <input type="text" class="text-center" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)" style="width: 35px;">
                             </td>
                             <td>{{singlecart.mrp|decimal2|currency}}</td>
-                            <td>{{singlecart.totalprice}}</td>
+                            <td>{{singlecart.totalprice|decimal2|currency}}</td>
                             <td>
                                 <a class="icon ion-android-close" ng-click="remove();"></a>
                             </td>
@@ -150,19 +150,24 @@
                         <tr class="list list-energized" ng-repeat="singlecart in mycart|filter:{category:'new'}">
                             <td>{{singlecart.name}}</td>
                             <td>
-                                <input type="text" class="text-center" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)">
+                                <input type="text" class="text-center" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)" style="width: 35px;">
                             </td>
                             <td>{{singlecart.mrp|decimal2|currency}}</td>
-                            <td>{{singlecart.totalprice}}</td>
+                            <td>{{singlecart.totalprice|decimal2|currency}}</td>
                             <td>
                                 <a class="icon ion-android-close" ng-click="remove();"></a>
                             </td>
                         </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><strong>Total:</strong></td>
+                            <td><strong>{{gettotal()|decimal2|currency}}</strong></td>
+                            <td></td>
+                        </tr>
                     </tbody>
                 </table>
 
-
-                <p class="pull-right">Total: {{gettotal()|decimal2|currency}}</p>
 
 
                 <a href="#/app/confirm-order/{{retailerid}}" class="button button-block button-assertive">Order Now</a>

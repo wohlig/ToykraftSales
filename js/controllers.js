@@ -492,7 +492,7 @@ angular.module('starter.controllers', ['myservices'])
         var recieversemailid = "contactabhay2@gmail.com";
         var recieversname = "Abhay";
         console.log($scope.mycart);
-        var emaildata = "<table class='table2'><thead> <tr> <th> Name </th> <th> Quantity </th> <th> mrp </th> <th> Amount </th> </tr></thead><tbody>";
+        var emaildata = '<style>.table2 {width: 100%;max-width: 100%;margin-bottom: 20px;}th {text-align: left;font-weight: bold;}    .table2>thead>tr>th,        .table2>thead>tr>td,            .table2>tbody>tr>th,                    .table2>tbody>tr>td {                            padding: 5px;                            vertical-align: middle;                            border-top: 1px solid #ddd;                        }    .table2>thead>tr>th,        .table2>thead>tr>td {            border-top: 0        }</style><table class="table2" style="width:100%"><thead> <tr> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> </tr></thead><tbody>';
 
         
         //E-MAIL
@@ -503,8 +503,8 @@ angular.module('starter.controllers', ['myservices'])
             {*/
                 emaildata += "<td>"+$scope.mycart[e].name +"</td>";
                 emaildata += "<td>"+$scope.mycart[e].quantity +"</td>";
-                emaildata += "<td>"+$scope.mycart[e].mrp +"</td>";
-                emaildata += "<td>"+$scope.mycart[e].totalprice +"</td>";
+            emaildata += "<td>₹ "+$scope.mycart[e].mrp +"</td>";
+            emaildata += "<td>₹ "+$scope.mycart[e].totalprice +"</td>";
             /*}*/
             emaildata += "</tr>";
         };
