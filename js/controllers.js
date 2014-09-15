@@ -492,7 +492,7 @@ angular.module('starter.controllers', ['myservices'])
         var recieversemailid = "contactabhay2@gmail.com";
         var recieversname = "Abhay";
         console.log($scope.mycart);
-        var emaildata = "<table> <tr> <th> Name </th> <th> Quantity </th> <th> mrp </th> <th> Amount </th> </td>";
+        var emaildata = "<table class='table2'><thead> <tr> <th> Name </th> <th> Quantity </th> <th> mrp </th> <th> Amount </th> </tr></thead><tbody>";
 
         
         //E-MAIL
@@ -508,7 +508,7 @@ angular.module('starter.controllers', ['myservices'])
             /*}*/
             emaildata += "</tr>";
         };
-        emaildata += "</table>";
+        emaildata += "</tbody></table>";
         console.log(emaildata);
         $scope.params = {};
         $scope.params = 
