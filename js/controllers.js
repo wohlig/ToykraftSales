@@ -272,6 +272,8 @@ angular.module('starter.controllers', ['myservices'])
             console.log("Retailer info gained");
             console.log(data);
             $scope.retailerdata2 = data;
+            $scope.dealeremail = data.distributor;
+            console.log($scope.dealeremail);
         };
         MyServices.findoneretailer($scope.retailerID).success(retailSuccess2);
         $scope.productquantity = 1;
@@ -489,24 +491,34 @@ angular.module('starter.controllers', ['myservices'])
 
             console.log("Send ORder pressed");
             console.log(retailerdata2);
-            var recieversemailid = "contactabhay2@gmail.com";
-            var recieversname = "Abhay";
+            var recieversname = retailerdata2.name;
             console.log($scope.mycart);
-            var emaildata = '<style>.table2 {width: 100%;max-width: 100%;margin-bottom: 20px;}th {text-align: left;font-weight: bold;}    .table2>thead>tr>th,        .table2>thead>tr>td,            .table2>tbody>tr>th,                    .table2>tbody>tr>td {                            padding: 5px;                            vertical-align: middle;                            border-top: 1px solid #ddd;                        }    .table2>thead>tr>th,        .table2>thead>tr>td {            border-top: 0        }</style><table class="table2" style="width:100%"><thead> <tr> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> </tr></thead><tbody>';
+            
+            var emaildata = '<style>.table2 {width: 100%;max-width: 100%;margin-bottom: 20px;}th {text-align: left;font-weight: bold;}    .table2>thead>tr>th,        .table2>thead>tr>td,            .table2>tbody>tr>th,                    .table2>tbody>tr>td {                            padding: 5px;                            vertical-align: middle;                            border-top: 1px solid #ddd;                        }    .table2>thead>tr>th,        .table2>thead>tr>td {            border-top: 0        }</style> <h3> </h3> <h3> </h3> <h3>'+ $scope.retailerdata2.name +'</h3> <h3>'+ $scope.retailerdata2.address +' </h3> </br> <table class="table2" style="width:100%"><thead> <tr> <th> Sr.no. </th> <th> Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody>';
 
             var emailtotalquantity = 0;
             var emailtotalvalue = 0;
+            var index = 1;
             //E-MAIL
             for (var e = 0; e < $scope.mycart.length; e++) {
                 emaildata += "<tr>";
                 /* for(var em=0; em<$scope.mycart[e].length; em++)
             {*/
+                emaildata += "<td>" + index +"</td>";
+                index++;
+                emaildata += "<td>" + $scope.mycart[e].name + "</td>";
                 emaildata += "<td>" + $scope.mycart[e].name + "</td>";
                 emaildata += "<td>" + $scope.mycart[e].quantity + "</td>";
                 emailtotalquantity += $scope.mycart[e].quantity;
                 emaildata += "<td>₹ " + $scope.mycart[e].mrp + "</td>";
                 emaildata += "<td>₹ " + $scope.mycart[e].totalprice + "</td>";
                 emailtotalvalue += $scope.mycart[e].totalprice;
+                if ($scope.mycart[e].category == "scheme")
+                {
+                    emaildata += "<td>₹ " + YES + "</td>";
+                }else{
+                    emaildata += "<td>₹ " + NO + "</td>";   
+                };
                 /*}*/
                 emaildata += "</tr>";
             }
@@ -525,8 +537,8 @@ angular.module('starter.controllers', ['myservices'])
                 
                 $scope.params = {};
                 $scope.params = {
-                    "key": "tNasiy2x9H5rIO0Ni2g-NA",
-                    "template_name": "test",
+                    "key": "cGE4EC2IdBhogNPk6e6-Xg",
+                    "template_name": "ordertemplate",
                     "template_content": [
                         {
                             "name": "table",
@@ -535,44 +547,48 @@ angular.module('starter.controllers', ['myservices'])
     ],
                     "message": {
                         "to": [
-                            {
-                                "email": recieversemailid,
-                                "name": recieversname,
+                                    {
+                                "email": "contactabhay2@gmail.com", //$scope.retailerdata2.email,
+                                "name": $scope.retailerdata2.name,
                                 "type": "to"
             }
+                      
         ],
                         "headers": {
-                            "Reply-To": "contactabhay2@gmail.com"
+                            "Reply-To": "noreply@toy-kraft.com"
                         },
                         "important": true,
+                        "bcc_address": "chintan@wohlig.com", //$scope.dealeremail,
                         "global_merge_vars": [
                             {
                                 "name": "merge1",
                                 "content": "merge1 content"
             }
-        ],
-
-
-                        "recipient_metadata": [
+        ],              "recipient_metadata": [
                             {
-                                "rcpt": "contactabhay2@gmail.com",
+                                "rcpt": "contactabhay2@gmail.com", //$scope.retailerdata2.email,
                                 "values": {
                                     "user_id": 123456
                                 }
-            }
+                            }
         ]
                     },
                     "async": false
                 };
+            
                 console.log($scope.params);
                 var onemailsuccess = function (data, status) {
                     //alert(data);
+                    console.log(data);
                 };
+                
+                if($scope.mycart.length > 0 )
+                {
+                    MyServices.sendemail($scope.params).success(onemailsuccess);
+                };
+                    MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
 
-                MyServices.sendemail($scope.params).success(onemailsuccess);
-                MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
-
-                var call = "https://mandrillapp.com/api/1.0/messages/send.json";
+                
             };
 
             //RETRIEVE DATA
