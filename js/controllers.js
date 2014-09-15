@@ -486,24 +486,45 @@ angular.module('starter.controllers', ['myservices'])
     };
 
     $scope.sendOrder = function (retailerdata2) {
+        
         console.log("Send ORder pressed");
+        console.log(retailerdata2);
+        var recieversemailid = "contactabhay2@gmail.com";
+        var recieversname = "Abhay";
+        console.log($scope.mycart);
+        var emaildata = "<table> <tr> <th> Name </th> <th> Quantity </th> <th> mrp </th> <th> Amount </th> </td>";
 
-        MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
-
+        
         //E-MAIL
+        for(var e=0; e<$scope.mycart.length; e++)
+        {
+            emaildata += "<tr>";
+           /* for(var em=0; em<$scope.mycart[e].length; em++)
+            {*/
+                emaildata += "<td>"+$scope.mycart[e].name +"</td>";
+                emaildata += "<td>"+$scope.mycart[e].quantity +"</td>";
+                emaildata += "<td>"+$scope.mycart[e].mrp +"</td>";
+                emaildata += "<td>"+$scope.mycart[e].totalprice +"</td>";
+            /*}*/
+            emaildata += "</tr>";
+        };
+        emaildata += "</table>";
         $scope.params = {};
-        $scope.params = {
+        $scope.params = 
+    {
     "key": "tNasiy2x9H5rIO0Ni2g-NA",
+    "template_name": "test",
+    "template_content": [
+        {
+            "name": "table",
+            "content": emaildata
+        }
+    ],
     "message": {
-        "html": "<p>Kitne dyaan se kaam karega ?</p>",
-        "text": "Kitne dyaan se kaam karega ?",
-        "subject": "Kitne dyaan se kaam karega ?",
-        "from_email": "chintan@wohlig.com",
-        "from_name": "Chintan Shah",
         "to": [
             {
-                "email": "dhruv@wohlig.com",
-                "name": "Dhruv",
+                "email": recieversemailid,
+                "name": recieversname,
                 "type": "to"
             }
         ],
@@ -511,10 +532,17 @@ angular.module('starter.controllers', ['myservices'])
             "Reply-To": "contactabhay2@gmail.com"
         },
         "important": true,
-  
+        "global_merge_vars": [
+            {
+                "name": "merge1",
+                "content": "merge1 content"
+            }
+        ],
+   
+
         "recipient_metadata": [
             {
-                "rcpt": "dhruv@wohlig.com",
+                "rcpt": "contactabhay2@gmail.com",
                 "values": {
                     "user_id": 123456
                 }
@@ -523,12 +551,14 @@ angular.module('starter.controllers', ['myservices'])
     },
     "async": false
 };
-
+console.log($scope.params);
         var onemailsuccess = function (data, status) {
             //alert(data);
         };
 
         MyServices.sendemail($scope.params).success(onemailsuccess);
+        MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
+
         var call = "https://mandrillapp.com/api/1.0/messages/send.json";
     };
 

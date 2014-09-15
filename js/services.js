@@ -283,7 +283,7 @@ var myservices = angular.module('myservices', [])
         },
         sendemail: function(data)
         {
-            return $http.post("https://mandrillapp.com/api/1.0/messages/send.json",  data );  
+            return $http.post("https://mandrillapp.com/api/1.0/messages/send-template.json",  data );  
         },
        
     }
