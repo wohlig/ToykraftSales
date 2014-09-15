@@ -509,6 +509,7 @@ angular.module('starter.controllers', ['myservices'])
             emaildata += "</tr>";
         };
         emaildata += "</table>";
+        console.log(emaildata);
         $scope.params = {};
         $scope.params = 
     {
