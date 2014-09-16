@@ -119,8 +119,8 @@
                         <tr>
                             <th>Name</th>
                             <th>Quantity</th>
-                            <th>MRP</th>
-                            <th>Amt.</th>
+                            <th>MRP(₹)</th>
+                            <th>Amt.(₹)</th>
                             <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                         </tr>
                     </thead>
@@ -130,8 +130,8 @@
                             <td>
                                 <input class="text-center" type="text" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)" style="width: 35px;">
                             </td>
-                            <td>{{singlecart.mrp|decimal2|currency}}</td>
-                            <td>{{singlecart.totalprice|decimal2|currency}}</td>
+                            <td>{{singlecart.mrp|decimal2}}</td>
+                            <td>{{singlecart.totalprice|decimal2}}</td>
                             <td>
                                 <a class="icon ion-android-close" ng-click="remove();"></a>
                             </td>
@@ -141,8 +141,8 @@
                             <td>
                                 <input type="text" class="text-center" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)" style="width: 35px;">
                             </td>
-                            <td>{{singlecart.mrp|decimal2|currency}}</td>
-                            <td>{{singlecart.totalprice|decimal2|currency}}</td>
+                            <td>{{singlecart.mrp|decimal2}}</td>
+                            <td>{{singlecart.totalprice|decimal2}}</td>
                             <td>
                                 <a class="icon ion-android-close" ng-click="remove();"></a>
                             </td>
@@ -152,8 +152,8 @@
                             <td>
                                 <input type="text" class="text-center" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)" style="width: 35px;">
                             </td>
-                            <td>{{singlecart.mrp|decimal2|currency}}</td>
-                            <td>{{singlecart.totalprice|decimal2|currency}}</td>
+                            <td>{{singlecart.mrp|decimal2}}</td>
+                            <td>{{singlecart.totalprice|decimal2}}</td>
                             <td>
                                 <a class="icon ion-android-close" ng-click="remove();"></a>
                             </td>
@@ -163,7 +163,7 @@
                             <td></td>
                             <td><strong>Total:</strong>
                             </td>
-                            <td><strong>{{gettotal()|decimal2|currency}}</strong>
+                            <td><strong>{{gettotal()|decimal2}}</strong>
                             </td>
                             <td></td>
                         </tr>
