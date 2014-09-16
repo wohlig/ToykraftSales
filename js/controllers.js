@@ -583,9 +583,12 @@ angular.module('starter.controllers', ['myservices'])
         $scope.emaildata += "<tr>";
 
         $scope.emaildata += "<td></td>";
-        $scope.emaildata += "<td>" + emailtotalquantity + "</td>";
-        $scope.emaildata += "<td> <strong>Total: </strong></td>";
-        $scope.emaildata += "<td>₹ " + emailtotalvalue + "</td>";
+        $scope.emaildata += "<td></td>";
+        $scope.emaildata += "<td><strong>Total: </strong></td>";
+        $scope.emaildata += "<td><strong>" + emailtotalquantity + "</strong></td>";
+        $scope.emaildata += "<td></td>";
+        $scope.emaildata += "<td><strong>₹ " + emailtotalvalue + "</strong></td>";
+        $scope.emaildata += "<td></td>";
 
         $scope.emaildata += "</tr>";
         $scope.emaildata += "</tbody></table>";
