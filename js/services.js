@@ -176,7 +176,7 @@ var myservices = angular.module('myservices', [])
             if (isnew) {
                 cart.push({
                     id: pid,
-                    productcode:pproductcode,
+                    productcode: pproductcode,
                     name: pname,
                     quantity: pquantity,
                     mrp: pmrp,
