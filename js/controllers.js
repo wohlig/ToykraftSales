@@ -504,7 +504,7 @@ angular.module('starter.controllers', ['myservices'])
 
         $scope.sendOrder = function (retailerdata2) {
 
-            console.log("Send ORder pressed");
+            console.log("Send Order pressed");
             console.log(retailerdata2);
             var recieversname = retailerdata2.name;
             console.log($scope.mycart);
