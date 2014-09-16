@@ -537,7 +537,7 @@ angular.module('starter.controllers', ['myservices'])
 
             if(smsnumber2.length == 10)//($scope.number2.length == 10)
             {
-                $scope.number2 = addnineone($scope.number2);
+                smsnumber2 = addnineone($scope.number2);
             }
             
             //SMS IMPLEMENTATION
