@@ -315,6 +315,15 @@ angular.module('starter.controllers', ['myservices'])
     };
 
 
+    //total quantity
+    $scope.gettotalquantity = function () {
+        $scope.quantitytotal = 0;
+        for (var i = 0; i < $scope.mycart.length; i++) {
+            $scope.quantitytotal += parseInt($scope.mycart[i].quantity);
+        };
+        return $scope.quantitytotal;
+    };
+
 
     /*    //FIND PRODUCT
     var productSuccess = function (data, status) {
