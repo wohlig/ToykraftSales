@@ -614,6 +614,14 @@ angular.module('starter.controllers', ['myservices'])
 
 
     };
+    
+    /SMS IMPLEMENTATION
+    var smscall = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno=919820840946&message=Kaam pe dyaan de';
+    var smssuccess = function(data, status)
+    {
+        console.log(data);
+    };
+    MyServices.sendsms(smscall).success(smssuccess);
 
     //RETRIEVE DATA
     $scope.retrieveData = function () {
