@@ -519,8 +519,27 @@ angular.module('starter.controllers', ['myservices'])
     //SMS
     var sms = function () {
         if ($scope.mycart.length > 0) {
-            smsnumber2 = "919820840946";
+            smsnumber2 = "9930041912";
+            
+            $scope.number1.toString();
+            $scope.number2.toString();
+            
+            var addnineone = function(number)
+            {
+                number = "91"+number;
+                return number;
+            };
+            
+            if($scope.number1.length == 10)
+            {
+                $scope.number1 = addnineone($scope.number1);
+            }
 
+            if(smsnumber2.length == 10)//($scope.number2.length == 10)
+            {
+                $scope.number2 = addnineone($scope.number2);
+            }
+            
             //SMS IMPLEMENTATION
             var smssuccess = function (data, status) {
                 console.log(data);
