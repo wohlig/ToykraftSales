@@ -639,7 +639,7 @@ angular.module('starter.controllers', ['myservices'])
                 "subject": subject,
                 "to": [
                     {
-                        "email": "contactabhay2@gmail.com", //$scope.retailerdata2.email,
+                        "email": "tushar@wohlig.com", //$scope.retailerdata2.email,
                         "name": $scope.retailerdata2.name,
                         "type": "to"
             }
@@ -649,7 +649,7 @@ angular.module('starter.controllers', ['myservices'])
                     "Reply-To": "noreply@toy-kraft.com"
                 },
                 "important": true,
-                "bcc_address": "tushar@wohlig.com", //$scope.dealeremail,
+                "bcc_address": $scope.dealeremail,
                 "global_merge_vars": [
                     {
                         "name": "merge1",
@@ -658,7 +658,7 @@ angular.module('starter.controllers', ['myservices'])
         ],
                 "recipient_metadata": [
                     {
-                        "rcpt": "contactabhay2@gmail.com", //$scope.retailerdata2.email,
+                        "rcpt": "tushar@wohlig.com", //$scope.retailerdata2.email,
                         "values": {
                             "user_id": 123456
                         }
