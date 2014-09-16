@@ -411,6 +411,12 @@ angular.module('starter.controllers', ['myservices'])
     //EDIT RETAILERS
     $scope.editretailer = {};
     $scope.editretailer.id = $scope.retailerID;
+    
+    $scope.editretailer.ownername = $scope.retailerdata2.ownername;
+    $scope.editretailer.ownernumber = $scope.retailerdata2.ownernumber;
+    $scope.editretailer.contactname = $scope.retailerdata2.contactname;
+    $scope.editretailer.contactnumber = $scope.retailerdata2.contactnumber;
+    $scope.editretailer.email = $scope.retailerdata2.email;
 
     $ionicModal.fromTemplateUrl('templates/editretailer.html', {
         id: '2',
