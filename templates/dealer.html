@@ -52,7 +52,7 @@
                                 <input class="navbox inputborder" type="text" value="{{categoryproductdata.mrp * productquantity|decimal2|currency}}" disabled>
                             </div>
                         </div>
-                        <button class="button button-block button-assertive" ng-click="addToCart(categoryproductdata.id,categoryproductdata.name,productquantity,categoryproductdata.mrp);">
+                        <button class="button button-block button-assertive" ng-click="addToCart(categoryproductdata.id, categoryproductdata.productcode,categoryproductdata.name,productquantity,categoryproductdata.mrp);">
                             Add to cart
                         </button>
                     </div>

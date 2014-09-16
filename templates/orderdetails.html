@@ -6,56 +6,59 @@
             </a>
         </ion-nav-buttons>
         <div class="padding">
-               <h2>{{retailerdata.name}}</h2>
-               <h4>{{retailerdata.contactname}}</h4>
-               <h4>{{retailerdata.address}}</h4>
-               <h4>{{retailerdata.contactnumber}}</h4>
-               <h4>{{retailerdata.email}}</h4>
+            <h2>{{retailerdata.name}}</h2>
+            <h4>{{retailerdata.contactname}}</h4>
+            <h4>{{retailerdata.address}}</h4>
+            <h4>{{retailerdata.contactnumber}}</h4>
+            <h4>{{retailerdata.email}}</h4>
 
-            <!-- {{orderdetailsdata|json}} -->
+             {{orderdetailsdata|json}} 
+            
             <table class="table2">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Product name</th>
-                        <th>Quantity</th>
                         <th>MRP</th>
+                        <th>Quantity</th>
                         <th>Amount</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     <tr ng-repeat="orderdetails in orderdetailsdata|filter:cartnotschemenew">
                         <td>{{orderdetails.id}}</td>
                         <td>{{orderdetails.name}}</td>
-                        <td>{{orderdetails.quantity}}</td>
                         <td>{{orderdetails.amount / orderdetails.quantity|decimal2|currency}}</td>
+                        <td>{{orderdetails.quantity}}</td>
                         <td>{{orderdetails.amount |decimal2|currency}}</td>
                     </tr>
-
                     <tr class="list list-royal" ng-repeat="orderdetails in orderdetailsdata|filter:{category:'scheme'}">
                         <td>{{orderdetails.id}}</td>
                         <td>{{orderdetails.name}}</td>
-                        <td>{{orderdetails.quantity}}</td>
                         <td>{{orderdetails.amount / orderdetails.quantity|decimal2|currency}}</td>
+                        <td>{{orderdetails.quantity}}</td>
                         <td>{{orderdetails.amount |decimal2|currency}}</td>
-
                     </tr>
                     <tr class="list list-energized" ng-repeat="orderdetails in orderdetailsdata|filter:{category:'new'}">
                         <td>{{orderdetails.id}}</td>
                         <td>{{orderdetails.name}}</td>
-                        <td>{{orderdetails.quantity}}</td>
                         <td>{{orderdetails.amount / orderdetails.quantity|decimal2|currency}}</td>
+                        <td>{{orderdetails.quantity}}</td>
                         <td>{{orderdetails.amount |decimal2|currency}}</td>
                     </tr>
-                    <tr>
-                        <td><strong>Total:</strong></td>
-                        <td></td>
-                        <td><strong>{{quantitytotal }}</strong> </td>
-                        <td></td>
-                        <td><strong>{{total|decimal2|currency}}</strong></td>
-                    </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td><strong>Total:</strong>
+                        </td>
+                        <td><strong>{{quantitytotal}}</strong> 
+                        </td>
+                        <td><strong>{{total|decimal2|currency}}</strong>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
             <div class="clearfix"></div>
             <div>

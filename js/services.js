@@ -157,7 +157,7 @@ var myservices = angular.module('myservices', [])
         getData: function () {
             console.log(cart);
         },
-        addItemToCart: function (pid, pname, pquantity, pmrp, ptotalprice) {
+        addItemToCart: function (pid, pproductcode, pname, pquantity, pmrp, ptotalprice) {
             var isnew = true;
             var addquantityon = 0;
             if(!pid)
@@ -176,6 +176,7 @@ var myservices = angular.module('myservices', [])
             if (isnew) {
                 cart.push({
                     id: pid,
+                    productcode:pproductcode,
                     name: pname,
                     quantity: pquantity,
                     mrp: pmrp,
