@@ -504,13 +504,42 @@ angular.module('starter.controllers', ['myservices'])
     };
 
 
-    //ORDER NOW
+    //ORDER SUCCESS
     var orderSuccess = function (data, status) {
         $scope.aid = MyServices.getareaid();
         $location.path("/app/retailer/" + $scope.aid);
         MyServices.clearcart();
         MyServices.setretailer(0);
     };
+    
+    //E-mail FUNCTION
+    var email = function()
+    {
+        console.log($scope.params);
+        var onemailsuccess = function (data, status) {
+            //alert(data);
+            console.log(data);
+        };
+
+        if ($scope.mycart.length > 0) {
+            MyServices.sendemail($scope.params).success(onemailsuccess);
+        };
+    };
+    
+    //SMS
+    var sms = function()
+    {
+        var number1 = "919820840946";
+        //SMS IMPLEMENTATION
+        var smscall = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno='+ number1 +'&message=Dear Customer, We thank you for your order. The order for~pcs with MRP value of Rs~is under process. Team Toykraft';
+        var smssuccess = function(data, status)
+        {
+            console.log(data);
+        };
+        MyServices.sendsms(smscall).success(smssuccess);
+    };
+    
+    
 
     $scope.sendOrder = function (retailerdata2) {
 
@@ -519,44 +548,44 @@ angular.module('starter.controllers', ['myservices'])
         var recieversname = retailerdata2.name;
         console.log($scope.mycart);
 
-        var emaildata = '<style>.table2 {width: 100%;max-width: 100%;margin-bottom: 20px;}th {text-align: left;font-weight: bold;}    .table2>thead>tr>th,        .table2>thead>tr>td,            .table2>tbody>tr>th,                    .table2>tbody>tr>td {                            padding: 5px;                            vertical-align: middle;                            border-top: 1px solid #ddd;                        }    .table2>thead>tr>th,        .table2>thead>tr>td {            border-top: 0        }</style> <h3> </h3> <h3> </h3> <h3>' + $scope.retailerdata2.name + '</h3> <h3>' + $scope.retailerdata2.address + ' </h3> </br> <table class="table2" style="width:100%"><thead> <tr> <th> Sr.no. </th> <th> Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody>';
+        $scope.emaildata = '<style>.table2 {width: 100%;max-width: 100%;margin-bottom: 20px;}th {text-align: left;font-weight: bold;}    .table2>thead>tr>th,        .table2>thead>tr>td,            .table2>tbody>tr>th,                    .table2>tbody>tr>td {                            padding: 5px;                            vertical-align: middle;                            border-top: 1px solid #ddd;                        }    .table2>thead>tr>th,        .table2>thead>tr>td {            border-top: 0        }</style> <h3> </h3> <h3> </h3> <h3>' + $scope.retailerdata2.name + '</h3> <h3>' + $scope.retailerdata2.address + ' </h3> </br> <table class="table2" style="width:100%"><thead> <tr> <th> Sr.no. </th> <th> Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody>';
 
         var emailtotalquantity = 0;
         var emailtotalvalue = 0;
         var index = 1;
         //E-MAIL
         for (var e = 0; e < $scope.mycart.length; e++) {
-            emaildata += "<tr>";
+            $scope.emaildata += "<tr>";
             /* for(var em=0; em<$scope.mycart[e].length; em++)
             {*/
-            emaildata += "<td>" + index + "</td>";
+            $scope.emaildata += "<td>" + index + "</td>";
             index++;
-            emaildata += "<td>" + $scope.mycart[e].name + "</td>";
-            emaildata += "<td>" + $scope.mycart[e].name + "</td>";
-            emaildata += "<td>" + $scope.mycart[e].quantity + "</td>";
+            $scope.emaildata += "<td>" + $scope.mycart[e].name + "</td>";
+            $scope.emaildata += "<td>" + $scope.mycart[e].name + "</td>";
+            $scope.emaildata += "<td>" + $scope.mycart[e].quantity + "</td>";
             emailtotalquantity += $scope.mycart[e].quantity;
-            emaildata += "<td>₹ " + $scope.mycart[e].mrp + "</td>";
-            emaildata += "<td>₹ " + $scope.mycart[e].totalprice + "</td>";
+            $scope.emaildata += "<td>₹ " + $scope.mycart[e].mrp + "</td>";
+            $scope.emaildata += "<td>₹ " + $scope.mycart[e].totalprice + "</td>";
             emailtotalvalue += $scope.mycart[e].totalprice;
             if ($scope.mycart[e].category == "scheme") {
-                emaildata += "<td>₹ " + YES + "</td>";
+                $scope.emaildata += "<td>₹ " + YES + "</td>";
             } else {
-                emaildata += "<td>₹ " + NO + "</td>";
+                $scope.emaildata += "<td>₹ " + NO + "</td>";
             };
             /*}*/
-            emaildata += "</tr>";
+            $scope.emaildata += "</tr>";
         }
 
-        emaildata += "<tr>";
+        $scope.emaildata += "<tr>";
 
-        emaildata += "<td></td>";
-        emaildata += "<td>" + emailtotalquantity + "</td>";
-        emaildata += "<td> <strong>Total: </strong></td>";
-        emaildata += "<td>₹ " + emailtotalvalue + "</td>";
+        $scope.emaildata += "<td></td>";
+        $scope.emaildata += "<td>" + emailtotalquantity + "</td>";
+        $scope.emaildata += "<td> <strong>Total: </strong></td>";
+        $scope.emaildata += "<td>₹ " + emailtotalvalue + "</td>";
 
-        emaildata += "</tr>";
-        emaildata += "</tbody></table>";
-        console.log(emaildata);
+        $scope.emaildata += "</tr>";
+        $scope.emaildata += "</tbody></table>";
+        console.log($scope.emaildata);
 
 
         $scope.params = {};
@@ -566,7 +595,7 @@ angular.module('starter.controllers', ['myservices'])
             "template_content": [
                 {
                     "name": "table",
-                    "content": emaildata
+                    "content": $scope.emaildata
         }
     ],
             "message": {
@@ -601,27 +630,15 @@ angular.module('starter.controllers', ['myservices'])
             "async": false
         };
 
-        console.log($scope.params);
-        var onemailsuccess = function (data, status) {
-            //alert(data);
-            console.log(data);
-        };
-
-        if ($scope.mycart.length > 0) {
-            MyServices.sendemail($scope.params).success(onemailsuccess);
-        };
+        
         MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
-
+        
+        email();
+        sms();
 
     };
     
-    /SMS IMPLEMENTATION
-    var smscall = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno=919820840946&message=Kaam pe dyaan de';
-    var smssuccess = function(data, status)
-    {
-        console.log(data);
-    };
-    MyServices.sendsms(smscall).success(smssuccess);
+    
 
     //RETRIEVE DATA
     $scope.retrieveData = function () {
