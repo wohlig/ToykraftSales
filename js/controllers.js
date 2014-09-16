@@ -522,19 +522,19 @@ angular.module('starter.controllers', ['myservices'])
         if ($scope.mycart.length > 0) {
             var smsnumber2 = "9029796018";
             
-            //$scope.number1.toString();
-            //$scope.number2.toString();
+            $scope.number1.toString();
+            $scope.number2.toString();
 
             
-            /*if($scope.number1.length == 10)
+            if($scope.number1.length == 10)
             {
                 $scope.number1 = addnineone($scope.number1);
-            }*/
+            }
 
-            if(smsnumber2.length == 10)//($scope.number2.length == 10)
+            if($scope.number2.length == 10)
             {
-                smsnumber2 = "91"+smsnumber2;
-                console.log(smsnumber2);
+                $scope.number2 = "91"+smsnumber2;
+                console.log($scope.number2);
             }
             
             //SMS IMPLEMENTATION
@@ -543,9 +543,9 @@ angular.module('starter.controllers', ['myservices'])
             };
 
             var smscall = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno=' + $scope.number1 + '&message=Dear Customer, We thank you for your order. The order for' + $scope.emailtotalquantity + 'pcs with MRP value of Rs' + $scope.emailtotalvalue + 'is under process. Team Toykraft';
-            //MyServices.sendsms(smscall).success(smssuccess);
+            MyServices.sendsms(smscall).success(smssuccess);
 
-            var smscall2 = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno=' + smsnumber2 + '&message=Dear Customer, We thank you for your order. The order for ' + $scope.emailtotalquantity + ' pcs with MRP value of Rs.' + $scope.emailtotalvalue + ' is under process. Team Toykraft';
+            var smscall2 = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno=' + $scope.number2 + '&message=Dear Customer, We thank you for your order. The order for ' + $scope.emailtotalquantity + ' pcs with MRP value of Rs.' + $scope.emailtotalvalue + ' is under process. Team Toykraft';
             MyServices.sendsms(smscall2).success(smssuccess);
         }
     };
@@ -634,7 +634,7 @@ angular.module('starter.controllers', ['myservices'])
                 "subject": subject,
                 "to": [
                     {
-                        "email": "tushar@wohlig.com", //$scope.retailerdata2.email,
+                        "email": $scope.retailerdata2.email,
                         "name": $scope.retailerdata2.name,
                         "type": "to"
             }
@@ -653,7 +653,7 @@ angular.module('starter.controllers', ['myservices'])
         ],
                 "recipient_metadata": [
                     {
-                        "rcpt": "tushar@wohlig.com", //$scope.retailerdata2.email,
+                        "rcpt": $scope.retailerdata2.email,
                         "values": {
                             "user_id": 123456
                         }
