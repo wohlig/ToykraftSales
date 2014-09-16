@@ -24,21 +24,21 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="orderdetails in orderdetailsdata|filter:cartnotschemenew">
-                        <td>{{orderdetails.id}}</td>
+                        <td>{{orderdetails.productcode}}</td>
                         <td>{{orderdetails.name}}</td>
                         <td>{{orderdetails.amount / orderdetails.quantity|decimal2|currency}}</td>
                         <td>{{orderdetails.quantity}}</td>
                         <td>{{orderdetails.amount |decimal2|currency}}</td>
                     </tr>
                     <tr class="list list-royal" ng-repeat="orderdetails in orderdetailsdata|filter:{category:'scheme'}">
-                        <td>{{orderdetails.id}}</td>
+                        <td>{{orderdetails.productcode}}</td>
                         <td>{{orderdetails.name}}</td>
                         <td>{{orderdetails.amount / orderdetails.quantity|decimal2|currency}}</td>
                         <td>{{orderdetails.quantity}}</td>
                         <td>{{orderdetails.amount |decimal2|currency}}</td>
                     </tr>
                     <tr class="list list-energized" ng-repeat="orderdetails in orderdetailsdata|filter:{category:'new'}">
-                        <td>{{orderdetails.id}}</td>
+                        <td>{{orderdetails.productcode}}</td>
                         <td>{{orderdetails.name}}</td>
                         <td>{{orderdetails.amount / orderdetails.quantity|decimal2|currency}}</td>
                         <td>{{orderdetails.quantity}}</td>
