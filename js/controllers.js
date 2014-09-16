@@ -511,10 +511,9 @@ angular.module('starter.controllers', ['myservices'])
         MyServices.clearcart();
         MyServices.setretailer(0);
     };
-    
+
     //E-mail FUNCTION
-    var email = function()
-    {
+    var email = function () {
         console.log($scope.params);
         var onemailsuccess = function (data, status) {
             //alert(data);
@@ -525,21 +524,26 @@ angular.module('starter.controllers', ['myservices'])
             MyServices.sendemail($scope.params).success(onemailsuccess);
         };
     };
-    
+
     //SMS
-    var sms = function()
-    {
-        var number1 = "919820840946";
-        //SMS IMPLEMENTATION
-        var smscall = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno='+ number1 +'&message=Dear Customer, We thank you for your order. The order for~pcs with MRP value of Rs~is under process. Team Toykraft';
-        var smssuccess = function(data, status)
-        {
-            console.log(data);
-        };
-        MyServices.sendsms(smscall).success(smssuccess);
+    var sms = function (smsnumber1, smsnumber2, totalquantity, totalvalue) {
+        if ($scope.mycart.length > 0) {
+            smsnumber2 = "919820840946";
+            
+            //SMS IMPLEMENTATION
+            var smssuccess = function (data, status) {
+                console.log(data);
+            };
+
+            var smscall = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno=' + smsnumber1 + '&message=Dear Customer, We thank you for your order. The order for'+totalquantity+'pcs with MRP value of Rs'+totalvalue+'is under process. Team Toykraft';
+            MyServices.sendsms(smscall).success(smssuccess);
+
+            var smscall2 = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno=' + smsnumber2 + '&message=Dear Customer, We thank you for your order. The order for '+totalquantity+' pcs with MRP value of Rs.'+totalvalue+' is under process. Team Toykraft';
+            MyServices.sendsms(smscall2).success(smssuccess);
+        }
     };
-    
-    
+
+
 
     $scope.sendOrder = function (retailerdata2) {
 
@@ -568,9 +572,9 @@ angular.module('starter.controllers', ['myservices'])
             $scope.emaildata += "<td>₹ " + $scope.mycart[e].totalprice + "</td>";
             emailtotalvalue += $scope.mycart[e].totalprice;
             if ($scope.mycart[e].category == "scheme") {
-                $scope.emaildata += "<td>₹ " + YES + "</td>";
+                $scope.emaildata += "<td> YES </td>";
             } else {
-                $scope.emaildata += "<td>₹ " + NO + "</td>";
+                $scope.emaildata += "<td> NO </td>";
             };
             /*}*/
             $scope.emaildata += "</tr>";
@@ -630,15 +634,18 @@ angular.module('starter.controllers', ['myservices'])
             "async": false
         };
 
-        
+
         MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
-        
+
+        var number1 = retailerdata2.contactnumber;
+        var number2 = retailerdata2.ownernumber;
+
         email();
-        sms();
+        sms(number1, number2, emailtotalquantity, emailtotalvalue);
 
     };
-    
-    
+
+
 
     //RETRIEVE DATA
     $scope.retrieveData = function () {
