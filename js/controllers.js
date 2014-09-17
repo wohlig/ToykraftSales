@@ -453,6 +453,21 @@ angular.module('starter.controllers', ['myservices'])
     $scope.openusp = function () {
         $scope.oModal3.show();
     };
+    
+    $ionicModal.fromTemplateUrl('templates/recent-orders.html', {
+        id: '4',
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function (modal) {
+        $scope.oModal4 = modal;
+    });
+    $scope.closerecent = function () {
+        $scope.oModal4.hide();
+    };
+    $scope.openrecent = function () {
+        $scope.oModal4.show();
+    };
+
 
     /*    //PREVIOUS BUTTON
     $scope.getpreviousproduct = function () 
