@@ -1,25 +1,32 @@
 <ion-view title="Toykraft Dealer" class="">
     <ion-content class="has-header">
     
-        <img src="img/logo1.png" style="width: 300px; margin: 50px auto; display: block;">
-    
-              <p ng-show="alert!=''" ng-bind="alert" class="assertive text-center"></p>          
+       <div class="row">
+           <div class="col"><img src="img/logo1.png" style="width: 24%; margin: 10px auto; display: block;"></div>
+           <div class="col"> <p ng-show="alert!=''" ng-bind="alert" class="assertive text-center"></p>          
 
-    <div class="list">
-  <label class="item item-input">
-    <span class="input-label">Username</span>
-    <input type="text" ng-model="login.username">
-  </label>
-  <label class="item item-input">
-    <span class="input-label">Password</span>
-    <input type="password" ng-model="login.password">
+               <div class="list">
+                   <label class="item item-input">
+                       <span class="input-label">Username</span>
+                       <input type="text" ng-model="login.username">
+                   </label>
+                   <label class="item item-input">
+                       <span class="input-label">Password</span>
+                       <input type="password" ng-model="login.password">
+
+                   </label>
+                   <button class="button button-full button-assertive" ng-click="loginFunction(login);" >
+                       Login
+                   </button>
+               </div>
+               <!-- <a href="" ng-click="loginFunction();"> -->
+               
+       </div>
+       
+       
+        
     
-  </label>
-</div>
-         <!-- <a href="" ng-click="loginFunction();"> -->
-              <button class="button button-full button-assertive" ng-click="loginFunction(login);" >
-              Login
-            </button>
+             
            
       </ion-content>
 </ion-view>
