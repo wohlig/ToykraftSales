@@ -95,6 +95,15 @@
                 <table class="table2">
                     <thead>
                         <tr>
+                            <td><strong>Total:</strong></td>
+                            <td><strong>{{gettotalquantity()}}</strong></td>
+                            <td>
+                            </td>
+                            <td><strong>{{gettotal()|decimal2}}</strong>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <th>Name</th>
                             <th>Quantity</th>
                             <th>MRP(₹)</th>
@@ -103,15 +112,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td><strong>Total:</strong>
-                            </td>
-                            <td><strong>{{gettotal()|decimal2}}</strong>
-                            </td>
-                            <td></td>
-                        </tr>
                         <tr ng-repeat="singlecart in mycart|filter:cartnotschemenew|reverse">
                             <td>{{singlecart.name}}</td>
                             <td>

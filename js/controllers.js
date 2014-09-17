@@ -453,7 +453,7 @@ angular.module('starter.controllers', ['myservices'])
     $scope.openusp = function () {
         $scope.oModal3.show();
     };
-    
+
     $ionicModal.fromTemplateUrl('templates/recent-orders.html', {
         id: '4',
         scope: $scope,
@@ -576,9 +576,9 @@ angular.module('starter.controllers', ['myservices'])
         console.log(data);
         var datetime = data.timestamp;
         var orderid = data.id;
-        
-        
-        $scope.emaildata = '<h3>Order Id:'+orderid+ ' </h3> <h3> Orde placed on:'+ datetime +' </h3> <h3>' + $scope.retailerdata2.name + '</h3> <h4>' + $scope.retailerdata2.address + ' </h4> </br> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
+
+
+        $scope.emaildata = '<p>Dear Distributor / Retailer,<br>Our sales executive ' + userdata.name + ' has booked an order with details as below:</p><p><strong>Order id: </strong>' + orderid + ' </p> <p><strong>Order placed on: </strong>' + datetime + ' </p> <p><strong>' + $scope.retailerdata2.name + '</strong></p> <p><strong>' + $scope.retailerdata2.address + '</strong></p> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
 
         $scope.emailtotalquantity = 0;
         $scope.emailtotalvalue = 0;
@@ -632,8 +632,14 @@ angular.module('starter.controllers', ['myservices'])
         } else {
             var dealeremail = $scope.dealeremail
         };
-        
-        var emailArray = [ { email: dealeremail, name: 'Distributor' }, { email: retaileremail, name: $scope.retailerdata2.name } ];
+
+        var emailArray = [{
+            email: dealeremail,
+            name: 'Distributor'
+        }, {
+            email: retaileremail,
+            name: $scope.retailerdata2.name
+        }];
         $scope.params = {
             "key": "cGE4EC2IdBhogNPk6e6-Xg",
             "template_name": "ordertemplate",
@@ -668,10 +674,10 @@ angular.module('starter.controllers', ['myservices'])
             },
             "async": false
         };
-        
+
         email();
         sms();
-        
+
         MyServices.clearcart();
         MyServices.setretailer(0);
         $scope.aid = MyServices.getareaid();
@@ -748,7 +754,7 @@ angular.module('starter.controllers', ['myservices'])
     };
 
     var email = function () {
-        $scope.emaildata = '<h4> Order Id: ' + $scope.orderID + '</h4> <h4>' + $scope.timestamp + ' </h4> <h3>' + $scope.retailerdata.name + '</h3> <h4>' + $scope.retailerdata.address + ' </h4>  <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
+        $scope.emaildata = '<p>Dear Distributor / Retailer,<br>Our sales executive ' + userdata.name + ' has booked an order with details as below:</p><p><strong>Order id: </strong>' + orderid + ' </p> <p><strong>Order placed on: </strong>' + datetime + ' </p> <p><strong>' + $scope.retailerdata2.name + '</strong></p> <p><strong>' + $scope.retailerdata2.address + '</strong></p> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
 
         $scope.emailtotalquantity = 0;
         $scope.emailtotalvalue = 0;
@@ -805,7 +811,13 @@ angular.module('starter.controllers', ['myservices'])
             var dealeremail = $scope.distributoremail
         };
 
-        var emailArray = [ { email: dealeremail, name: 'Distributor' }, { email: retaileremail, name: $scope.retailerdata.name } ];
+        var emailArray = [{
+            email: dealeremail,
+            name: 'Distributor'
+        }, {
+            email: retaileremail,
+            name: $scope.retailerdata.name
+        }];
         $scope.params = {
             "key": "cGE4EC2IdBhogNPk6e6-Xg",
             "template_name": "ordertemplate",
