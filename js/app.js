@@ -155,5 +155,11 @@ starter.filter('decimal2',function() {
     return function(input) {
         return parseFloat(input).toFixed(2);
     };
+})
+
+starter.filter('reverse', function() {
+    return function(items) {
+        return items.slice().reverse();
+    };
 });
 

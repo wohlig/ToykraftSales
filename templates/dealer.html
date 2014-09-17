@@ -90,7 +90,6 @@
             <div class="col border-left">
                 <h2>{{retailerdata2.name}}</h2>
                 <h3>{{retailerdata2.contactperson}}</h3>
-
                 <h4>Shopping Cart</h4>
                 <a href="#/app/confirm-order/{{retailerid}}" class="button button-block button-assertive">Order Now</a>
                 <table class="table2">
@@ -113,7 +112,7 @@
                             </td>
                             <td></td>
                         </tr>
-                        <tr ng-repeat="singlecart in mycart|filter:cartnotschemenew">
+                        <tr ng-repeat="singlecart in mycart|filter:cartnotschemenew|reverse">
                             <td>{{singlecart.name}}</td>
                             <td>
                                 <input class="text-center" type="text" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)" style="width: 35px;">
@@ -124,7 +123,7 @@
                                 <a class="icon ion-android-close" ng-click="remove();"></a>
                             </td>
                         </tr>
-                        <tr class="list list-royal" ng-repeat="singlecart in mycart|filter:{category:'scheme'}">
+                        <tr class="list list-royal" ng-repeat="singlecart in mycart|filter:{category:'scheme'}|reverse">
                             <td>{{singlecart.name}}</td>
                             <td>
                                 <input type="text" class="text-center" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)" style="width: 35px;">
@@ -135,7 +134,7 @@
                                 <a class="icon ion-android-close" ng-click="remove();"></a>
                             </td>
                         </tr>
-                        <tr class="list list-energized" ng-repeat="singlecart in mycart|filter:{category:'new'}">
+                        <tr class="list list-energized" ng-repeat="singlecart in mycart|filter:{category:'new'}|reverse">
                             <td>{{singlecart.name}}</td>
                             <td>
                                 <input type="text" class="text-center" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)" style="width: 35px;">
