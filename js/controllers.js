@@ -551,7 +551,7 @@ angular.module('starter.controllers', ['myservices'])
                 $scope.number1.toString();
                 console.log("number one to sting");
                 if ($scope.number1.length == 10) {
-                    $scope.number1 = addnineone($scope.number1);
+                    $scope.number1 = "91"+$scope.number1;
                 }
                 var smscall = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno=' + $scope.number1 + '&message=Dear Customer, We thank you for your order. The order for' + $scope.emailtotalquantity + 'pcs with MRP value of Rs' + $scope.emailtotalvalue + 'is under process. Team Toykraft';
                 MyServices.sendsms(smscall).success(smssuccess);
@@ -560,7 +560,7 @@ angular.module('starter.controllers', ['myservices'])
             if ($scope.number2 != null) {
                 $scope.number2.toString();
                 if ($scope.number2.length == 10) {
-                    $scope.number2 = "91" + smsnumber2;
+                    $scope.number2 = "91" + $scope.number2;
                     console.log($scope.number2);
                 }
                 var smscall2 = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno=' + $scope.number2 + '&message=Dear Customer, We thank you for your order. The order for ' + $scope.emailtotalquantity + ' pcs with MRP value of Rs.' + $scope.emailtotalvalue + ' is under process. Team Toykraft';
@@ -677,11 +677,13 @@ angular.module('starter.controllers', ['myservices'])
 
         email();
         sms();
-
+        
         MyServices.clearcart();
         MyServices.setretailer(0);
+        
         $scope.aid = MyServices.getareaid();
         $location.path("/app/retailer/" + $scope.aid);
+
 
 
     };
