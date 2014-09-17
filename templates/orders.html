@@ -14,7 +14,7 @@
 </div>
            
             <p class="assertive text-center" ng-show="ordersdata=='false'" style="padding:20%;">No order found</p>
-            <div class="padding">
+            <div class="padding" ng-controller="DealerCtrl">
                 <table class="table2" ng-show="ordersdata!='false'">
                     <thead><tr>
                             <th>Order Id</th>
@@ -33,7 +33,7 @@
                             <td>{{userorder.timestamp}}</td>
                             <td><a class="button button-assertive button-small" href="#/app/orderdetails/{{userorder.id}}">Details</a>
                             </td>
-                             <td><a class="button button-assertive button-small" href="#/app/orderdetails/{{userorder.id}}">Resend</a></td>
+                             <td><a class="button button-assertive button-small" ng-click="resendemail(userorder.id);">Resend</a></td>
                         </tr>
                     </tbody>
                 </table>
