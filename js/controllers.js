@@ -109,8 +109,7 @@ angular.module('starter.controllers', ['myservices'])
     $scope.userzone = user.zone;
     console.log("THE ZOOOOOONNNNNEEEE ISSSSSS " + userzone)
     $scope.zonedata = [];
-
-    $scope.zonedata.id = userzone;
+    //$scope.zonedata.id = userzone;
 
     //$ionicSideMenuDelegate.canDragContent(false);
 
@@ -746,8 +745,6 @@ angular.module('starter.controllers', ['myservices'])
 .controller('OrderCtrl', function ($scope, $stateParams, MyServices, $ionicModal) {
     console.log("ORDER CONTROLLER IS WRKING");
 
-
-
     var user = MyServices.getuser();
     console.log(user);
     $scope.useremail = user.email;
@@ -901,7 +898,6 @@ angular.module('starter.controllers', ['myservices'])
 
     $scope.ordersdata = 'false';
 
-    //MyServices.findzone().success(zonesuccess);
     //STATE
     statesuccess = function (data, status) {
         console.log(data);
