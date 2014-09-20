@@ -18,7 +18,6 @@
                         <th>MRP</th>
                         <th>Quantity</th>
                         <th>Amount</th>
-                        <th>Remark</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,7 +27,6 @@
                         <td>{{singlecart.mrp|decimal2|currency}}</td>
                         <td>{{singlecart.quantity}}</td>
                         <td>{{singlecart.totalprice|decimal2|currency}}</td>
-                        <td><textarea ng-model="remark"></textarea></td>
                     </tr>
                     <tr class="list list-royal" ng-repeat="singlecart in mycart|filter:{category:'scheme'}">
                         <td>{{singlecart.productcode}}</td>
@@ -36,7 +34,6 @@
                         <td>{{singlecart.mrp|decimal2|currency}}</td>
                         <td>{{singlecart.quantity}}</td>
                         <td>{{singlecart.totalprice|decimal2|currency}}</td>
-                        <td><textarea ng-model="remark"></textarea></td>
                     </tr>
                     <tr class="list list-energized" ng-repeat="singlecart in mycart|filter:{category:'new'}">
                         <td>{{singlecart.productcode}}</td>
@@ -44,7 +41,6 @@
                         <td>{{singlecart.mrp|decimal2|currency}}</td>
                         <td>{{singlecart.quantity}}</td>
                         <td>{{singlecart.totalprice|decimal2|currency}}</td>
-                        <td><textarea ng-model="remark"></textarea></td>
                     </tr>
                 </tbody>
                 <tfoot>

@@ -106,7 +106,7 @@ angular.module('starter.controllers', ['myservices'])
 
     //GET ZONE DATA
     var user = MyServices.getuser();
-    var userzone = user.zone;
+    $scope.userzone = user.zone;
     console.log("THE ZOOOOOONNNNNEEEE ISSSSSS " + userzone)
     $scope.zonedata = [];
 
@@ -693,7 +693,10 @@ angular.module('starter.controllers', ['myservices'])
     $scope.useremail = userdata.email;
 
 
-
+    $scope.remarkfunction(cartid)
+    {
+        $scope.mycart[cartid].remark =    
+    }
 
     $scope.sendOrder = function (retailerdata2) {
 
