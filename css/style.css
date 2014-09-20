@@ -287,13 +287,21 @@ p.info {
     text-align: justify;
     overflow: hidden;
 }
-.buttons span+span, .button+.button {
+.buttons span+span,
+.button+.button {
     margin-left: 8px;
 }
-.clearfix:before, .clearfix:after {
+.clearfix:before,
+.clearfix:after {
     display: table;
     content: " ";
 }
 .clearfix:after {
     clear: both;
+}
+.remark {
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 5px 1px #ccc;
+    padding: 10px;
+    height: 100px;
 }

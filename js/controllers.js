@@ -120,6 +120,10 @@ angular.module('starter.controllers', ['myservices'])
     };
     $scope.user = user;
     $scope.lastretailer = MyServices.getretailer();
+    if(!($scope.lastretailer>0))
+    {
+        $scope.lastretailer=0;
+    }
 
     $scope.gotolastretailer = function () {
         var pathtolast = "/app/dealer/" + $scope.lastretailer + "/6";
@@ -988,8 +992,6 @@ angular.module('starter.controllers', ['myservices'])
         MyServices.findcity(MyServices.getmyorderretailer().state).success(citysuccess);
         MyServices.findarea(MyServices.getmyorderretailer().city).success(areasuccess);
         MyServices.findretailer(MyServices.getmyorderretailer().area).success(retailersuccessini);
-
-
     }
 
 
