@@ -121,9 +121,10 @@
                             <td>{{singlecart.mrp|decimal2}}</td>
                             <td>{{singlecart.totalprice|decimal2}}</td>
                             <td>
-                                <a class="icon ion-android-close" ng-click="remove();"></a>
+                                <button class="button button-icon icon ion-android-close" ng-click="remove();"></button>
                             </td>
                         </tr>
+                        
                         <tr class="list list-royal" ng-repeat="singlecart in mycart|filter:{category:'scheme'}|reverse">
                             <td>{{singlecart.name}}</td>
                             <td>
@@ -132,9 +133,10 @@
                             <td>{{singlecart.mrp|decimal2}}</td>
                             <td>{{singlecart.totalprice|decimal2}}</td>
                             <td>
-                                <a class="icon ion-android-close" ng-click="remove();"></a>
+                                <button class="button button-icon icon ion-android-close" ng-click="remove();"></button>
                             </td>
                         </tr>
+                        
                         <tr class="list list-energized" ng-repeat="singlecart in mycart|filter:{category:'new'}|reverse">
                             <td>{{singlecart.name}}</td>
                             <td>
@@ -143,7 +145,7 @@
                             <td>{{singlecart.mrp|decimal2}}</td>
                             <td>{{singlecart.totalprice|decimal2}}</td>
                             <td>
-                                <a class="icon ion-android-close" ng-click="remove();"></a>
+                                <button class="button button-icon icon ion-android-close" ng-click="remove();"></button>
                             </td>
                         </tr>
                     </tbody>
