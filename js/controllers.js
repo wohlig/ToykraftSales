@@ -120,9 +120,8 @@ angular.module('starter.controllers', ['myservices'])
     };
     $scope.user = user;
     $scope.lastretailer = MyServices.getretailer();
-    if(!($scope.lastretailer>0))
-    {
-        $scope.lastretailer=0;
+    if (!($scope.lastretailer > 0)) {
+        $scope.lastretailer = 0;
     }
 
     $scope.gotolastretailer = function () {
@@ -286,32 +285,26 @@ angular.module('starter.controllers', ['myservices'])
     $scope.pname;
     $scope.pid;
     $scope.pquantity;
-    
-    $scope.giveclass=function(category) {
-        var returnval="";
-        if(category=="scheme")
-        {
-            returnval="list list-royal"
-        }
-        else if(category=="new")
-        {
+
+    $scope.giveclass = function (category) {
+        var returnval = "";
+        if (category == "scheme") {
+            returnval = "list list-royal"
+        } else if (category == "new") {
             returnval = "list list-energized";
         }
         return returnval;
     };
 
-    $scope.changequantity = function (quantity, code,category) {
-        var id=-1;
-        for(var i=0;i<$scope.mycart.length;i++)
-        {
-            if($scope.mycart[i].productcode==code && $scope.mycart[i].category==category)
-            {
-                id=i;
+    $scope.changequantity = function (quantity, code, category) {
+        var id = -1;
+        for (var i = 0; i < $scope.mycart.length; i++) {
+            if ($scope.mycart[i].productcode == code && $scope.mycart[i].category == category) {
+                id = i;
             }
         }
-        if(id>0)
-        {
-            console.log("KEY IS "+id);
+        if (id > 0) {
+            console.log("KEY IS " + id);
             $scope.mycart[id].quantity = parseInt(quantity);
             var mrp = $scope.mycart[id].mrp;
             $scope.mycart[id].totalprice = quantity * mrp;
@@ -578,7 +571,7 @@ angular.module('starter.controllers', ['myservices'])
                 $scope.number1.toString();
                 console.log("number one to sting");
                 if ($scope.number1.length == 10) {
-                    $scope.number1 = "91"+$scope.number1;
+                    $scope.number1 = "91" + $scope.number1;
                 }
                 var smscall = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno=' + $scope.number1 + '&message=Dear Customer, We thank you for your order. The order for' + $scope.emailtotalquantity + 'pcs with MRP value of Rs' + $scope.emailtotalvalue + 'is under process. Team Toykraft';
                 MyServices.sendsms(smscall).success(smssuccess);
@@ -704,10 +697,10 @@ angular.module('starter.controllers', ['myservices'])
 
         email();
         sms();
-        
+
         MyServices.clearcart();
         MyServices.setretailer(0);
-        
+
         $scope.aid = MyServices.getareaid();
         $location.path("/app/retailer/" + $scope.aid);
 
@@ -1090,7 +1083,7 @@ angular.module('starter.controllers', ['myservices'])
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams, Camera, $http, MyServices, $location) {
+.controller('AddshopCtrl', function ($scope, $stateParams, Camera, $http, MyServices, $location, $cordovaCamera) {
 
     var aid = $stateParams.areaid;
     $scope.addretailer = {
@@ -1146,6 +1139,26 @@ angular.module('starter.controllers', ['myservices'])
 
         // $scope.window.requestFileSystem($scope.LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null);
 
+        $scope.takePicture = function () {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 100,
+                targetHeight: 100,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: true
+            };
+
+            $cordovaCamera.getPicture(options).then(function (imageData) {
+                // Success! Image data is here
+                $scope.lastPhoto = imageData;
+            }, function (err) {
+                // An error occured. Show a message to the user
+            });
+        }
 
 
         console.log('Getting camera');
