@@ -39,7 +39,7 @@
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.device" />
     <gap:plugin name="org.transistorsoft.cordova.background-geolocation" />
-    <gap:plugin name="org.apache.cordova.camera" />
+    <gap:plugin name="org.apache.cordova.capture" />
    
 
 
