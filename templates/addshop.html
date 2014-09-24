@@ -12,11 +12,11 @@
                         <input type="text" name="code" ng-model="addretailer.code">
                     </label>-->
                     <label class="item item-input">
-                        <span class="input-label">Company Number</span>
+                        <span class="input-label">Telephone Number</span>
                         <input type="tel" name="componyname" ng-model="addretailer.number">
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Company Email</span>
+                        <span class="input-label">Email Id</span>
                         <input type="email" name="email" ng-model="addretailer.email"> 
                     </label>
                     <label class="item item-input item-stacked-label">
@@ -24,28 +24,32 @@
                         <textarea name="address" ng-model="addretailer.address"></textarea>
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Contact Person Name</span>
+                        <span class="input-label">Pin Code</span>
+                        <input type="text" name="pincode" ng-model="addretailer.pincode">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Sales Person Name</span>
                         <input type="text" name="contact" ng-model="addretailer.contactname">
                     </label>
                     
                     <label class="item item-input">
-                        <span class="input-label">Contact Person Number</span>
+                        <span class="input-label">Mobile Number</span>
                         <input type="tel" name="contactperson" ng-model="addretailer.contactnumber">
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Business Owner Name</span>
+                        <span class="input-label">Owner's Name</span>
                         <input type="text" name="contact" ng-model="addretailer.ownername">
                     </label>
                     
                     <label class="item item-input">
-                        <span class="input-label">Business Owner Number</span>
+                        <span class="input-label">Mobile Number</span>
                         <input type="tel" name="contactperson" ng-model="addretailer.ownernumber">
                     </label>
                 </div>
                 <div class="col">
                    
                     <label class="item item-input">
-                        <span class="input-label">Birthdate</span>
+                        <span class="input-label">Birthday</span>
                         <input type="date" name="dob" ng-model="addretailer.dob">
                     </label>
                     <label class="item item-input">
@@ -65,7 +69,7 @@
                     
                     <label class="item item-input item-select">
                         <div class="input-label">
-                            Type Of Area
+                            Type Of Shop
                         </div>
                         <select name="typeofarea" ng-model="addretailer.type_of_area">
                             <option>demo</option>
@@ -74,7 +78,7 @@
                         </select>
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Squar Feet</span>
+                        <span class="input-label">Square Feet</span>
                         <input type="text" name="sqft" ng-model="addretailer.sq_feet">
                     </label>
                     <label class="item item-input shopimage">
@@ -87,7 +91,7 @@
 
 
             <button class="button button-block button-assertive" ng-click="addRetailerFunction();">
-                ADD SHOP
+                Add Retailer
             </button>
         </div>
     </ion-content>
