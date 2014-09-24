@@ -286,13 +286,37 @@ angular.module('starter.controllers', ['myservices'])
     $scope.pname;
     $scope.pid;
     $scope.pquantity;
+    
+    $scope.giveclass=function(category) {
+        var returnval="";
+        if(category=="scheme")
+        {
+            returnval="list list-royal"
+        }
+        else if(category=="new")
+        {
+            returnval = "list list-energized";
+        }
+        return returnval;
+    };
 
-    $scope.changequantity = function (quantity, id) {
-
-        $scope.mycart[id].quantity = parseInt(quantity);
-        var mrp = $scope.mycart[id].mrp;
-        $scope.mycart[id].totalprice = quantity * mrp;
-        MyServices.setcart($scope.mycart);
+    $scope.changequantity = function (quantity, code,category) {
+        var id=-1;
+        for(var i=0;i<$scope.mycart.length;i++)
+        {
+            if($scope.mycart[i].productcode==code && $scope.mycart[i].category==category)
+            {
+                id=i;
+            }
+        }
+        if(id>0)
+        {
+            console.log("KEY IS "+id);
+            $scope.mycart[id].quantity = parseInt(quantity);
+            var mrp = $scope.mycart[id].mrp;
+            $scope.mycart[id].totalprice = quantity * mrp;
+            MyServices.setcart($scope.mycart);
+        }
         //$scope.total += ;
     };
 

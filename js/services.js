@@ -185,11 +185,11 @@ var myservices = angular.module('myservices', [])
                 });
             } else {
                 if (cart[addquantityon].quantity > 0) {
-                    cart[addquantityon].quantity += pquantity;
-                    cart[addquantityon].totalprice += ptotalprice;
+                    cart[addquantityon].quantity = parseInt(cart[addquantityon].quantity)+pquantity;
+                    cart[addquantityon].totalprice = parseFloat(ptotalprice);
                 } else {
-                    cart[addquantityon].quantity = pquantity;
-                    cart[addquantityon].totalprice = ptotalprice;
+                    cart[addquantityon].quantity = parseInt(pquantity);
+                    cart[addquantityon].totalprice = parseFloat(ptotalprice);
                 }
             }
             console.log(cart);

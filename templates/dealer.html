@@ -113,10 +113,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="singlecart in mycart|filter:cartnotschemenew|reverse">
+                        <tr ng-repeat="singlecart in mycart|reverse" ng-class="giveclass(singlecart.category);">
                             <td>{{singlecart.name}}</td>
                             <td>
-                                <input class="text-center" type="text" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)" style="width: 35px;">
+                                <input class="text-center" type="text" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,singlecart.productcode,singlecart.category)" style="width: 35px;">
                             </td>
                             <td>{{singlecart.mrp|decimal2}}</td>
                             <td>{{singlecart.totalprice|decimal2}}</td>
@@ -125,29 +125,7 @@
                             </td>
                         </tr>
                         
-                        <tr class="list list-royal" ng-repeat="singlecart in mycart|filter:{category:'scheme'}|reverse">
-                            <td>{{singlecart.name}}</td>
-                            <td>
-                                <input type="text" class="text-center" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)" style="width: 35px;">
-                            </td>
-                            <td>{{singlecart.mrp|decimal2}}</td>
-                            <td>{{singlecart.totalprice|decimal2}}</td>
-                            <td>
-                                <button class="button button-icon icon ion-android-close" ng-click="remove();"></button>
-                            </td>
-                        </tr>
-                        
-                        <tr class="list list-energized" ng-repeat="singlecart in mycart|filter:{category:'new'}|reverse">
-                            <td>{{singlecart.name}}</td>
-                            <td>
-                                <input type="text" class="text-center" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,$index)" style="width: 35px;">
-                            </td>
-                            <td>{{singlecart.mrp|decimal2}}</td>
-                            <td>{{singlecart.totalprice|decimal2}}</td>
-                            <td>
-                                <button class="button button-icon icon ion-android-close" ng-click="remove();"></button>
-                            </td>
-                        </tr>
+                       
                     </tbody>
                 </table>
 
