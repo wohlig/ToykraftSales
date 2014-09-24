@@ -1139,7 +1139,7 @@ angular.module('starter.controllers', ['myservices'])
 
         // $scope.window.requestFileSystem($scope.LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null);
 
-        $scope.takePicture = function () {
+       
             var options = {
                 quality: 75,
                 destinationType: Camera.DestinationType.DATA_URL,
@@ -1158,10 +1158,11 @@ angular.module('starter.controllers', ['myservices'])
             }, function (err) {
                 // An error occured. Show a message to the user
             });
-        }
+    }
+        
 
 
-        console.log('Getting camera');
+     /*   console.log('Getting camera');
         Camera.getPicture().then(function (imageURI) {
 
             console.log(imageURI);
@@ -1199,7 +1200,7 @@ angular.module('starter.controllers', ['myservices'])
     $scope.onGetDirectoryFail = function (error) {
         console.log("Error creating directory " + error.code);
     }
-
+*/
 
     /*    $scope.movePic = function(file) {
         console.log("MOVE PIC FUNTION");
