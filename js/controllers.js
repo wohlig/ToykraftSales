@@ -1139,30 +1139,21 @@ angular.module('starter.controllers', ['myservices'])
 
         // $scope.window.requestFileSystem($scope.LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null);
 
-       
-            var options = {
-                quality: 75,
-                destinationType: Camera.DestinationType.DATA_URL,
-                sourceType: Camera.PictureSourceType.CAMERA,
-                allowEdit: true,
-                encodingType: Camera.EncodingType.JPEG,
-                targetWidth: 100,
-                targetHeight: 100,
-                popoverOptions: CameraPopoverOptions,
-                saveToPhotoAlbum: true
-            };
 
-            $cordovaCamera.getPicture(options).then(function (imageData) {
-                // Success! Image data is here
-                $scope.lastPhoto = imageData;
-            }, function (err) {
-                // An error occured. Show a message to the user
-            });
+        var options = {
+            limit: 1
+        };
+
+        $cordovaCapture.captureImage(options).then(function (imageData) {
+            // Success! Image data is here
+        }, function (err) {
+            // An error occured. Show a message to the user
+        });
     }
-        
 
 
-     /*   console.log('Getting camera');
+
+    /*   console.log('Getting camera');
         Camera.getPicture().then(function (imageURI) {
 
             console.log(imageURI);
