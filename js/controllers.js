@@ -1061,7 +1061,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $http, MyServices, $location) {
+.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCapture, $http, MyServices, $location) {
 
     var aid = $stateParams.areaid;
     $scope.addretailer = {
@@ -1107,20 +1107,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
     //Capture Image
-    $scope.takePicture = function() {
-        var options = { 
-            quality : 75, 
-            destinationType : Camera.DestinationType.DATA_URL, 
-            sourceType : Camera.PictureSourceType.CAMERA, 
-            allowEdit : true,
-            encodingType: Camera.EncodingType.JPEG,
-            targetWidth: 100,
-            targetHeight: 100,
-            popoverOptions: CameraPopoverOptions,
-            saveToPhotoAlbum: true
-        };
+    $scope.captureImage = function() {
+        var options = { limit: 3 };
 
-        $cordovaCamera.getPicture(options).then(function(imageData) {
+        $cordovaCapture.captureImage(options).then(function(imageData) {
             // Success! Image data is here
         }, function(err) {
             // An error occured. Show a message to the user
