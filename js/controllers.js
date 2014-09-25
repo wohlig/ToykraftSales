@@ -1,7 +1,7 @@
 var adminurl = "http://mafiawarloots.com/clientunderworkcode/index.php/";
 
 
-angular.module('starter.controllers', ['myservices'])
+angular.module('starter.controllers', ['myservices', 'ngCordova'])
 
 .factory('Camera', ['$q',
     function ($q) {
@@ -1084,7 +1084,7 @@ angular.module('starter.controllers', ['myservices'])
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams, $http, MyServices, $location, $cordovaCapture) {
+.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCapture, $http, MyServices, $location) {
 
     var aid = $stateParams.areaid;
     $scope.addretailer = {
