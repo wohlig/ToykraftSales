@@ -119,7 +119,7 @@
                                 <input class="text-center" type="text" ng-model="singlecart.quantity" ng-change="changequantity(singlecart.quantity,singlecart.productcode,singlecart.category)" style="width: 35px;">
                             </td>
                             <td>{{singlecart.mrp|decimal2}}</td>
-                            <td>{{singlecart.totalprice|decimal2}}</td>
+                            <td>{{(singlecart.quantity * singlecart.totalprice)|decimal2}}</td>
                             <td>
                                 <button class="button button-icon icon ion-android-close" ng-click="remove();"></button>
                             </td>

@@ -307,7 +307,8 @@ angular.module('starter.controllers', ['myservices'])
             console.log("KEY IS " + id);
             $scope.mycart[id].quantity = parseInt(quantity);
             var mrp = $scope.mycart[id].mrp;
-            $scope.mycart[id].totalprice = quantity * mrp;
+            $scope.mycart[id].totalprice = $scope.mycart[id].quantity * mrp;
+           // $scope.
             MyServices.setcart($scope.mycart);
         }
         //$scope.total += ;
@@ -1083,7 +1084,7 @@ angular.module('starter.controllers', ['myservices'])
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams, Camera, $http, MyServices, $location, $cordovaCamera) {
+.controller('AddshopCtrl', function ($scope, $stateParams, Camera, $http, MyServices, $location, $cordovaCapture) {
 
     var aid = $stateParams.areaid;
     $scope.addretailer = {
