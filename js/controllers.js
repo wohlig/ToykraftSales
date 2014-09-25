@@ -3,29 +3,6 @@ var adminurl = "http://mafiawarloots.com/clientunderworkcode/index.php/";
 
 angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
-.factory('Camera', ['$q',
-    function ($q) {
-
-        return {
-            getPicture: function (options) {
-                var q = $q.defer();
-                console.log(options);
-                /*$scope.options = {
-                    quality: 50,
-                    destinationType: Camera.DestinationType.FILE_URI
-                };*/
-                navigator.camera.getPicture(function (result) {
-                    // Do any magic you need
-                    q.resolve(result);
-                }, function (err) {
-                    q.reject(err);
-                }, options);
-
-                return q.promise;
-            }
-        }
-}])
-
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout, $location, MyServices) {
 
     $scope.setslide = function () {
@@ -1084,7 +1061,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCapture, $http, MyServices, $location) {
+.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $http, MyServices, $location) {
 
     var aid = $stateParams.areaid;
     $scope.addretailer = {
@@ -1130,10 +1107,20 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
     //Capture Image
-    $scope.captureImage = function() {
-        var options = { limit: 1 };
+    $scope.takePicture = function() {
+        var options = { 
+            quality : 75, 
+            destinationType : Camera.DestinationType.DATA_URL, 
+            sourceType : Camera.PictureSourceType.CAMERA, 
+            allowEdit : true,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 100,
+            targetHeight: 100,
+            popoverOptions: CameraPopoverOptions,
+            saveToPhotoAlbum: true
+        };
 
-        $cordovaCapture.captureImage(options).then(function(imageData) {
+        $cordovaCamera.getPicture(options).then(function(imageData) {
             // Success! Image data is here
         }, function(err) {
             // An error occured. Show a message to the user
