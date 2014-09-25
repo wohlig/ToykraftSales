@@ -1,7 +1,7 @@
 var adminurl = "http://mafiawarloots.com/clientunderworkcode/index.php/";
 
 
-angular.module('starter.controllers', ['myservices', 'ngCordova'])
+angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 .factory('Camera', ['$q',
     function ($q) {
