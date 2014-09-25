@@ -1084,7 +1084,7 @@ angular.module('starter.controllers', ['myservices'])
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams, Camera, $http, MyServices, $location, $cordovaCapture) {
+.controller('AddshopCtrl', function ($scope, $stateParams, $http, MyServices, $location, $cordovaCapture) {
 
     var aid = $stateParams.areaid;
     $scope.addretailer = {
@@ -1129,97 +1129,20 @@ angular.module('starter.controllers', ['myservices'])
     };
 
 
+    //Capture Image
+    $scope.captureImage = function() {
+        var options = { limit: 1 };
 
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /*    pictureSource=navigator.camera.PictureSourceType;
-     destinationType=navigator.camera.DestinationType;*/
-
-    $scope.getCamera = function (event) {
-
-        // $scope.window.requestFileSystem($scope.LocalFileSystem.PERSISTENT, 0, onRequestFileSystemSuccess, null);
-
-
-        var options = {
-            limit: 1
-        };
-
-        $cordovaCapture.captureImage(options).then(function (imageData) {
+        $cordovaCapture.captureImage(options).then(function(imageData) {
             // Success! Image data is here
-        }, function (err) {
+        }, function(err) {
             // An error occured. Show a message to the user
         });
     }
 
 
 
-    /*   console.log('Getting camera');
-        Camera.getPicture().then(function (imageURI) {
-
-            console.log(imageURI);
-            //$scope.movePic(imageURI);
-            $scope.lastPhoto = imageURI;
-            parentEntry = new DirectoryEntry({
-                fullPath: parent
-            });
-            imageURI.moveTo(parentEntry, newName, success, fail);
-
-        }, function (err) {
-            console.err(err);
-        }, {
-            quality: 75,
-            // targetWidth: 320,
-            // targetHeight: 320,
-            destinationType: Camera.destinationType.FILE_URI,
-            //saveToPhotoAlbum: true
-        });
-    };
-
-
-    $scope.onRequestFileSystemSuccess = function (fileSystem) {
-        $scope.entry = fileSystem.root;
-        entry.getDirectory("example", {
-            create: true,
-            exclusive: false
-        }, onGetDirectorySuccess, onGetDirectoryFail);
-    }
-
-    $scope.onGetDirectorySuccess = function (dir) {
-        console.log("Created dir " + dir.name);
-    }
-
-    $scope.onGetDirectoryFail = function (error) {
-        console.log("Error creating directory " + error.code);
-    }
-*/
-
-    /*    $scope.movePic = function(file) {
-        console.log("MOVE PIC FUNTION");
-        window.resolveLocalFileSystemURI(file, onResSucc, errMove);  
-    };*/
-
-
-    /*    $scope.onResSucc = function(entry) {
-        var d = new Date();
-        var n = d.getTime();
-        var newFileName = n + ".jpg";
-        var appFolderName = "MyAppImages";
-        
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) {
-            fileSys.root.getDirectory(appFolderName, {create:true, exclusive:false},
-                                     function(directory){
-                                         entry.moveTo(directory, newFileName, succMove, errMove);
-                                     },errMove );
-        }, errMove);
-    }*/
-
-    /*    $scope.succMove = function(entry) {
-        console.log(entry.fullPath);
-        $('#photoHolder').attr('src', "file://"+ entry.fullPath);
-    }
-
-    $scope.errMove = function() {}*/
+   
 })
     .controller('PhotoSliderCtrl', function ($scope, $stateParams, MyServices, $ionicModal, $ionicSlideBoxDelegate) {
         $ionicModal.fromTemplateUrl('templates/image-slider.html', {
