@@ -1134,13 +1134,16 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
            $cordovaFile.uploadFile(server, $scope.cameraimage, options)
            .then(function(result) {
                // Success!
-               alert("Success");
+               console.log("Success");
+               console.log(result);
+               console.log(server+$scope.cameraimage+options);
            }, function(err) {
                // Error
-               alert("Error");
+               console.log(err);
+               console.log("Error");
            }, function (progress) {
                // constant progress updates
-               alert("Progress");
+               console.log("Progress");
            });
        
        };
