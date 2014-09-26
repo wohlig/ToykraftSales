@@ -1130,7 +1130,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         
         //File Upload parameters: source, filePath, options
        $scope.uploadPhoto = function () {
-           console.log("");
+           console.log("function called");
            $cordovaFile.uploadFile(server, $scope.cameraimage, options1)
            .then(function(result) {
                // Success!
@@ -1146,10 +1146,6 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
        };
         
     }
-
-
-
-   
 })
     .controller('PhotoSliderCtrl', function ($scope, $stateParams, MyServices, $ionicModal, $ionicSlideBoxDelegate) {
         $ionicModal.fromTemplateUrl('templates/image-slider.html', {
