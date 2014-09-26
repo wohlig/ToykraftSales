@@ -180,16 +180,16 @@ var myservices = angular.module('myservices', [])
                     name: pname,
                     quantity: pquantity,
                     mrp: pmrp,
-                    totalprice: ptotalprice,
+                    totalprice: pmrp*pquantity,
                     category: category
                 });
             } else {
                 if (cart[addquantityon].quantity > 0) {
                     cart[addquantityon].quantity = parseInt(cart[addquantityon].quantity)+pquantity;
-                    cart[addquantityon].totalprice = parseFloat(ptotalprice);
+                    cart[addquantityon].totalprice = parseFloat(pmrp)*cart[addquantityon].quantity;
                 } else {
                     cart[addquantityon].quantity = parseInt(pquantity);
-                    cart[addquantityon].totalprice = parseFloat(ptotalprice);
+                    cart[addquantityon].totalprice = parseFloat(pmrp)*cart[addquantityon].quantity;
                 }
             }
             console.log(cart);
