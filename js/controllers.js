@@ -1061,7 +1061,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $http, MyServices, $location) {
+.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location) {
 
     var aid = $stateParams.areaid;
     $scope.addretailer = {
@@ -1110,21 +1110,32 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.takePicture = function() {
         var options = { 
             quality : 75, 
-            destinationType : Camera.DestinationType.FILE_URI, 
+            destinationType : Camera.DestinationType.DATA_URI, 
             sourceType : Camera.PictureSourceType.CAMERA, 
             allowEdit : true,
             encodingType: Camera.EncodingType.JPEG,
-            targetWidth: 100,
-            targetHeight: 100,
-            popoverOptions: CameraPopoverOptions,
             saveToPhotoAlbum: true
         };
 
         $cordovaCamera.getPicture(options).then(function(imageData) {
             // Success! Image data is here
+            $scope.cameraimage = "data:image/jpeg;base64," + imageData;
         }, function(err) {
             // An error occured. Show a message to the user
         });
+        
+        //File Upload parameters: source, filePath, options
+        $cordovaFile
+        .uploadFile(server, filePath, options)
+        .then(function(result) {
+            // Success! 
+        }, function(err) {
+            // Error
+        }, function (progress) {
+            // constant progress updates
+        });
+        
+        
     }
 
 
