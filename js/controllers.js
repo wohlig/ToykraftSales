@@ -1110,7 +1110,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.takePicture = function() {
         var options = { 
             quality : 75, 
-            destinationType : Camera.DestinationType.DATA_URL, 
+            destinationType : Camera.DestinationType.FILE_URI, 
             sourceType : Camera.PictureSourceType.CAMERA, 
             allowEdit : true,
             encodingType: Camera.EncodingType.JPEG,
