@@ -1131,7 +1131,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         //File Upload parameters: source, filePath, options
        $scope.uploadPhoto = function () {
            console.log("function called");
-           $cordovaFile.uploadFile(server, $scope.cameraimage, options1)
+           $cordovaFile.uploadFile(server, $scope.cameraimage)
            .then(function(result) {
                // Success!
                alert("Success");
