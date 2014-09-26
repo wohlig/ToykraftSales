@@ -1137,7 +1137,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
                console.log(result);
                result=JSON.parse(result.response);
                filenameee=result;
-               $scope.filename2=result->file_name;
+               $scope.filename2=result.file_name;
                
            }, function(err) {
                // Error
