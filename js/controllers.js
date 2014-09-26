@@ -1065,7 +1065,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 .controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location) {
 
     var aid = $stateParams.areaid;
-    $scope.addretailer.area = aid;
+    
     var areasuccess = function(data, status)
     {
         $scope.areaname = data.name;
