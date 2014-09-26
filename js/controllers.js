@@ -1,6 +1,6 @@
 var adminurl = "http://mafiawarloots.com/clientunderworkcode/index.php/";
 
-
+var filenameee="";
 angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout, $location, MyServices) {
@@ -1067,7 +1067,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.addretailer = {
         area: aid
     };
-
+    $scope.filename2="";
     //GEO-LOCATION
     var onSuccess = function (position) {
         alert('Latitude: ' + position.coords.latitude + '\n' +
@@ -1109,7 +1109,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     //Capture Image
     $scope.takePicture = function() {
         var options = { 
-            quality : 75, 
+            quality : 50, 
             destinationType : Camera.DestinationType.FILE_URI, 
             sourceType : Camera.PictureSourceType.CAMERA, 
             allowEdit : true,
@@ -1134,9 +1134,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
            $cordovaFile.uploadFile(server, $scope.cameraimage, options)
            .then(function(result) {
                // Success!
-               console.log("Success");
                console.log(result);
-               console.log(server+$scope.cameraimage+options);
+               result=JSON.parse(result.response);
+               filenameee=result;
+               $scope.filename2=result->file_name;
+               
            }, function(err) {
                // Error
                console.log(err);
