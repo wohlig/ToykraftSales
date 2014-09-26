@@ -1065,9 +1065,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 .controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location) {
 
     var aid = $stateParams.areaid;
+    $scope.addretailer.area = aid;
     var areasuccess = function(data, status)
     {
-        $scope.addretailer.area = data.name;
+        $scope.areaname = data.name;
     };
     MyServices.areaone(aid).success(areasuccess);
     $scope.addretailer = {
@@ -1096,7 +1097,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.addretailer.dob = '';
     $scope.addretailer.type_of_area = '';
     $scope.addretailer.sq_feet = '';
-    $scope.addretailer.storepic = '';
+    $scope.addretailer.store_image = '';
     
 
     $scope.addRetailerFunction = function () {
@@ -1154,7 +1155,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
                result=JSON.parse(result.response);
                filenameee=result;
                $scope.filename2=result.file_name;
-               $scope.addretailer.storepic = $scope.filename2;
+               $scope.addretailer.store_image = $scope.filename2;
                
            }, function(err) {
                // Error
