@@ -1119,7 +1119,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
         $cordovaCamera.getPicture(options).then(function(imageData) {
             // Success! Image data is here
-            $scope.cameraimage = "data:image/jpeg;base64," + imageData;
+            $scope.cameraimage = imageData;
         }, function(err) {
             // An error occured. Show a message to the user
         });
