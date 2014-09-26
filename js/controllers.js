@@ -1120,21 +1120,30 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         $cordovaCamera.getPicture(options).then(function(imageData) {
             // Success! Image data is here
             $scope.cameraimage = imageData;
+            $scope.uploadPhoto();
         }, function(err) {
             // An error occured. Show a message to the user
         });
         
-        //File Upload parameters: source, filePath, options
-        $cordovaFile
-        .uploadFile(server, filePath, options)
-        .then(function(result) {
-            // Success! 
-        }, function(err) {
-            // Error
-        }, function (progress) {
-            // constant progress updates
-        });
+        //Upload photo
+        var server ='http://wohlig.biz/Toykraftbackend/index.php/json/uploadfile' ;
+        var filePath = $scope.cameraimage;
         
+        //File Upload parameters: source, filePath, options
+       $scope.uploadPhoto = function () {
+           $cordovaFile.uploadFile(server, filePath, options)
+           .then(function(result) {
+               // Success!
+               alert("Success");
+           }, function(err) {
+               // Error
+               alert("Error");
+           }, function (progress) {
+               // constant progress updates
+               alert("Progress");
+           });
+       
+       };
         
     }
 
