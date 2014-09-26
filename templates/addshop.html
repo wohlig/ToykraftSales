@@ -68,9 +68,12 @@
                             Type Of Shop
                         </div>
                         <select name="typeofarea" ng-model="addretailer.type_of_area">
-                            <option>typeofarea</option>
-                            <option>typeofarea</option>
-                            <option>typeofarea</option>
+                            <option>Toy Store</option>
+                            <option>Toys & Stationery</option>
+                            <option>General</option>
+                            <option>Departmental Store</option>
+                            <option>Toys & Books</option>
+                            <option>Super Market</option>
                         </select>
                     </label>
                     <label class="item item-input">
@@ -86,7 +89,7 @@
             </div>
 
 
-            <button class="button button-block button-assertive" ng-click="addRetailerFunction();">
+            <button class="button button-block button-assertive" ng-click="addRetailerFunction();"  ng-show="addretailer.name != '' && addretailer.address != '' && addretailer.code != '' && addretailer.contactname != '' && addretailer.contactnumber != '' && addretailer.dob != '' && addretailer.type_of_area != '' && addretailer.sq_feet != '' ">
                 Add Retailer
             </button>
         </div>

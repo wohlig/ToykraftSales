@@ -290,6 +290,14 @@ var myservices = angular.module('myservices', [])
         {
             return $http.post(url);
         },
+        areaone: function(id)
+        {
+            return $http.get(adminurl + "area/findone", {
+                params: {
+                    id: id
+                }
+            } );
+        },
        
     }
 });

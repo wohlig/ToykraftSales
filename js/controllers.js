@@ -175,6 +175,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var areaSuccess = function (data, status) {
         console.log("AREA SUCCESS")
         $scope.areadata = data;
+        
     };
 
     MyServices.findarea(cityID).success(areaSuccess);
@@ -373,7 +374,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         MyServices.findnext($scope.categoryproductdata.id, next).success(oncategoryproductsuccess);
     };
 
-
+    
     //SEARCH
     var searchtxt = MyServices.getsearchtxt();
     if (searchtxt != "") {
@@ -1064,6 +1065,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 .controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location) {
 
     var aid = $stateParams.areaid;
+    var areasuccess = function(data, status)
+    {
+        $scope.addretailer.area = data.name;
+    };
+    MyServices.areaone(aid).success(areasuccess);
     $scope.addretailer = {
         area: aid
     };
@@ -1082,6 +1088,15 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         enableHighAccuracy: false
     });
 
+    $scope.addretailer.name = '';
+    $scope.addretailer.address = '';
+    $scope.addretailer.code = '';
+    $scope.addretailer.contactname = '';
+    $scope.addretailer.contactnumber = '';
+    $scope.addretailer.dob = '';
+    $scope.addretailer.type_of_area = '';
+    $scope.addretailer.sq_feet = '';
+    
 
     $scope.addRetailerFunction = function () {
         console.log("retailer name is " + $scope.addretailer.name);
