@@ -1096,6 +1096,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.addretailer.dob = '';
     $scope.addretailer.type_of_area = '';
     $scope.addretailer.sq_feet = '';
+    $scope.addretailer.storepic = '';
     
 
     $scope.addRetailerFunction = function () {
@@ -1148,11 +1149,12 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
            console.log("function called");
            $cordovaFile.uploadFile(server, $scope.cameraimage, options)
            .then(function(result) {
-               // Success!
+               
                console.log(result);
                result=JSON.parse(result.response);
                filenameee=result;
                $scope.filename2=result.file_name;
+               $scope.addretailer.storepic = $scope.filename2;
                
            }, function(err) {
                // Error
