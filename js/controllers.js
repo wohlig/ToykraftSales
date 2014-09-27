@@ -681,8 +681,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         MyServices.setretailer(0);
 
         $scope.aid = MyServices.getareaid();
-        $location.path("/app/retailer/" + $scope.aid);
-
+        if ($scope.aid > 0) {
+            $location.path("/app/retailer/" + $scope.aid);
+        } else {
+            $location.path("/app/home");
+        };
 
 
     };
@@ -906,8 +909,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         for (i = 0; i < $scope.recart.length; i++) {
             $scope.addToCart($scope.recart[i].id, $scope.recart[i].productcode, $scope.recart[i].name, $scope.recart[i].quantity, $scope.recart[i].amount);
         };
-        $location.path("/app/dealer/" +  $scope.retailerid + "/6");
-        
+        $location.path("/app/dealer/" + $scope.retailerid + "/6");
+
     };
 
     $scope.resendorder = function (orderid) {
