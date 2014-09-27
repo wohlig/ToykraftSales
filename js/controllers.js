@@ -1,6 +1,6 @@
 var adminurl = "http://mafiawarloots.com/clientunderworkcode/index.php/";
 
-var filenameee="";
+var filenameee = "";
 angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout, $location, MyServices) {
@@ -175,7 +175,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var areaSuccess = function (data, status) {
         console.log("AREA SUCCESS")
         $scope.areadata = data;
-        
+
     };
 
     MyServices.findarea(cityID).success(areaSuccess);
@@ -286,7 +286,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
             $scope.mycart[id].quantity = parseInt(quantity);
             var mrp = $scope.mycart[id].mrp;
             $scope.mycart[id].totalprice = $scope.mycart[id].quantity * mrp;
-           // $scope.
+            // $scope.
             MyServices.setcart($scope.mycart);
         }
         //$scope.total += ;
@@ -374,7 +374,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         MyServices.findnext($scope.categoryproductdata.id, next).success(oncategoryproductsuccess);
     };
 
-    
+
     //SEARCH
     var searchtxt = MyServices.getsearchtxt();
     if (searchtxt != "") {
@@ -736,7 +736,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('OrderCtrl', function ($scope, $stateParams, MyServices, $ionicModal) {
+.controller('OrderCtrl', function ($scope, $stateParams, MyServices, $ionicModal, $location) {
     console.log("ORDER CONTROLLER IS WRKING");
 
     var user = MyServices.getuser();
@@ -878,6 +878,41 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.resendemail = function (orderid) {
         $scope.orderID = orderid;
         MyServices.getorderdetail(orderid).success(orderdetails);
+    };
+
+    $scope.recart = [];
+    //ADD TO CART FUNCTION
+    $scope.addToCart = function (id, productcode, name, quantity, mrp) {
+
+        $scope.totalprice = quantity * mrp;
+        //$scope.total += totalprice;
+        if (quantity > 0) {
+
+            MyServices.addItemToCart(id, productcode, name, quantity, mrp, $scope.totalprice);
+            $scope.newcart = MyServices.getCart();
+            console.log("YOUR CART " + $scope.newcart);
+        };
+
+    };
+
+    //REORDER ORDER
+    var reorder = function (data, status) {
+        console.log(data);
+        $scope.retailerid = data.retailer.id;
+        MyServices.setretailer($scope.retailerid);
+        MyServices.setcart($scope.recart);
+        $scope.recart = data.orderproduct;
+
+        for (i = 0; i < $scope.recart.length; i++) {
+            $scope.addToCart($scope.recart[i].id, $scope.recart[i].productcode, $scope.recart[i].name, $scope.recart[i].quantity, $scope.recart[i].amount);
+        };
+        $location.path("/app/dealer/" +  $scope.retailerid + "/6");
+        
+    };
+
+    $scope.resendorder = function (orderid) {
+        $scope.orderID = orderid;
+        MyServices.getorderdetail(orderid).success(reorder);
     };
 
     console.log(user.zone);
@@ -1065,16 +1100,15 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 .controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location) {
 
     var aid = $stateParams.areaid;
-    
-    var areasuccess = function(data, status)
-    {
+
+    var areasuccess = function (data, status) {
         $scope.areaname = data.name;
     };
     MyServices.areaone(aid).success(areasuccess);
     $scope.addretailer = {
         area: aid
     };
-    $scope.filename2="";
+    $scope.filename2 = "";
     //GEO-LOCATION
     var onSuccess = function (position) {
         alert('Latitude: ' + position.coords.latitude + '\n' +
@@ -1098,7 +1132,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.addretailer.type_of_area = '';
     $scope.addretailer.sq_feet = '';
     $scope.addretailer.store_image = '';
-    
+
 
     $scope.addRetailerFunction = function () {
         console.log("retailer name is " + $scope.addretailer.name);
@@ -1124,50 +1158,50 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
     //Capture Image
-    $scope.takePicture = function() {
-        var options = { 
-            quality : 20, 
-            destinationType : Camera.DestinationType.FILE_URI, 
-            sourceType : Camera.PictureSourceType.CAMERA, 
-            allowEdit : true,
+    $scope.takePicture = function () {
+        var options = {
+            quality: 20,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.CAMERA,
+            allowEdit: true,
             encodingType: Camera.EncodingType.JPEG,
             saveToPhotoAlbum: true
         };
 
-        $cordovaCamera.getPicture(options).then(function(imageData) {
+        $cordovaCamera.getPicture(options).then(function (imageData) {
             // Success! Image data is here
             $scope.cameraimage = imageData;
             $scope.uploadPhoto();
-        }, function(err) {
+        }, function (err) {
             // An error occured. Show a message to the user
         });
-        
+
         //Upload photo
-        var server ='http://wohlig.biz/Toykraftbackend/index.php/json/uploadfile';
-        
+        var server = 'http://wohlig.biz/Toykraftbackend/index.php/json/uploadfile';
+
         //File Upload parameters: source, filePath, options
-       $scope.uploadPhoto = function () {
-           console.log("function called");
-           $cordovaFile.uploadFile(server, $scope.cameraimage, options)
-           .then(function(result) {
-               
-               console.log(result);
-               result=JSON.parse(result.response);
-               filenameee=result;
-               $scope.filename2=result.file_name;
-               $scope.addretailer.store_image = $scope.filename2;
-               
-           }, function(err) {
-               // Error
-               console.log(err);
-               console.log("Error");
-           }, function (progress) {
-               // constant progress updates
-               console.log("Progress");
-           });
-       
-       };
-        
+        $scope.uploadPhoto = function () {
+            console.log("function called");
+            $cordovaFile.uploadFile(server, $scope.cameraimage, options)
+                .then(function (result) {
+
+                    console.log(result);
+                    result = JSON.parse(result.response);
+                    filenameee = result;
+                    $scope.filename2 = result.file_name;
+                    $scope.addretailer.store_image = $scope.filename2;
+
+                }, function (err) {
+                    // Error
+                    console.log(err);
+                    console.log("Error");
+                }, function (progress) {
+                    // constant progress updates
+                    console.log("Progress");
+                });
+
+        };
+
     }
 })
     .controller('PhotoSliderCtrl', function ($scope, $stateParams, MyServices, $ionicModal, $ionicSlideBoxDelegate) {
