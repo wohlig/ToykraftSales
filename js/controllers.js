@@ -1113,6 +1113,36 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     var aid = $stateParams.areaid;
     
+
+
+    var areasuccess = function (data, status) {
+        $scope.areaname = data.name;
+    };
+    MyServices.areaone(aid).success(areasuccess);
+    $scope.addretailer = {
+        area: aid
+    };
+    $scope.filename2 = "";
+    //GEO-LOCATION
+    var onSuccess = function (position) {
+        /*alert('Latitude: ' + position.coords.latitude + '\n' +
+            'Longitude: ' + position.coords.longitude);
+        *///$scope.lat = position.coords.latitude;
+        //$scope.long = position.coords.longitude;
+        $scope.addretailer.lat = ''+ position.coords.latitude +'';
+        $scope.addretailer.long = ''+ position.coords.longitude +'';
+    };
+
+    function onError(error) {
+       /* alert('code: ' + error.code + '\n' +
+            'message: ' + error.message + '\n');
+       */ $scope.addretailer.lat = 'not found';
+        $scope.addretailer.long = 'not found';
+    }
+    window.navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+        enableHighAccuracy: false
+    });
+
     $scope.addretailer = {};
     $scope.addretailer.name = '';
     $scope.addretailer.address = '';
@@ -1125,35 +1155,6 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.addretailer.store_image = '';
     $scope.addretailer.lat = '';
     $scope.addretailer.long = '';
-
-    var areasuccess = function (data, status) {
-        $scope.areaname = data.name;
-    };
-    MyServices.areaone(aid).success(areasuccess);
-    $scope.addretailer = {
-        area: aid
-    };
-    $scope.filename2 = "";
-    //GEO-LOCATION
-    var onSuccess = function (position) {
-        alert('Latitude: ' + position.coords.latitude + '\n' +
-            'Longitude: ' + position.coords.longitude);
-        //$scope.lat = position.coords.latitude;
-        //$scope.long = position.coords.longitude;
-        $scope.addretailer.lat = ''+ position.coords.latitude +'';
-        $scope.addretailer.long = ''+ position.coords.longitude +'';
-    };
-
-    function onError(error) {
-        alert('code: ' + error.code + '\n' +
-            'message: ' + error.message + '\n');
-        $scope.addretailer.lat = ''+error.message+'';
-    }
-    window.navigator.geolocation.getCurrentPosition(onSuccess, onError, {
-        enableHighAccuracy: false
-    });
-
-
 
 
     $scope.addRetailerFunction = function () {
