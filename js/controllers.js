@@ -19,13 +19,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         };
         //return false;        
 
-            $cordovaKeyboard.hideAccessoryBar(true)
+            $cordovaKeyboard.hideAccessoryBar(true);
 
-            $cordovaKeyboard.disableScroll(true)
+            $cordovaKeyboard.disableScroll(true);
 
-            $cordovaKeyboard.close()
+            $cordovaKeyboard.close();
 
-            var isVisible = $cordovaKeyboard.isVisible()
+            var isVisible = $cordovaKeyboard.isVisible();
     };
 
     var categorynamesuccess = function (data, status) {
