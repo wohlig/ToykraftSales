@@ -223,6 +223,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var onSuccess = function (position) {
         console.log('Latitude: ' + position.coords.latitude + '\n' +
             'Longitude: ' + position.coords.longitude);
+        
     };
 
     function onError(error) {
@@ -1124,6 +1125,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var onSuccess = function (position) {
         alert('Latitude: ' + position.coords.latitude + '\n' +
             'Longitude: ' + position.coords.longitude);
+        $scope.lat = position.coords.latitude;
+        $scope.long = position.coords.longitude;
     };
 
     function onError(error) {
@@ -1143,6 +1146,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.addretailer.type_of_area = '';
     $scope.addretailer.sq_feet = '';
     $scope.addretailer.store_image = '';
+    $scope.addretailer.lat = $scope.lat;
+    $scope.addretailer.long = $scope.long;
 
 
     $scope.addRetailerFunction = function () {
