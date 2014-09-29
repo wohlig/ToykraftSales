@@ -1113,6 +1113,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     var aid = $stateParams.areaid;
     
+    $scope.addretailer = {};
     $scope.addretailer.name = '';
     $scope.addretailer.address = '';
     $scope.addretailer.code = '';
