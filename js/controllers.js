@@ -1123,7 +1123,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.addretailer.sq_feet = '';
     $scope.addretailer.store_image = '';
     $scope.addretailer.lat = '';
-    $scope.addretailer.long = ''();
+    $scope.addretailer.long = '';
 
     var areasuccess = function (data, status) {
         $scope.areaname = data.name;
