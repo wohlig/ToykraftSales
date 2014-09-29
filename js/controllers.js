@@ -1112,6 +1112,18 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 .controller('AddshopCtrl', function ($scope, $stateParams , $cordovaCamera, $cordovaFile, $http, MyServices, $location) {
 
     var aid = $stateParams.areaid;
+    
+    $scope.addretailer.name = '';
+    $scope.addretailer.address = '';
+    $scope.addretailer.code = '';
+    $scope.addretailer.contactname = '';
+    $scope.addretailer.contactnumber = '';
+    $scope.addretailer.dob = '';
+    $scope.addretailer.type_of_area = '';
+    $scope.addretailer.sq_feet = '';
+    $scope.addretailer.store_image = '';
+    $scope.addretailer.lat = '';
+    $scope.addretailer.long = ''();
 
     var areasuccess = function (data, status) {
         $scope.areaname = data.name;
@@ -1125,8 +1137,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var onSuccess = function (position) {
         alert('Latitude: ' + position.coords.latitude + '\n' +
             'Longitude: ' + position.coords.longitude);
-        $scope.lat = position.coords.latitude;
-        $scope.long = position.coords.longitude;
+        //$scope.lat = position.coords.latitude;
+        //$scope.long = position.coords.longitude;
+        $scope.addretailer.lat = position.coords.latitude;
+        $scope.addretailer.long = position.coords.longitude;
     };
 
     function onError(error) {
@@ -1137,17 +1151,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         enableHighAccuracy: false
     });
 
-    $scope.addretailer.name = '';
-    $scope.addretailer.address = '';
-    $scope.addretailer.code = '';
-    $scope.addretailer.contactname = '';
-    $scope.addretailer.contactnumber = '';
-    $scope.addretailer.dob = '';
-    $scope.addretailer.type_of_area = '';
-    $scope.addretailer.sq_feet = '';
-    $scope.addretailer.store_image = '';
-    $scope.addretailer.lat = $scope.lat.toString();
-    $scope.addretailer.long = $scope.long.toString();
+
 
 
     $scope.addRetailerFunction = function () {
