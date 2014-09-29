@@ -1108,7 +1108,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location) {
+.controller('AddshopCtrl', function ($scope, $stateParams,$cordovaProgressIndicator , $cordovaCamera, $cordovaFile, $http, MyServices, $location) {
 
     var aid = $stateParams.areaid;
 
@@ -1200,6 +1200,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
                     filenameee = result;
                     $scope.filename2 = result.file_name;
                     $scope.addretailer.store_image = $scope.filename2;
+                $cordovaProgressIndicator.hide();
 
                 }, function (err) {
                     // Error
@@ -1207,6 +1208,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
                     console.log("Error");
                 }, function (progress) {
                     // constant progress updates
+                $cordovaProgressIndicator.showSimpleWithLabel(true, "Loading");
                 });
 
         };
