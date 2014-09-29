@@ -3,7 +3,7 @@ var adminurl = "http://mafiawarloots.com/clientunderworkcode/index.php/";
 var filenameee = "";
 angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $location, MyServices) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $location, MyServices, $cordovaKeyboard) {
 
     $scope.setslide = function () {
         var path = $location.path();
@@ -18,6 +18,14 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
             return false;
         };
         //return false;        
+
+            $cordovaKeyboard.hideAccessoryBar(true)
+
+            $cordovaKeyboard.disableScroll(true)
+
+            $cordovaKeyboard.close()
+
+            var isVisible = $cordovaKeyboard.isVisible()
     };
 
     var categorynamesuccess = function (data, status) {

@@ -37,6 +37,7 @@
     <gap:plugin name="org.transistorsoft.cordova.background-geolocation" />
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.file-transfer" />
+    <gap:plugin name="com.ionic.keyboard" />
    
 
 
