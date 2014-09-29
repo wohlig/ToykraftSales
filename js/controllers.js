@@ -1140,13 +1140,14 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
             'Longitude: ' + position.coords.longitude);
         //$scope.lat = position.coords.latitude;
         //$scope.long = position.coords.longitude;
-        $scope.addretailer.lat = position.coords.latitude;
+        $scope.addretailer.lat = ''+ (position.coords.latitude).toString() +'';
         $scope.addretailer.long = position.coords.longitude;
     };
 
     function onError(error) {
         alert('code: ' + error.code + '\n' +
             'message: ' + error.message + '\n');
+        $scope.addretailer.lat = ''+error.code+'';
     }
     window.navigator.geolocation.getCurrentPosition(onSuccess, onError, {
         enableHighAccuracy: false
