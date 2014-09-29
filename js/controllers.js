@@ -1146,8 +1146,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.addretailer.type_of_area = '';
     $scope.addretailer.sq_feet = '';
     $scope.addretailer.store_image = '';
-    $scope.addretailer.lat = $scope.lat;
-    $scope.addretailer.long = $scope.long;
+    $scope.addretailer.lat = $scope.lat.toString();
+    $scope.addretailer.long = $scope.long.toString();
 
 
     $scope.addRetailerFunction = function () {
