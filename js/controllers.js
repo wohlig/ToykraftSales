@@ -1119,9 +1119,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         $scope.areaname = data.name;
     };
     MyServices.areaone(aid).success(areasuccess);
-    $scope.addretailer = {
-        area: aid
-    };
+
     $scope.filename2 = "";
     //GEO-LOCATION
     var onSuccess = function (position) {
@@ -1144,6 +1142,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     });
 
     $scope.addretailer = {};
+    $scope.addretailer.area = aid;
     $scope.addretailer.name = '';
     $scope.addretailer.address = '';
     $scope.addretailer.code = '';
