@@ -702,9 +702,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var userdata = MyServices.getuser();
     console.log(userdata);
     $scope.useremail = userdata.email;
-
+    $scope.firstclick=0;
     $scope.sendOrder = function (retailerdata2) {
-
+        if($scope.firstclick==0)
+        {
+            $scope.firstclick=1;
         console.log();
         console.log("Send Order pressed");
         console.log(retailerdata2);
@@ -715,7 +717,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
         $scope.number1 = retailerdata2.contactnumber;
         $scope.number2 = retailerdata2.ownernumber;
-
+        }
         //sms(number1, number2, emailtotalquantity, emailtotalvalue);
 
     };
@@ -1112,7 +1114,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 .controller('AddshopCtrl', function ($scope, $stateParams , $cordovaCamera, $cordovaFile, $http, MyServices, $location) {
 
     var aid = $stateParams.areaid;
-    
+    $scope.firstclick=0;
 
 
     var areasuccess = function (data, status) {
@@ -1157,6 +1159,9 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
     $scope.addRetailerFunction = function () {
+        if($scope.firstclick==0)
+        {
+        $scope.firstclick=1;
         console.log("retailer name is " + $scope.addretailer.name);
         console.log($scope.addretailer);
 
@@ -1173,7 +1178,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
         MyServices.addNewRetailer($scope.addretailer).success(addRetailerSuccess);
 
-
+        }
 
         //sqfeet type dob area latitude longitude contactperson address contactnumber email compony code name
     };

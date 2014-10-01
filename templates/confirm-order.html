@@ -58,7 +58,7 @@
             <div> <span class="list list-royal pull-right marker"> SCHEME </span><span class="list list-energized pull-right marker"> NEW PRODUCTS </span>
             </div>
             <textarea ng-model="retailerdata2.remark" class="remark" placeholder="Please enter your remark."></textarea>
-            <button class="button button-assertive button-block" ng-click="sendOrder(retailerdata2);">Confirm Order</button>
+            <button class="button button-assertive button-block" ng-show="firstclick==0" ng-click="sendOrder(retailerdata2);">Confirm Order</button>
         </div>
     </ion-content>
 </ion-view>
