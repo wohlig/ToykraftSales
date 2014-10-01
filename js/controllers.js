@@ -67,7 +67,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     console.log("CONTROLLER IS CALLED");
     $scope.login = {};
     console.log($scope.login)
-
+    
+    
     var loginSuccess = function (data, status) {
         console.log(data);
         if (data != "false") {
@@ -101,7 +102,14 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.logout = function () {
         $.jStorage.flush();
         user = undefined;
-        $location.path("/app/login");
+        
+        for(var i=0;i<5;i++)
+        {
+        var stateObj = { foo: "bar" };
+        history.pushState(stateObj, "page 2", "index.html#/app/login");
+        }
+        $location.replace();
+        window.location.href=window.location.href+"#";
     };
     $scope.user = user;
     $scope.lastretailer = MyServices.getretailer();
