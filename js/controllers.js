@@ -19,13 +19,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         };
         //return false;        
 
-            $cordovaKeyboard.hideAccessoryBar(true);
+        $cordovaKeyboard.hideAccessoryBar(true);
 
-            $cordovaKeyboard.disableScroll(true);
+        $cordovaKeyboard.disableScroll(true);
 
-            $cordovaKeyboard.close();
+        $cordovaKeyboard.close();
 
-            var isVisible = $cordovaKeyboard.isVisible();
+        var isVisible = $cordovaKeyboard.isVisible();
     };
 
     var categorynamesuccess = function (data, status) {
@@ -67,8 +67,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     console.log("CONTROLLER IS CALLED");
     $scope.login = {};
     console.log($scope.login)
-    
-    
+
+
     var loginSuccess = function (data, status) {
         console.log(data);
         if (data != "false") {
@@ -102,14 +102,15 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.logout = function () {
         $.jStorage.flush();
         user = undefined;
-        
-        for(var i=0;i<5;i++)
-        {
-        var stateObj = { foo: "bar" };
-        history.pushState(stateObj, "page 2", "index.html#/app/login");
+
+        for (var i = 0; i < 5; i++) {
+            var stateObj = {
+                foo: "bar"
+            };
+            history.pushState(stateObj, "page 2", "index.html#/app/login");
         }
         $location.replace();
-        window.location.href=window.location.href+"#";
+        window.location.href = window.location.href + "#";
     };
     $scope.user = user;
     $scope.lastretailer = MyServices.getretailer();
@@ -231,7 +232,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var onSuccess = function (position) {
         console.log('Latitude: ' + position.coords.latitude + '\n' +
             'Longitude: ' + position.coords.longitude);
-        
+
     };
 
     function onError(error) {
@@ -271,6 +272,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         $scope.retailerdata2 = data;
         $scope.dealeremail = data.distributor;
         console.log("Dealer is " + $scope.dealeremail);
+        $scope.editretailer.ownername = $scope.retailerdata2.ownername;
+        $scope.editretailer.ownernumber = $scope.retailerdata2.ownernumber;
+        $scope.editretailer.contactname = $scope.retailerdata2.contactname;
+        $scope.editretailer.contactnumber = $scope.retailerdata2.contactnumber;
+        $scope.editretailer.email = $scope.retailerdata2.email;
     };
     MyServices.findoneretailer($scope.retailerID).success(retailSuccess2);
     $scope.productquantity = 1;
@@ -427,12 +433,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     //EDIT RETAILERS
     $scope.editretailer = {};
     $scope.editretailer.id = $scope.retailerID;
-
-    $scope.editretailer.ownername = $scope.retailerdata2.ownername;
-    $scope.editretailer.ownernumber = $scope.retailerdata2.ownernumber;
-    $scope.editretailer.contactname = $scope.retailerdata2.contactname;
-    $scope.editretailer.contactnumber = $scope.retailerdata2.contactnumber;
-    $scope.editretailer.email = $scope.retailerdata2.email;
+    console.log("retailer name is " + $scope.retailerID);
 
     $ionicModal.fromTemplateUrl('templates/editretailer.html', {
         id: '2',
@@ -710,21 +711,20 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var userdata = MyServices.getuser();
     console.log(userdata);
     $scope.useremail = userdata.email;
-    $scope.firstclick=0;
+    $scope.firstclick = 0;
     $scope.sendOrder = function (retailerdata2) {
-        if($scope.firstclick==0)
-        {
-            $scope.firstclick=1;
-        console.log();
-        console.log("Send Order pressed");
-        console.log(retailerdata2);
-        var recieversname = retailerdata2.name;
-        console.log($scope.mycart);
+        if ($scope.firstclick == 0) {
+            $scope.firstclick = 1;
+            console.log();
+            console.log("Send Order pressed");
+            console.log(retailerdata2);
+            var recieversname = retailerdata2.name;
+            console.log($scope.mycart);
 
-        MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
+            MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
 
-        $scope.number1 = retailerdata2.contactnumber;
-        $scope.number2 = retailerdata2.ownernumber;
+            $scope.number1 = retailerdata2.contactnumber;
+            $scope.number2 = retailerdata2.ownernumber;
         }
         //sms(number1, number2, emailtotalquantity, emailtotalvalue);
 
@@ -1119,10 +1119,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams , $cordovaCamera, $cordovaFile, $http, MyServices, $location) {
+.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location) {
 
     var aid = $stateParams.areaid;
-    $scope.firstclick=0;
+    $scope.firstclick = 0;
 
 
     var areasuccess = function (data, status) {
@@ -1135,16 +1135,17 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var onSuccess = function (position) {
         /*alert('Latitude: ' + position.coords.latitude + '\n' +
             'Longitude: ' + position.coords.longitude);
-        *///$scope.lat = position.coords.latitude;
+        */ //$scope.lat = position.coords.latitude;
         //$scope.long = position.coords.longitude;
-        $scope.addretailer.lat = ''+ position.coords.latitude +'';
-        $scope.addretailer.long = ''+ position.coords.longitude +'';
+        $scope.addretailer.lat = '' + position.coords.latitude + '';
+        $scope.addretailer.long = '' + position.coords.longitude + '';
     };
 
     function onError(error) {
-       /* alert('code: ' + error.code + '\n' +
+        /* alert('code: ' + error.code + '\n' +
             'message: ' + error.message + '\n');
-       */ $scope.addretailer.lat = 'not found';
+       */
+        $scope.addretailer.lat = 'not found';
         $scope.addretailer.long = 'not found';
     }
     window.navigator.geolocation.getCurrentPosition(onSuccess, onError, {
@@ -1167,24 +1168,23 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
     $scope.addRetailerFunction = function () {
-        if($scope.firstclick==0)
-        {
-        $scope.firstclick=1;
-        console.log("retailer name is " + $scope.addretailer.name);
-        console.log($scope.addretailer);
+        if ($scope.firstclick == 0) {
+            $scope.firstclick = 1;
+            console.log("retailer name is " + $scope.addretailer.name);
+            console.log($scope.addretailer);
 
-        function addRetailerSuccess(data, status) {
-            //SUCCESS
-            console.log(data);
+            function addRetailerSuccess(data, status) {
+                //SUCCESS
+                console.log(data);
 
-            //REDIRECT
-            var pathToGo = "/app/retailer/" + aid;
-            console.log($location.path());
-            $location.path(pathToGo);
+                //REDIRECT
+                var pathToGo = "/app/retailer/" + aid;
+                console.log($location.path());
+                $location.path(pathToGo);
 
-        };
+            };
 
-        MyServices.addNewRetailer($scope.addretailer).success(addRetailerSuccess);
+            MyServices.addNewRetailer($scope.addretailer).success(addRetailerSuccess);
 
         }
 
