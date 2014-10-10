@@ -537,9 +537,18 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     //REMOVE FROM CART
-    $scope.remove = function (oid) {
+    $scope.remove = function (id,category) {
+        for(var i=0;i<$scope.mycart.length;i++)
+        {
+            if($scope.mycart[i].id==id && $scope.mycart[i].category==category)
+            {
+                MyServices.removeObject(i);
+                return false;
+            }
+        }
         console.log("REMOVE FUNCITON CALLED");
-        MyServices.removeObject(oid);
+        
+        
     };
 
     //E-mail FUNCTION

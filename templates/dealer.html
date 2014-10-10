@@ -113,6 +113,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        
                         <tr ng-repeat="singlecart in mycart|reverse" ng-class="giveclass(singlecart.category);">
                             <td>{{singlecart.name}}</td>
                             <td>
@@ -121,7 +122,7 @@
                             <td>{{singlecart.mrp|decimal2}}</td>
                             <td>{{(singlecart.totalprice)|decimal2}}</td>
                             <td>
-                                <button class="button button-icon icon ion-android-close" ng-click="remove();"></button>
+                                <button class="button button-icon icon ion-android-close" ng-click="remove(singlecart.id,singlecart.category);"></button>
                             </td>
                         </tr>
                         

@@ -207,6 +207,7 @@ var myservices = angular.module('myservices', [])
             console.log(cart);
         },
         removeObject: function (oid) {
+            
             cart.splice(oid, 1);
         },
         findnext: function(id, next){
