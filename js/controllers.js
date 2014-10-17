@@ -80,8 +80,6 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     $scope.loginFunction = function (login) {
-        // console.log("FUNCTION WORKING");
-        // console.log($scope.login.username);
         MyServices.loginFunc(login).success(loginSuccess);
     };
 
@@ -93,7 +91,6 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     //GET ZONE DATA
     var user = MyServices.getuser();
     $scope.userzone = user.zone;
-    console.log("THE ZOOOOOONNNNNEEEE ISSSSSS " + $scope.userzone)
     $scope.zonedata = [];
     //$scope.zonedata.id = userzone;
 
@@ -102,6 +99,9 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.logout = function () {
         $.jStorage.flush();
         user = undefined;
+        var emptycart = [];
+        MyServices.setcart(emptycart);
+        MyServices.setretailer(0);
 
         for (var i = 0; i < 5; i++) {
             var stateObj = {
@@ -375,7 +375,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     //GIVING VALUES IN VARIABLE
     var oncategoryproductsuccess = function (data, status) {
+        console.log(data);
         $scope.categoryproductdata = data;
+        console.log($scope.categoryproductdata.scheme2.name);
+        $scope.categoryname = "Scheme : " + $scope.categoryproductdata.scheme2.name;
         //findproduct(data.id);
     };
 
@@ -721,6 +724,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     console.log(userdata);
     $scope.useremail = userdata.email;
     $scope.firstclick = 0;
+    
     $scope.sendOrder = function (retailerdata2) {
         if ($scope.firstclick == 0) {
             $scope.firstclick = 1;

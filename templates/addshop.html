@@ -1,7 +1,7 @@
 <ion-view title="Add Retailer">
     <ion-content class="has-header">
         <div class="padding">
-            <button class="button button-block button-assertive" ng-click="addRetailerFunction();"  ng-show="addretailer.name != '' && addretailer.address != '' && addretailer.code != '' && addretailer.contactname != '' && addretailer.contactnumber != ''  && addretailer.type_of_area != '' && firstclick==0">
+            <button class="button button-block button-assertive" ng-click="addRetailerFunction();" ng-show="addretailer.name != '' && addretailer.address != '' && addretailer.code != '' && addretailer.contactname != '' && addretailer.contactnumber != ''  && addretailer.type_of_area != '' && firstclick==0">
                 Add Retailer
             </button>
         </div>
@@ -18,7 +18,7 @@
                     </label>
                     <label class="item item-input">
                         <span class="input-label">Email Id</span>
-                        <input type="email" name="email" ng-model="addretailer.email"> 
+                        <input type="email" name="email" ng-model="addretailer.email">
                     </label>
                     <label class="item item-input item-stacked-label">
                         <span class="input-label">Address</span>
@@ -29,33 +29,33 @@
                         <input type="text" name="pincode" ng-model="addretailer.code">
                     </label>
                     <label class="item item-input">
-                        <span class="input-label">Sales Person Name</span>
-                        <input type="text" name="contact" ng-model="addretailer.contactname">
-                    </label>
-                    
-                    <label class="item item-input">
-                        <span class="input-label">Mobile Number</span>
-                        <input type="tel" name="contactperson" ng-model="addretailer.contactnumber">
-                    </label>
-                    <label class="item item-input">
                         <span class="input-label">Owner's Name</span>
                         <input type="text" name="contact" ng-model="addretailer.ownername">
                     </label>
-                    
+
                     <label class="item item-input">
                         <span class="input-label">Mobile Number</span>
                         <input type="tel" name="contactperson" ng-model="addretailer.ownernumber">
                     </label>
+                    <label class="item item-input">
+                        <span class="input-label">Sales Person Name</span>
+                        <input type="text" name="contact" ng-model="addretailer.contactname">
+                    </label>
+
+                    <label class="item item-input">
+                        <span class="input-label">Mobile Number</span>
+                        <input type="tel" name="contactperson" ng-model="addretailer.contactnumber">
+                    </label>
                 </div>
-                
+
                 <div class="col">
                     <label class="item item-input">
-                        <span class="input-label">Birthday</span>
+                        <span class="input-label">Owner's Birthday</span>
                         <input type="date" name="dob" ng-model="addretailer.dob">
                     </label>
                     <label class="item item-input">
                         <span class="input-label">Latitude </span>
-                        <input type="text" ng-model="addretailer.lat"  disabled>
+                        <input type="text" ng-model="addretailer.lat" disabled>
                     </label>
                     <label class="item item-input">
                         <span class="input-label">Longitude </span>
@@ -65,9 +65,9 @@
                         <div class="input-label">
                             Select Area
                         </div>
-                        <input type="text" name="area" ng-model="areaname" disabled>        
+                        <input type="text" name="area" ng-model="areaname" disabled>
                     </label>
-                    
+
                     <label class="item item-input item-select">
                         <div class="input-label">
                             Type Of Shop
@@ -93,10 +93,10 @@
                 </div>
             </div>
         </div>
-    <div class="padding">
-        <button class="button button-block button-assertive" ng-click="addRetailerFunction();"  ng-show="addretailer.name != '' && addretailer.address != '' && addretailer.code != '' && addretailer.contactname != '' && addretailer.contactnumber != ''  && addretailer.type_of_area != '' && firstclick==0">
-            Add Retailer
-        </button>
-    </div>
+        <div class="padding">
+            <button class="button button-block button-assertive" ng-click="addRetailerFunction();" ng-show="addretailer.name != '' && addretailer.address != '' && addretailer.code != '' && addretailer.contactname != '' && addretailer.contactnumber != ''  && addretailer.type_of_area != '' && firstclick==0">
+                Add Retailer
+            </button>
+        </div>
     </ion-content>
 </ion-view>

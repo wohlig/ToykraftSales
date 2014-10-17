@@ -36,7 +36,6 @@ var myservices = angular.module('myservices', [])
             category=data;  
             console.log("Category is "+data);
         },
-       
         getmyorderdate: function() {
             return myorderdate;  
         },
