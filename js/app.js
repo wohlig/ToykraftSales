@@ -151,6 +151,7 @@ var starter = angular.module('starter', ['ionic', 'starter.controllers', 'ngCord
     $urlRouterProvider.otherwise('/app/home');
 });
 
+
 starter.filter('decimal2', function() {
     return function(input) {
         return parseFloat(input).toFixed(2);
@@ -161,15 +162,4 @@ starter.filter('reverse', function() {
     return function(items) {
         return items.slice().reverse();
     };
-})
-.directive('loader', function($scope, $ionicLoading) {
-        return {
-            $scope.show = function() {
-                $ionicLoading.show({
-                    template: 'Please wait loading...'
-                });
-            };
-        };
-    })
-
-;
+});

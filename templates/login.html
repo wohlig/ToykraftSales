@@ -5,20 +5,22 @@
            <div class="col"><img src="img/logo1.png" style="width: 24%; margin: 10px auto; display: block;"></div>
            <div class="col"> <p ng-show="alert!=''" ng-bind="alert" class="assertive text-center"></p>          
 
-               <div class="list">
-                   <label class="item item-input">
-                       <span class="input-label">Username</span>
-                       <input type="text" ng-model="login.username">
-                   </label>
-                   <label class="item item-input">
-                       <span class="input-label">Password</span>
-                       <input type="password" ng-model="login.password">
-
-                   </label>
-                   <button class="button button-full button-assertive" ng-click="loginFunction(login);" >
-                       Login
-                   </button>
-               </div>
+             <form ng-submit="loginFunction(login);">
+                     <div class="list">
+                       <label class="item item-input">
+                           <span class="input-label">Username</span>
+                           <input type="text" ng-model="login.username">
+                       </label>
+                       <label class="item item-input">
+                           <span class="input-label">Password</span>
+                           <input type="password" ng-model="login.password">
+                   
+                       </label>
+                       <button class="button button-full button-assertive" type="submit" >
+                           Login
+                       </button>
+                   </div>
+               </form>
                <!-- <a href="" ng-click="loginFunction();"> -->
                
        </div>
