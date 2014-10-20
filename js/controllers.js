@@ -1135,7 +1135,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location, $ionicLoading) {
+.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location, $ionicLoading,$cordovaGeolocation) {
     $ionicLoading.hide();
 
     var aid = $stateParams.areaid;
@@ -1149,10 +1149,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     $scope.filename2 = "";
     //GEO-LOCATION
-    var onSuccess = function (position) {
-        /*alert('Latitude: ' + position.coords.latitude + '\n' +
+    /*var onSuccess = function (position) {
+        alert('Latitude: ' + position.coords.latitude + '\n' +
             'Longitude: ' + position.coords.longitude);
-        */ //$scope.lat = position.coords.latitude;
+         //$scope.lat = position.coords.latitude;
         //$scope.long = position.coords.longitude;
         $scope.addretailer.lat = '' + position.coords.latitude + '';
         $scope.addretailer.long = '' + position.coords.longitude + '';
@@ -1167,6 +1167,16 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     }
     window.navigator.geolocation.getCurrentPosition(onSuccess, onError, {
         enableHighAccuracy: true
+    });*/
+    
+    
+      $cordovaGeolocation.getCurrentPosition()
+    .then(function (position) {
+        $scope.addretailer.lat = '' + position.coords.latitude + '';
+        $scope.addretailer.long = '' + position.coords.longitude + '';
+    }, function(err) {
+      // error
+           alert("GPS is off");
     });
 
     $scope.addretailer = {};
