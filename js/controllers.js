@@ -126,7 +126,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 })
 
 .controller('loaderCtrl', function ($scope, $stateParams, $ionicLoading) {
-
+    console.log('Loading..');
     $ionicLoading.show({
         template: '<h1 class="ion-loading-c"></h1><br>Loading...',
         animation: 'fade-in',
@@ -208,13 +208,6 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 })
 
 .controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicModal, $window, $ionicLoading) {
-    //LOADING,
-    $ionicLoading.show({
-        template: '<h1 class="ion-loading-c"></h1><br>Loading...',
-        animation: 'fade-in',
-        showBackdrop: true
-    });
-
     $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
     /*   //WATCH
@@ -268,7 +261,6 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var retailSuccess2 = function (data, status) {
         $scope.firstclick = 0;
         console.log("Retailer info gained");
-        $ionicLoading.hide();
         console.log(data);
         $scope.retailerdata2 = data;
         $scope.dealeremail = data.distributor;
@@ -376,7 +368,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     //GIVING VALUES IN VARIABLE
     var oncategoryproductsuccess = function (data, status) {
-        //$ionicLoading.hide();
+        $ionicLoading.hide();
         console.log(data);
         $scope.categoryproductdata = data;
         if ($scope.categoryproductdata.scheme2) {
@@ -433,6 +425,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     });
     var toptendatasuccess = function (data, status) {
         $scope.toptendata = data;
+        $ionicLoading.hide();
     };
     $scope.gettopten = function () {
         $scope.oModal1.show();
@@ -730,6 +723,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     //$scope.firstclick = 0;
 
     $scope.sendOrder = function (retailerdata2) {
+         
         if ($scope.firstclick == 0) {
             $scope.firstclick = 1;
             console.log();
@@ -742,6 +736,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
             $scope.number1 = retailerdata2.contactnumber;
             $scope.number2 = retailerdata2.ownernumber;
+            $ionicLoading.show({
+        template: '<h1 class="ion-loading-c"></h1><br>Sendig order...',
+        animation: 'fade-in',
+        showBackdrop: true
+    });
         }
         //sms(number1, number2, emailtotalquantity, emailtotalvalue);
 
