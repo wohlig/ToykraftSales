@@ -46,7 +46,6 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
 .controller('LoginCtrl', function ($scope, $stateParams, MyServices, $location) {
-    $ionicLoading.hide();
     $scope.login = {};
     console.log($scope.login)
 
