@@ -217,6 +217,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 })
 
 .controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicModal, $window) {
+    $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
     /*   //WATCH
     $scope.changetext = {name:"abhay"};
@@ -267,6 +268,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.retailerdata2 = [];
     console.log($scope.retailerdata2);
     var retailSuccess2 = function (data, status) {
+        $scope.firstclick = 0;
         console.log("Retailer info gained");
         console.log(data);
         $scope.retailerdata2 = data;
@@ -723,7 +725,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var userdata = MyServices.getuser();
     console.log(userdata);
     $scope.useremail = userdata.email;
-    $scope.firstclick = 0;
+    //$scope.firstclick = 0;
     
     $scope.sendOrder = function (retailerdata2) {
         if ($scope.firstclick == 0) {
