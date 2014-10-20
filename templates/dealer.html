@@ -32,7 +32,7 @@
                         <h2>{{categoryproductdata.name}}</h2>
                     </div>
                     <div class="col">
-                        <h3>MRP: {{categoryproductdata.mrp|decimal2|currency}} <br>{{categoryname}}</h3>                       
+                        <h3>MRP: {{categoryproductdata.mrp|decimal2|currency}} </h3>                       
                     </div>
                 </div>
                 <div class="row">
@@ -55,6 +55,7 @@
                                 <input class="navbox inputborder" type="text" value="{{categoryproductdata.mrp * productquantity|decimal2|currency}}" disabled>
                             </div>
                         </div>
+                        <h3 class="royal">{{categoryname}}</h3>
                         <button class="button button-block button-assertive" ng-click="addToCart(categoryproductdata.id, categoryproductdata.productcode,categoryproductdata.name,productquantity,categoryproductdata.mrp);">
                             Add to cart
                         </button>

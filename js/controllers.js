@@ -3,8 +3,9 @@ var adminurl = "http://mafiawarloots.com/clientunderworkcode/index.php/";
 var filenameee = "";
 angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $location, MyServices, $cordovaKeyboard) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $location, MyServices, $cordovaKeyboard, $ionicLoading) {
 
+    console.log("APP CONTROL");
     $scope.setslide = function () {
         var path = $location.path();
         var path2 = path.slice(0, 12)
@@ -41,30 +42,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         $location.path("/app/dealer/" + retailer + "/" + cid);
         $location.replace();
     };
-    //$scope.categorynamedata = [{name: "Abhay"},{name: "Chintan"}];
-
-    /*    var productcategorysuccess = function(data, status) 
-    {
-        productdata = data;
-        MyServices.setproductCatdata(data);
-        
-    };
-    $scope.findcategory = function(catid) 
-    {
-        MyServices.findproductbycategory(catid).success(productcategorysuccess);
-    };*/
-
-    /*    var productsuccess = function(data, status) {
-        productdata = data;
-        setproductCatdata(productdata);
-    }    
-    MyServices.getproductsbycategory(cid).success(productsuccess);*/
-
 })
 
 
 .controller('LoginCtrl', function ($scope, $stateParams, MyServices, $location) {
-    console.log("CONTROLLER IS CALLED");
+    $ionicLoading.hide();
     $scope.login = {};
     console.log($scope.login)
 
@@ -86,7 +68,9 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('HomeCtrl', function ($scope, $stateParams, $location, MyServices) {
+.controller('HomeCtrl', function ($scope, $stateParams, $location, MyServices, $ionicLoading) {
+
+    $ionicLoading.hide();
 
     //GET ZONE DATA
     var user = MyServices.getuser();
@@ -141,56 +125,63 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     MyServices.getmonthtally(user.id).success(monthtallydatasuccess)
 })
 
+.controller('loaderCtrl', function ($scope, $stateParams, $ionicLoading) {
+
+    $ionicLoading.show({
+        template: '<h1 class="ion-loading-c"></h1><br>Loading...',
+        animation: 'fade-in',
+        showBackdrop: true
+    });
+})
+
 
 
 .controller('ZoneCtrl', function ($scope, $stateParams, $http, MyServices) {
 
     $scope.zonedata = [];
     var onzonesuccess = function (data, status) {
-        console.log("DATA SUCCESS");
-        console.log(data);
         $scope.zonedata = data;
     };
     MyServices.findzone().success(onzonesuccess);
 
 })
 
-.controller('StateCtrl', function ($scope, $stateParams, $http, MyServices) {
+.controller('StateCtrl', function ($scope, $stateParams, $http, MyServices, $ionicLoading) {
+
 
     var zoneID = $stateParams.id;
     $scope.statedata = [];
-
     var onsuccess = function (data, status) {
-        console.log("DATA SUCCESS");
-        console.log(data);
+
+        $ionicLoading.hide();
         $scope.statedata = data;
     };
     MyServices.findstate(zoneID).success(onsuccess);
 
 })
 
-.controller('CityCtrl', function ($scope, $stateParams, $http, MyServices) {
+.controller('CityCtrl', function ($scope, $stateParams, $http, MyServices, $ionicLoading) {
 
     var stateID = $stateParams.id;
     console.log("Main ID " + stateID);
     $scope.citydata = [];
 
     var citySuccess = function (data, status) {
-        console.log("CITY SUCCESS")
+        $ionicLoading.hide();
         $scope.citydata = data;
     };
     MyServices.findcity(stateID).success(citySuccess);
 
 })
 
-.controller('AreaCtrl', function ($scope, $stateParams, $http, MyServices) {
+.controller('AreaCtrl', function ($scope, $stateParams, $http, MyServices, $ionicLoading) {
 
     var cityID = $stateParams.id;
     console.log("Main ID " + cityID);
     $scope.areadata = [];
 
     var areaSuccess = function (data, status) {
-        console.log("AREA SUCCESS")
+        $ionicLoading.hide();
         $scope.areadata = data;
 
     };
@@ -199,7 +190,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('RetailerCtrl', function ($scope, $stateParams, $http, MyServices, $location) {
+.controller('RetailerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicLoading) {
 
     var areaID = $stateParams.id;
     $scope.areaid = areaID;
@@ -208,7 +199,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.retailerdata = [];
 
     var retailSuccess = function (data, status) {
-        console.log("RETAIL SUCCESS")
+        $ionicLoading.hide();
         $scope.retailerdata = data;
     };
 
@@ -216,7 +207,14 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicModal, $window) {
+.controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicModal, $window, $ionicLoading) {
+    //LOADING,
+    $ionicLoading.show({
+        template: '<h1 class="ion-loading-c"></h1><br>Loading...',
+        animation: 'fade-in',
+        showBackdrop: true
+    });
+
     $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
     /*   //WATCH
@@ -270,6 +268,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var retailSuccess2 = function (data, status) {
         $scope.firstclick = 0;
         console.log("Retailer info gained");
+        $ionicLoading.hide();
         console.log(data);
         $scope.retailerdata2 = data;
         $scope.dealeremail = data.distributor;
@@ -377,11 +376,16 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     //GIVING VALUES IN VARIABLE
     var oncategoryproductsuccess = function (data, status) {
+        //$ionicLoading.hide();
         console.log(data);
         $scope.categoryproductdata = data;
-        console.log($scope.categoryproductdata.scheme2.name);
-        $scope.categoryname = "Scheme : " + $scope.categoryproductdata.scheme2.name;
-        //findproduct(data.id);
+        if ($scope.categoryproductdata.scheme2) {
+            if ($scope.categoryproductdata.scheme2.name) {
+                $scope.categoryname = "Scheme : " + $scope.categoryproductdata.scheme2.name + " ("+ $scope.categoryproductdata.scheme2.discount_percent +"%)";
+            } else {
+                $scope.categoryname = ""
+            };
+        };
     };
 
     //INITITAL FUNCTION ON PAGE CALL
@@ -542,18 +546,16 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     //REMOVE FROM CART
-    $scope.remove = function (id,category) {
-        for(var i=0;i<$scope.mycart.length;i++)
-        {
-            if($scope.mycart[i].id==id && $scope.mycart[i].category==category)
-            {
+    $scope.remove = function (id, category) {
+        for (var i = 0; i < $scope.mycart.length; i++) {
+            if ($scope.mycart[i].id == id && $scope.mycart[i].category == category) {
                 MyServices.removeObject(i);
                 return false;
             }
         }
         console.log("REMOVE FUNCITON CALLED");
-        
-        
+
+
     };
 
     //E-mail FUNCTION
@@ -726,7 +728,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     console.log(userdata);
     $scope.useremail = userdata.email;
     //$scope.firstclick = 0;
-    
+
     $scope.sendOrder = function (retailerdata2) {
         if ($scope.firstclick == 0) {
             $scope.firstclick = 1;
@@ -755,10 +757,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('ViewallCtrl', function ($scope, $stateParams, MyServices) {
+.controller('ViewallCtrl', function ($scope, $stateParams, MyServices, $ionicLoading) {
     $scope.noorder = true;
-    console.log(user);
     var userorders = function (data, status) {
+        $ionicLoading.hide();
         if (data != "false") {
             $scope.userordersdata = data;
         } else {
@@ -773,8 +775,9 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('OrderCtrl', function ($scope, $stateParams, MyServices, $ionicModal, $location) {
-    console.log("ORDER CONTROLLER IS WRKING");
+.controller('OrderCtrl', function ($scope, $stateParams, MyServices, $ionicModal, $location, $ionicLoading) {
+    $ionicLoading.hide();
+
 
     var user = MyServices.getuser();
     console.log(user);
@@ -1100,12 +1103,12 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('OrderdetailCtrl', function ($scope, $stateParams, MyServices) {
+.controller('OrderdetailCtrl', function ($scope, $stateParams, MyServices, $ionicLoading) {
 
     var orderID = $stateParams.id;
     //console.log(user);
     var orderdetails = function (data, status) {
-        console.log(data);
+        $ionicLoading.hide();
         $scope.user = data.sales;
         $scope.total = data.amount;
         $scope.retailerdata = data.retailer;
@@ -1134,7 +1137,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location) {
+.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location, $ionicLoading) {
+    $ionicLoading.hide();
 
     var aid = $stateParams.areaid;
     $scope.firstclick = 0;
@@ -1157,14 +1161,14 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     function onError(error) {
-        /* alert('code: ' + error.code + '\n' +
+        alert('code: ' + error.code + '\n' +
             'message: ' + error.message + '\n');
-       */
+
         $scope.addretailer.lat = 'not found';
         $scope.addretailer.long = 'not found';
     }
     window.navigator.geolocation.getCurrentPosition(onSuccess, onError, {
-        enableHighAccuracy: false
+        enableHighAccuracy: true
     });
 
     $scope.addretailer = {};
@@ -1252,7 +1256,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     }
 })
-    .controller('PhotoSliderCtrl', function ($scope, $stateParams, MyServices, $ionicModal, $ionicSlideBoxDelegate) {
+    .controller('PhotoSliderCtrl', function ($scope, $stateParams, MyServices, $ionicModal, $ionicSlideBoxDelegate, $ionicLoading) {
+        $ionicLoading.hide();
         $ionicModal.fromTemplateUrl('templates/image-slider.html', {
             scope: $scope,
             animation: 'slide-in-up'
