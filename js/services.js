@@ -1,7 +1,4 @@
 var adminurl = "http://mafiawarloots.com/clientunderworkcode/index.php/";
-
-
-
 var myservices = angular.module('myservices', [])
 
 .factory('MyServices', function ($http,$location) {
