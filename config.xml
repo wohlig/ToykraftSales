@@ -33,7 +33,8 @@
     
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
-    <gap:plugin name="org.apache.cordova.geolocation" />
+<!--    <gap:plugin name="org.apache.cordova.geolocation" />-->
+    <gap:plugin name="org.apache.cordova.geolocation.GeoBroker" />
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.file-transfer" />
     <gap:plugin name="com.ionic.keyboard" />
