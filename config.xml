@@ -17,12 +17,12 @@
     <preference name="fullscreen" value="false" />
     <preference name="orientation" value="landscape" />
     <preference name="splash-screen-duration" value="5000" />
-    <preference name="android-minSdkVersion" value="7" />
+    <preference name="android-minSdkVersion" value="10" />
     <preference name="LoadUrlTimeoutValue" value="100000" />
     <preference name="target-device" value="universal" />
     <preference name="webviewbounce" value="true" />
     <preference name="prerendered-icon" value="true" />
-    <preference name="stay-in-webview" value="false" />
+    <preference name="stay-in-webview" value="true" />
     <preference name="ios-statusbarstyle" value="black-opaque" />
     <preference name="detect-data-types" value="true" />
     <preference name="exit-on-suspend" value="false" />
@@ -30,6 +30,8 @@
     <preference name="auto-hide-splash-screen" value="true" />
     <preference name="disable-cursor" value="false" />
     <preference name="android-installLocation" value="auto" />
+    
+    <feature name="http://api.phonegap.com/1.0/geolocation"/>
     
     <gap:plugin name="org.apache.cordova.device" />
     <gap:plugin name="org.apache.cordova.camera" />
