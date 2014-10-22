@@ -98,8 +98,8 @@ var myservices = angular.module('myservices', [])
         setretailer: function ( retail ){
             retailer = retail;
         },
-        sendorderemail: function (id,retail,amount,user,datetime,quantity) {
-            return $http.get(adminurl + "orders/sendorderemail?id="+id+"&retail="+retail+"&amount="+amount+"&user="+user+"&datetime="+datetime+"&quantity="+quantity, {});
+        sendorderemail: function (id,retail,amount,user,datetime,quantity,remark) {
+            return $http.get(adminurl + "orders/sendorderemail?id="+id+"&retail="+retail+"&amount="+amount+"&user="+user+"&datetime="+datetime+"&quantity="+quantity+"&remark="+remark, {});
         },
         findzonebyuser: function () {
             return $http.get(adminurl + "zone/find", {params: {user: user}});
