@@ -3,13 +3,13 @@ var adminurl = "http://mafiawarloots.com/clientunderworkcode/index.php/";
 var filenameee = "";
 angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
-.controller('AppCtrl', function ($scope, $ionicModal, $timeout, $location, MyServices, $cordovaKeyboard, $ionicLoading) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $location, MyServices, $cordovaKeyboard, $ionicLoading) {
 
     console.log("APP CONTROL");
-    $scope.setslide = function () {
+    $scope.setslide = function() {
         var path = $location.path();
         var path2 = path.slice(0, 12)
-            //console.log(path);
+        //console.log(path);
 
         if (path2 == "/app/dealer/") {
             //console.log("true");
@@ -29,13 +29,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         var isVisible = $cordovaKeyboard.isVisible();
     };
 
-    var categorynamesuccess = function (data, status) {
+    var categorynamesuccess = function(data, status) {
         $scope.categorynamedata = data;
     };
     MyServices.getcategoriesname().success(categorynamesuccess);
 
     $scope.rid = MyServices.getretailer();
-    $scope.changecategory = function (cid) {
+    $scope.changecategory = function(cid) {
         MyServices.setcategory(cid);
         MyServices.setsearchtxt("");
         var retailer = MyServices.getretailer();
@@ -45,12 +45,12 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 })
 
 
-.controller('LoginCtrl', function ($scope, $stateParams, MyServices, $location) {
+.controller('LoginCtrl', function($scope, $stateParams, MyServices, $location) {
     $scope.login = {};
     console.log($scope.login)
 
 
-    var loginSuccess = function (data, status) {
+    var loginSuccess = function(data, status) {
         console.log(data);
         if (data != "false") {
             $location.path("#/app/home");
@@ -60,14 +60,14 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         }
     };
 
-    $scope.loginFunction = function (login) {
+    $scope.loginFunction = function(login) {
         MyServices.loginFunc(login).success(loginSuccess);
     };
 
 
 })
 
-.controller('HomeCtrl', function ($scope, $stateParams, $location, MyServices, $ionicLoading) {
+.controller('HomeCtrl', function($scope, $stateParams, $location, MyServices, $ionicLoading) {
 
     $ionicLoading.hide();
 
@@ -79,7 +79,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     //$ionicSideMenuDelegate.canDragContent(false);
 
-    $scope.logout = function () {
+    $scope.logout = function() {
         $.jStorage.flush();
         user = undefined;
         var emptycart = [];
@@ -101,12 +101,12 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         $scope.lastretailer = 0;
     }
 
-    $scope.gotolastretailer = function () {
+    $scope.gotolastretailer = function() {
         var pathtolast = "/app/dealer/" + $scope.lastretailer + "/6";
         $location.path(pathtolast);
     };
 
-    todaytallydatasuccess = function (data, status) {
+    todaytallydatasuccess = function(data, status) {
         if (data == "false") {
             $scope.todtallydata = data;
         } else {
@@ -115,7 +115,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     };
 
-    monthtallydatasuccess = function (data, status) {
+    monthtallydatasuccess = function(data, status) {
         $scope.monthtallydata = data;
     };
 
@@ -124,7 +124,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     MyServices.getmonthtally(user.id).success(monthtallydatasuccess)
 })
 
-.controller('loaderCtrl', function ($scope, $stateParams, $ionicLoading) {
+.controller('loaderCtrl', function($scope, $stateParams, $ionicLoading) {
     console.log('Loading..');
     $ionicLoading.show({
         template: '<h1 class="ion-loading-c"></h1><br>Loading...',
@@ -135,22 +135,22 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
 
-.controller('ZoneCtrl', function ($scope, $stateParams, $http, MyServices) {
+.controller('ZoneCtrl', function($scope, $stateParams, $http, MyServices) {
 
     $scope.zonedata = [];
-    var onzonesuccess = function (data, status) {
+    var onzonesuccess = function(data, status) {
         $scope.zonedata = data;
     };
     MyServices.findzone().success(onzonesuccess);
 
 })
 
-.controller('StateCtrl', function ($scope, $stateParams, $http, MyServices, $ionicLoading) {
+.controller('StateCtrl', function($scope, $stateParams, $http, MyServices, $ionicLoading) {
 
 
     var zoneID = $stateParams.id;
     $scope.statedata = [];
-    var onsuccess = function (data, status) {
+    var onsuccess = function(data, status) {
 
         $ionicLoading.hide();
         $scope.statedata = data;
@@ -159,13 +159,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('CityCtrl', function ($scope, $stateParams, $http, MyServices, $ionicLoading) {
+.controller('CityCtrl', function($scope, $stateParams, $http, MyServices, $ionicLoading) {
 
     var stateID = $stateParams.id;
     console.log("Main ID " + stateID);
     $scope.citydata = [];
 
-    var citySuccess = function (data, status) {
+    var citySuccess = function(data, status) {
         $ionicLoading.hide();
         $scope.citydata = data;
     };
@@ -173,13 +173,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('AreaCtrl', function ($scope, $stateParams, $http, MyServices, $ionicLoading) {
+.controller('AreaCtrl', function($scope, $stateParams, $http, MyServices, $ionicLoading) {
 
     var cityID = $stateParams.id;
     console.log("Main ID " + cityID);
     $scope.areadata = [];
 
-    var areaSuccess = function (data, status) {
+    var areaSuccess = function(data, status) {
         $ionicLoading.hide();
         $scope.areadata = data;
 
@@ -189,19 +189,19 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('RetailerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicLoading) {
+.controller('RetailerCtrl', function($scope, $stateParams, $http, MyServices, $location, $ionicLoading) {
 
     var areaID = $stateParams.id;
     $scope.areaid = areaID;
-//    var areaidset = function(data, status){
-//        console.log("set area id ");
-//        console.log(data);
-//    };
+    //    var areaidset = function(data, status){
+    //        console.log("set area id ");
+    //        console.log(data);
+    //    };
     console.log(MyServices.setareaid(areaID));
     console.log("AREA ID is " + areaID);
     $scope.retailerdata = [];
 
-    var retailSuccess = function (data, status) {
+    var retailSuccess = function(data, status) {
         $ionicLoading.hide();
         $scope.retailerdata = data;
     };
@@ -210,12 +210,12 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicModal, $window, $ionicLoading) {
+.controller('DealerCtrl', function($scope, $stateParams, $http, MyServices, $location, $ionicModal, $window, $ionicLoading) {
     $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
-    
+
     $scope.params = {};
-    
+
     /*   //WATCH
     $scope.changetext = {name:"abhay"};
     $scope.$watch('changetext', function() {
@@ -227,7 +227,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
     //GEO-LOCATION
-    var onSuccess = function (position) {
+    var onSuccess = function(position) {
         console.log('Latitude: ' + position.coords.latitude + '\n' +
             'Longitude: ' + position.coords.longitude);
 
@@ -264,7 +264,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     //GAINING RETAILER INFORMATION
     $scope.retailerdata2 = [];
     console.log($scope.retailerdata2);
-    var retailSuccess2 = function (data, status) {
+    var retailSuccess2 = function(data, status) {
         $scope.firstclick = 0;
         console.log("Retailer info gained");
         console.log(data);
@@ -286,7 +286,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.pid;
     $scope.pquantity;
 
-    $scope.giveclass = function (category) {
+    $scope.giveclass = function(category) {
         var returnval = "";
         if (category == "scheme") {
             returnval = "list list-royal"
@@ -296,7 +296,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         return returnval;
     };
 
-    $scope.changequantity = function (quantity, code, category) {
+    $scope.changequantity = function(quantity, code, category) {
         var id = -1;
         for (var i = 0; i < $scope.mycart.length; i++) {
             if ($scope.mycart[i].productcode == code && $scope.mycart[i].category == category) {
@@ -316,7 +316,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
     //GET LAST THREE ORDERS OF RETAIlER
-    var retailerrecentorders = function (data, status) {
+    var retailerrecentorders = function(data, status) {
         if (data != "false") {
             $scope.retailerrecentdata = data;
         } else {
@@ -327,7 +327,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
     //GET TOTAL FUNCTION
-    $scope.gettotal = function () {
+    $scope.gettotal = function() {
         var total = 0;
         for (var i = 0; i < $scope.mycart.length; i++) {
             total += $scope.mycart[i].totalprice;
@@ -337,7 +337,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
     //total quantity
-    $scope.gettotalquantity = function () {
+    $scope.gettotalquantity = function() {
         $scope.quantitytotal = 0;
         for (var i = 0; i < $scope.mycart.length; i++) {
             $scope.quantitytotal += parseInt($scope.mycart[i].quantity);
@@ -373,13 +373,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.categoryproductdata = {};
 
     //GIVING VALUES IN VARIABLE
-    var oncategoryproductsuccess = function (data, status) {
+    var oncategoryproductsuccess = function(data, status) {
         $ionicLoading.hide();
         console.log(data);
         $scope.categoryproductdata = data;
         if ($scope.categoryproductdata.scheme2) {
             if ($scope.categoryproductdata.scheme2.name) {
-                $scope.categoryname = "Scheme : " + $scope.categoryproductdata.scheme2.name + " ("+ $scope.categoryproductdata.scheme2.discount_percent +"%)";
+                $scope.categoryname = "Scheme : " + $scope.categoryproductdata.scheme2.name + " (" + $scope.categoryproductdata.scheme2.discount_percent + "%)";
             } else {
                 $scope.categoryname = ""
             };
@@ -390,7 +390,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     MyServices.findnext(0, 1).success(oncategoryproductsuccess);
 
     //SCHEME AND NEW PRODUCTS
-    $scope.getscheme = function (cid) {
+    $scope.getscheme = function(cid) {
         MyServices.setsearchtxt("");
         MyServices.setcategory(cid);
         var retailer = MyServices.getretailer();
@@ -399,7 +399,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     //NEXT BUTTON AN PREVIOUS BUTTON (1 FOR NEXT, 0 FOR PREVIOUS)
-    $scope.getnextproduct = function (next) {
+    $scope.getnextproduct = function(next) {
         console.log("SENDING ID " + $scope.categoryproductdata.id);
         MyServices.findnext($scope.categoryproductdata.id, next).success(oncategoryproductsuccess);
     };
@@ -410,7 +410,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     if (searchtxt != "") {
         $scope.searchtext = searchtxt;
     }
-    $scope.searchproduct = function (searchvalue) {
+    $scope.searchproduct = function(searchvalue) {
         var retail = MyServices.getretailer();
         MyServices.setsearchtxt(searchvalue);
         console.log(searchvalue);
@@ -426,14 +426,14 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         id: '1',
         scope: $scope,
         animation: 'slide-in-up'
-    }).then(function (modal) {
+    }).then(function(modal) {
         $scope.oModal1 = modal;
     });
-    var toptendatasuccess = function (data, status) {
+    var toptendatasuccess = function(data, status) {
         $scope.toptendata = data;
         $ionicLoading.hide();
     };
-    $scope.gettopten = function () {
+    $scope.gettopten = function() {
         $scope.oModal1.show();
         MyServices.gettoptenproducts().success(toptendatasuccess);
     };
@@ -447,17 +447,17 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         id: '2',
         scope: $scope,
         animation: 'slide-in-up'
-    }).then(function (modal) {
+    }).then(function(modal) {
         $scope.oModal2 = modal;
     });
-    var editretailersuccess = function (data, status) {
+    var editretailersuccess = function(data, status) {
         //$scope.toptendata = data;
         $scope.oModal2.hide();
     };
-    $scope.gettopen = function () {
+    $scope.gettopen = function() {
         $scope.oModal2.show();
     };
-    $scope.editRetailerFunction = function () {
+    $scope.editRetailerFunction = function() {
         console.log($scope.editretailer.number);
         MyServices.editretailerdetails($scope.editretailer).success(editretailersuccess);
         $scope.oModal2.hide();
@@ -469,13 +469,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         id: '3',
         scope: $scope,
         animation: 'slide-in-up'
-    }).then(function (modal) {
+    }).then(function(modal) {
         $scope.oModal3 = modal;
     });
-    $scope.closeusp = function () {
+    $scope.closeusp = function() {
         $scope.oModal3.hide();
     };
-    $scope.openusp = function () {
+    $scope.openusp = function() {
         $scope.oModal3.show();
     };
 
@@ -483,13 +483,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         id: '4',
         scope: $scope,
         animation: 'slide-in-up'
-    }).then(function (modal) {
+    }).then(function(modal) {
         $scope.oModal4 = modal;
     });
-    $scope.closerecent = function () {
+    $scope.closerecent = function() {
         $scope.oModal4.hide();
     };
-    $scope.openrecent = function () {
+    $scope.openrecent = function() {
         $scope.oModal4.show();
     };
 
@@ -519,7 +519,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     //$scope.productquantity = 1;
 
 
-    $scope.cartnotschemenew = function (category, $index) {
+    $scope.cartnotschemenew = function(category, $index) {
         //console.log("CATEGORY>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         //console.log(category);
         if (category.category == "new" || category.category == "scheme") {
@@ -531,7 +531,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
     //ADD TO CART
-    $scope.addToCart = function (id, productcode, name, quantity, mrp) {
+    $scope.addToCart = function(id, productcode, name, quantity, mrp) {
 
         $scope.totalprice = quantity * mrp;
         //$scope.total += totalprice;
@@ -545,7 +545,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     //REMOVE FROM CART
-    $scope.remove = function (id, category) {
+    $scope.remove = function(id, category) {
         for (var i = 0; i < $scope.mycart.length; i++) {
             if ($scope.mycart[i].id == id && $scope.mycart[i].category == category) {
                 MyServices.removeObject(i);
@@ -558,27 +558,27 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     //E-mail FUNCTION
-    var email = function () {
+    var email = function() {
         console.log("email function params");
         console.log($scope.params);
-        var onemailsuccess = function (data, status) {
+        var onemailsuccess = function(data, status) {
             //alert(data);
             console.log("in email fucntion");
             console.log(data);
         };
 
         if ($scope.mycart.length > 0) {
-//            MyServices.sendemail($scope.params).success(onemailsuccess);
-//            MyServices.sendorderemail($scope.params).success(emailsend);
+            //            MyServices.sendemail($scope.params).success(onemailsuccess);
+            //            MyServices.sendorderemail($scope.params).success(emailsend);
         };
     };
 
     //SMS
-    var sms = function () {
+    var sms = function() {
         if ($scope.mycart.length > 0) {
             //var smsnumber2 = "9029796018";
             //SMS IMPLEMENTATION
-            var smssuccess = function (data, status) {
+            var smssuccess = function(data, status) {
                 console.log(data);
             };
 
@@ -606,21 +606,21 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     //ORDER SUCCESS
-    
-    var emailsend = function(data, status){
+
+    var emailsend = function(data, status) {
         console.log(data);
     };
-    
-    
-    var orderSuccess = function (data, status) {
+
+
+    var orderSuccess = function(data, status) {
         console.log("ordersuccess return data");
         console.log(data);
-        MyServices.sendorderemail(data.id,data.retail,data.amount,data.sales,data.timestamp,data.quantity).success(emailsend);
+        MyServices.sendorderemail(data.id, data.retail, data.amount, data.sales, data.timestamp, data.quantity).success(emailsend);
         var datetime = data.timestamp;
         var orderid = data.id;
 
 
-        $scope.emaildata = '<p>Dear Distributor / Retailer,<br>Our sales executive ' + userdata.name + ' has booked an order with details as below:</p><p><strong>Order id: </strong>' + orderid + ' </p> <p><strong>Order placed on: </strong>' + datetime + ' </p> <p><strong>'+ $scope.retailerdata2.name + '</strong></p> <p><strong>' + $scope.retailerdata2.address + '</strong></p> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
+        $scope.emaildata = '<p>Dear Distributor / Retailer,<br>Our sales executive ' + userdata.name + ' has booked an order with details as below:</p><p><strong>Order id: </strong>' + orderid + ' </p> <p><strong>Order placed on: </strong>' + datetime + ' </p> <p><strong>' + $scope.retailerdata2.name + '</strong></p> <p><strong>' + $scope.retailerdata2.address + '</strong></p> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
 
         $scope.emailtotalquantity = 0;
         $scope.emailtotalvalue = 0;
@@ -661,7 +661,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
         var subject = "Order placed. Order Id.: " + orderid;
 
-        
+
 
         //EMAIL SETTING
         if ($scope.retailerdata2.email == null) {
@@ -685,12 +685,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         $scope.params = {
             "key": "cGE4EC2IdBhogNPk6e6-Xg",
             "template_name": "ordertemplate",
-            "template_content": [
-                {
-                    "name": "table",
-                    "content": $scope.emaildata
-        }
-    ],
+            "template_content": [{
+                "name": "table",
+                "content": $scope.emaildata
+            }],
             "message": {
                 "subject": subject,
                 "to": "jagruti@wohlig.com",
@@ -699,26 +697,22 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
                 },
                 "important": true,
                 //"bcc_address": $scope.dealeremail,
-                "global_merge_vars": [
-                    {
-                        "name": "merge1",
-                        "content": "merge1 content"
-            }
-        ],
-                "recipient_metadata": [
-                    {
-                        "rcpt": retaileremail,
-                        "values": {
-                            "user_id": 123456
-                        }
-                            }
-        ]
+                "global_merge_vars": [{
+                    "name": "merge1",
+                    "content": "merge1 content"
+                }],
+                "recipient_metadata": [{
+                    "rcpt": retaileremail,
+                    "values": {
+                        "user_id": 123456
+                    }
+                }]
             },
             "async": false
         };
 
         //email();
-       // sms();
+        // sms();
 
         MyServices.clearcart();
         MyServices.setretailer(0);
@@ -738,9 +732,9 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.useremail = userdata.email;
     //$scope.firstclick = 0;
 
-        
-    
-    $scope.sendOrder = function (retailerdata2) {
+
+
+    $scope.sendOrder = function(retailerdata2) {
         // MyServices.sendorderemail(retailerdata2.id).success(emailsend);
         console.log("hello im in send order");
         if ($scope.firstclick == 0) {
@@ -756,10 +750,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
             $scope.number1 = retailerdata2.contactnumber;
             $scope.number2 = retailerdata2.ownernumber;
             $ionicLoading.show({
-        template: '<h1 class="ion-loading-c"></h1><br>Sendig order...',
-        animation: 'fade-in',
-        showBackdrop: true
-    });
+                template: '<h1 class="ion-loading-c"></h1><br>Sendig order...',
+                animation: 'fade-in',
+                showBackdrop: true
+            });
         }
         //sms(number1, number2, emailtotalquantity, emailtotalvalue);
 
@@ -768,16 +762,16 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
     //RETRIEVE DATA
-    $scope.retrieveData = function () {
+    $scope.retrieveData = function() {
         console.log(MyServices.getData());
         //console.log(display);
     };
 
 })
 
-.controller('ViewallCtrl', function ($scope, $stateParams, MyServices, $ionicLoading) {
+.controller('ViewallCtrl', function($scope, $stateParams, MyServices, $ionicLoading) {
     $scope.noorder = true;
-    var userorders = function (data, status) {
+    var userorders = function(data, status) {
         $ionicLoading.hide();
         if (data != "false") {
             $scope.userordersdata = data;
@@ -793,7 +787,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('OrderCtrl', function ($scope, $stateParams, MyServices, $ionicModal, $location, $ionicLoading) {
+.controller('OrderCtrl', function($scope, $stateParams, MyServices, $ionicModal, $location, $ionicLoading) {
     $ionicLoading.hide();
 
 
@@ -801,129 +795,129 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     console.log(user);
     $scope.useremail = user.email;
 
-    var onemailsuccess = function (data, status) {
+    var onemailsuccess = function(data, status) {
         //alert(data);
         console.log(data);
         alert("e-mail has been sent");
     };
 
-    
-     var emailsend = function(data, status){
+
+    var emailsend = function(data, status) {
         console.log(data);
     };
-    
-    
-    var email = function (data) {
+
+
+    var email = function(data) {
         console.log("im in email function");
         console.log(data);
-        MyServices.sendorderemail(data.id,data.retail,data.amount,data.sales,data.timestamp,data.quantity).success(emailsend);
-       // $scope.emaildata = '<p>Dear Distributor / Retailer,<br>Our sales executive ' + user.name + ' has booked an order with details as below:</p><p><strong>Order id: </strong>' + data.id + ' </p> <p><strong>Order placed on: </strong>' + datetime + ' </p> <p><strong>' + $scope.retailerdata2.name + '</strong></p> <p><strong>' + $scope.retailerdata2.address + '</strong></p> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
+        MyServices.sendorderemail(data.id, data.retail, data.amount, data.sales, data.timestamp, data.quantity).success(emailsend);
+        // $scope.emaildata = '<p>Dear Distributor / Retailer,<br>Our sales executive ' + user.name + ' has booked an order with details as below:</p><p><strong>Order id: </strong>' + data.id + ' </p> <p><strong>Order placed on: </strong>' + datetime + ' </p> <p><strong>' + $scope.retailerdata2.name + '</strong></p> <p><strong>' + $scope.retailerdata2.address + '</strong></p> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
 
-//        $scope.emailtotalquantity = 0;
-//        $scope.emailtotalvalue = 0;
-//        var index = 1;
-//        //E-MAIL
-//        for (var e = 0; e < $scope.mycart.length; e++) {
-//            $scope.emaildata += "<tr>";
-//
-//            $scope.emaildata += "<td>" + index + "</td>";
-//            index++;
-//            $scope.emaildata += "<td>" + $scope.mycart[e].productcode + "</td>";
-//            $scope.emaildata += "<td>" + $scope.mycart[e].name + "</td>";
-//            $scope.emaildata += "<td>" + $scope.mycart[e].quantity + "</td>";
-//            $scope.emailtotalquantity += parseInt($scope.mycart[e].quantity);
-//            $scope.emaildata += "<td>₹ " + ($scope.mycart[e].amount / $scope.mycart[e].quantity) + "</td>";
-//            $scope.emaildata += "<td>₹ " + $scope.mycart[e].amount + "</td>";
-//            $scope.emailtotalvalue += $scope.mycart[e].amount;
-//            if ($scope.mycart[e].category == "scheme") {
-//                $scope.emaildata += "<td> YES </td>";
-//            } else {
-//                $scope.emaildata += "<td> NO </td>";
-//            };
-//            $scope.emaildata += "</tr>";
-//        }
-//
-//        $scope.emaildata += "<tr>";
-//
-//        $scope.emaildata += "<td></td>";
-//        $scope.emaildata += "<td></td>";
-//        $scope.emaildata += "<td><strong>Total: </strong></td>";
-//        $scope.emaildata += "<td><strong>" + $scope.emailtotalquantity + "</strong></td>";
-//        $scope.emaildata += "<td></td>";
-//        $scope.emaildata += "<td><strong>₹ " + $scope.emailtotalvalue + "</strong></td>";
-//        $scope.emaildata += "<td></td>";
-//
-//        $scope.emaildata += "</tr>";
-//        $scope.emaildata += "</tbody></table>";
-//        console.log($scope.emaildata);
-//
-//        var subject = "Order placed. Order ID:" + $scope.orderID;
-//
-//        $scope.params = {};
-//
-//
-//        //EMAIL SETTING
-//        if ($scope.retailerdata.email == null) {
-//            var retaileremail = $scope.useremail
-//        } else {
-//            var retaileremail = $scope.retailerdata.email
-//        };
-//        if ($scope.distributoremail == null) {
-//            var dealeremail = $scope.useremail
-//        } else {
-//            var dealeremail = $scope.distributoremail
-//        };
-//
-//        var emailArray = [{
-//            email: dealeremail,
-//            name: 'Distributor'
-//        }, {
-//            email: retaileremail,
-//            name: $scope.retailerdata.name
-//        }];
-//        $scope.params = {
-//            "key": "cGE4EC2IdBhogNPk6e6-Xg",
-//            "template_name": "ordertemplate",
-//            "template_content": [
-//                {
-//                    "name": "table",
-//                    "content": $scope.emaildata
-//        }
-//    ],
-//            "message": {
-//                "subject": subject,
-//                "to": "jagruti@wohlig.com",
-//                "headers": {
-//                    "Reply-To": "noreply@toy-kraft.com"
-//                },
-//                "important": true,
-//                //"bcc_address": "contactabhay2@gmail.com",//dealeremail,
-//                "global_merge_vars": [
-//                    {
-//                        "name": "merge1",
-//                        "content": "merge1 content"
-//            }
-//        ],
-//                "recipient_metadata": [
-//                    {
-//                        "rcpt": "tushar@wohlig.com", //retaileremail,
-//                        "values": {
-//                            "user_id": 123456
-//                        }
-//                            }
-//        ]
-//            },
-//            "async": false
-//        };
-//
-//        
-//
-//        if ($scope.mycart.length > 0) {
-//           // MyServices.sendemail($scope.params).success(onemailsuccess);
-//        };
+        //        $scope.emailtotalquantity = 0;
+        //        $scope.emailtotalvalue = 0;
+        //        var index = 1;
+        //        //E-MAIL
+        //        for (var e = 0; e < $scope.mycart.length; e++) {
+        //            $scope.emaildata += "<tr>";
+        //
+        //            $scope.emaildata += "<td>" + index + "</td>";
+        //            index++;
+        //            $scope.emaildata += "<td>" + $scope.mycart[e].productcode + "</td>";
+        //            $scope.emaildata += "<td>" + $scope.mycart[e].name + "</td>";
+        //            $scope.emaildata += "<td>" + $scope.mycart[e].quantity + "</td>";
+        //            $scope.emailtotalquantity += parseInt($scope.mycart[e].quantity);
+        //            $scope.emaildata += "<td>₹ " + ($scope.mycart[e].amount / $scope.mycart[e].quantity) + "</td>";
+        //            $scope.emaildata += "<td>₹ " + $scope.mycart[e].amount + "</td>";
+        //            $scope.emailtotalvalue += $scope.mycart[e].amount;
+        //            if ($scope.mycart[e].category == "scheme") {
+        //                $scope.emaildata += "<td> YES </td>";
+        //            } else {
+        //                $scope.emaildata += "<td> NO </td>";
+        //            };
+        //            $scope.emaildata += "</tr>";
+        //        }
+        //
+        //        $scope.emaildata += "<tr>";
+        //
+        //        $scope.emaildata += "<td></td>";
+        //        $scope.emaildata += "<td></td>";
+        //        $scope.emaildata += "<td><strong>Total: </strong></td>";
+        //        $scope.emaildata += "<td><strong>" + $scope.emailtotalquantity + "</strong></td>";
+        //        $scope.emaildata += "<td></td>";
+        //        $scope.emaildata += "<td><strong>₹ " + $scope.emailtotalvalue + "</strong></td>";
+        //        $scope.emaildata += "<td></td>";
+        //
+        //        $scope.emaildata += "</tr>";
+        //        $scope.emaildata += "</tbody></table>";
+        //        console.log($scope.emaildata);
+        //
+        //        var subject = "Order placed. Order ID:" + $scope.orderID;
+        //
+        //        $scope.params = {};
+        //
+        //
+        //        //EMAIL SETTING
+        //        if ($scope.retailerdata.email == null) {
+        //            var retaileremail = $scope.useremail
+        //        } else {
+        //            var retaileremail = $scope.retailerdata.email
+        //        };
+        //        if ($scope.distributoremail == null) {
+        //            var dealeremail = $scope.useremail
+        //        } else {
+        //            var dealeremail = $scope.distributoremail
+        //        };
+        //
+        //        var emailArray = [{
+        //            email: dealeremail,
+        //            name: 'Distributor'
+        //        }, {
+        //            email: retaileremail,
+        //            name: $scope.retailerdata.name
+        //        }];
+        //        $scope.params = {
+        //            "key": "cGE4EC2IdBhogNPk6e6-Xg",
+        //            "template_name": "ordertemplate",
+        //            "template_content": [
+        //                {
+        //                    "name": "table",
+        //                    "content": $scope.emaildata
+        //        }
+        //    ],
+        //            "message": {
+        //                "subject": subject,
+        //                "to": "jagruti@wohlig.com",
+        //                "headers": {
+        //                    "Reply-To": "noreply@toy-kraft.com"
+        //                },
+        //                "important": true,
+        //                //"bcc_address": "contactabhay2@gmail.com",//dealeremail,
+        //                "global_merge_vars": [
+        //                    {
+        //                        "name": "merge1",
+        //                        "content": "merge1 content"
+        //            }
+        //        ],
+        //                "recipient_metadata": [
+        //                    {
+        //                        "rcpt": "tushar@wohlig.com", //retaileremail,
+        //                        "values": {
+        //                            "user_id": 123456
+        //                        }
+        //                            }
+        //        ]
+        //            },
+        //            "async": false
+        //        };
+        //
+        //        
+        //
+        //        if ($scope.mycart.length > 0) {
+        //           // MyServices.sendemail($scope.params).success(onemailsuccess);
+        //        };
     };
 
-    var orderdetails = function (data, status) {
+    var orderdetails = function(data, status) {
         console.log("resend email success");
         console.log(data);
         $scope.retailerdata = data.retailer;
@@ -944,14 +938,14 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     //RESEND EMAIL
-    $scope.resendemail = function (orderid) {
+    $scope.resendemail = function(orderid) {
         $scope.orderID = orderid;
         MyServices.getorderdetail(orderid).success(orderdetails);
     };
 
     $scope.recart = [];
     //ADD TO CART FUNCTION
-    $scope.addToCart = function (id, productcode, name, quantity, mrp) {
+    $scope.addToCart = function(id, productcode, name, quantity, mrp) {
 
         $scope.totalprice = quantity * mrp;
         //$scope.total += totalprice;
@@ -965,7 +959,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     //REORDER ORDER
-    var reorder = function (data, status) {
+    var reorder = function(data, status) {
         console.log(data);
         $scope.retailerid = data.retailer.id;
         MyServices.setretailer($scope.retailerid);
@@ -979,7 +973,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     };
 
-    $scope.resendorder = function (orderid) {
+    $scope.resendorder = function(orderid) {
         $scope.orderID = orderid;
         MyServices.getorderdetail(orderid).success(reorder);
     };
@@ -997,41 +991,41 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.ordersdata = 'false';
 
     //STATE
-    statesuccess = function (data, status) {
+    statesuccess = function(data, status) {
         console.log(data);
         $scope.statedata = data;
     };
     MyServices.findstate(zid).success(statesuccess);
 
     //CITY
-    citysuccess = function (data, status) {
+    citysuccess = function(data, status) {
         $scope.citydata = data;
     };
-    $scope.statechange = function (sid) {
+    $scope.statechange = function(sid) {
         MyServices.findcity(sid).success(citysuccess);
     };
     //AREA
-    areasuccess = function (data, status) {
+    areasuccess = function(data, status) {
         $scope.areadata = data;
     };
-    $scope.citychange = function (cid) {
+    $scope.citychange = function(cid) {
         MyServices.findarea(cid).success(areasuccess);
     };
     //RETAILER
-    retailersuccess = function (data, status) {
+    retailersuccess = function(data, status) {
         $scope.retailerdata = data;
 
     };
-    retailersuccessini = function (data, status) {
+    retailersuccessini = function(data, status) {
         $scope.retailerdata = data;
         console.log("Chinatn shah");
         MyServices.getretailerdata(MyServices.getmyorderretailer().retailer).success(retailerdatasuccess);
     };
-    $scope.areachange = function (aid) {
+    $scope.areachange = function(aid) {
         MyServices.findretailer(aid).success(retailersuccess);
     };
 
-    $scope.resettoold = function () {
+    $scope.resettoold = function() {
         $scope.filter = {
             zone: "4",
             state: "27",
@@ -1040,7 +1034,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
             retailer: "1"
         };
     };
-    $scope.resettoold2 = function () {
+    $scope.resettoold2 = function() {
         $scope.filter = {
             zone: "",
             state: "",
@@ -1051,7 +1045,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     //GET RETAILER DATA
-    retailerdatasuccess = function (data, status) {
+    retailerdatasuccess = function(data, status) {
         $scope.ordersdata = data;
         $scope.filter = {
             zone: "",
@@ -1062,7 +1056,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         };
         $scope.filter = MyServices.getmyorderretailer();
     };
-    $scope.retailerchange = function (filter) {
+    $scope.retailerchange = function(filter) {
         MyServices.setmyorderretailer(filter);
         MyServices.setmyorderdate(false);
 
@@ -1071,11 +1065,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     //GET DATA BY DATE
-    datedatasuccess = function (data, status) {
+    datedatasuccess = function(data, status) {
         $scope.ordersdata = data;
 
     };
-    $scope.datechange = function (did) {
+    $scope.datechange = function(did) {
         MyServices.setmyorderdate(did);
         MyServices.getdatedata(did).success(datedatasuccess);
         $scope.closeDate();
@@ -1104,13 +1098,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         id: '1',
         scope: $scope,
         animation: 'slide-in-up'
-    }).then(function (modal) {
+    }).then(function(modal) {
         $scope.oModal1 = modal;
     });
-    $scope.openDate = function () {
+    $scope.openDate = function() {
         $scope.oModal1.show();
     };
-    $scope.closeDate = function () {
+    $scope.closeDate = function() {
         $scope.oModal1.hide();
     };
 
@@ -1119,24 +1113,24 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         id: '2',
         scope: $scope,
         animation: 'slide-in-up'
-    }).then(function (modal) {
+    }).then(function(modal) {
         $scope.oModal2 = modal;
     });
-    $scope.openRetailer = function () {
+    $scope.openRetailer = function() {
         $scope.oModal2.show();
     };
-    $scope.closeRetailer = function () {
+    $scope.closeRetailer = function() {
         $scope.oModal2.hide();
     };
 
 
 })
 
-.controller('OrderdetailCtrl', function ($scope, $stateParams, MyServices, $ionicLoading) {
+.controller('OrderdetailCtrl', function($scope, $stateParams, MyServices, $ionicLoading) {
 
     var orderID = $stateParams.id;
     //console.log(user);
-    var orderdetails = function (data, status) {
+    var orderdetails = function(data, status) {
         $ionicLoading.hide();
         $scope.user = data.sales;
         $scope.total = data.amount;
@@ -1147,7 +1141,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
     MyServices.getorderdetail(orderID).success(orderdetails);
 
-    $scope.gettotalquantity = function () {
+    $scope.gettotalquantity = function() {
         $scope.quantitytotal = 0;
         for (var i = 0; i < $scope.orderdetailsdata.length; i++) {
             $scope.quantitytotal += parseInt($scope.orderdetailsdata[i].quantity);
@@ -1156,7 +1150,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     //FUNCTION TO DISPLAY PRODUCTS FILTER
-    $scope.cartnotschemenew = function (category, $index) {
+    $scope.cartnotschemenew = function(category, $index) {
         if (category.category == "new" || category.category == "scheme") {
             return false;
         } else {
@@ -1166,14 +1160,14 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location, $ionicLoading,$cordovaGeolocation) {
+.controller('AddshopCtrl', function($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location, $ionicLoading, $cordovaGeolocation) {
     $ionicLoading.hide();
 
     var aid = $stateParams.areaid;
     $scope.firstclick = 0;
 
 
-    var areasuccess = function (data, status) {
+    var areasuccess = function(data, status) {
         $scope.areaname = data.name;
     };
     MyServices.areaone(aid).success(areasuccess);
@@ -1199,15 +1193,12 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     window.navigator.geolocation.getCurrentPosition(onSuccess, onError, {
         enableHighAccuracy: true
     });*/
-    
-    
-      $cordovaGeolocation.getCurrentPosition()
-    .then(function (position) {
+    $cordovaGeolocation.getCurrentPosition().then(function(position) {
         $scope.addretailer.lat = '' + position.coords.latitude + '';
         $scope.addretailer.long = '' + position.coords.longitude + '';
     }, function(err) {
-      // error
-           alert("GPS is off");
+        // error
+        alert("GPS is off");
     });
 
     $scope.addretailer = {};
@@ -1225,7 +1216,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.addretailer.long = '';
 
 
-    $scope.addRetailerFunction = function () {
+    $scope.addRetailerFunction = function() {
         if ($scope.firstclick == 0) {
             $scope.firstclick = 1;
             console.log("retailer name is " + $scope.addretailer.name);
@@ -1251,7 +1242,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 
     //Capture Image
-    $scope.takePicture = function () {
+    $scope.takePicture = function() {
         var options = {
             quality: 20,
             destinationType: Camera.DestinationType.FILE_URI,
@@ -1261,11 +1252,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
             saveToPhotoAlbum: true
         };
 
-        $cordovaCamera.getPicture(options).then(function (imageData) {
+        $cordovaCamera.getPicture(options).then(function(imageData) {
             // Success! Image data is here
             $scope.cameraimage = imageData;
             $scope.uploadPhoto();
-        }, function (err) {
+        }, function(err) {
             // An error occured. Show a message to the user
         });
 
@@ -1273,21 +1264,21 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         var server = 'http://wohlig.biz/Toykraftbackend/index.php/json/uploadfile';
 
         //File Upload parameters: source, filePath, options
-        $scope.uploadPhoto = function () {
+        $scope.uploadPhoto = function() {
             console.log("function called");
             $cordovaFile.uploadFile(server, $scope.cameraimage, options)
-                .then(function (result) {
+                .then(function(result) {
                     console.log(result);
                     result = JSON.parse(result.response);
                     filenameee = result;
                     $scope.filename2 = result.file_name;
                     $scope.addretailer.store_image = $scope.filename2;
 
-                }, function (err) {
+                }, function(err) {
                     // Error
                     console.log(err);
                     console.log("Error");
-                }, function (progress) {
+                }, function(progress) {
                     // constant progress updates
                 });
 
@@ -1295,16 +1286,16 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     }
 })
-    .controller('PhotoSliderCtrl', function ($scope, $stateParams, MyServices, $ionicModal, $ionicSlideBoxDelegate, $ionicLoading) {
+    .controller('PhotoSliderCtrl', function($scope, $stateParams, MyServices, $ionicModal, $ionicSlideBoxDelegate, $ionicLoading) {
         $ionicLoading.hide();
         $ionicModal.fromTemplateUrl('templates/image-slider.html', {
             scope: $scope,
             animation: 'slide-in-up'
-        }).then(function (modal) {
+        }).then(function(modal) {
             $scope.modal = modal;
         });
 
-        $scope.openModal = function (index2) {
+        $scope.openModal = function(index2) {
 
             $scope.modal.show();
             // Important: This line is needed to update the current ion-slide's width
@@ -1321,37 +1312,37 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
         };
 
-        $scope.closeModal = function () {
+        $scope.closeModal = function() {
             $scope.modal.hide();
         };
 
         // Cleanup the modal when we're done with it!
-        $scope.$on('$destroy', function () {
+        $scope.$on('$destroy', function() {
             $scope.modal.remove();
         });
         // Execute action on hide modal
-        $scope.$on('modal.hide', function () {
+        $scope.$on('modal.hide', function() {
             // Execute action
         });
         // Execute action on remove modal
-        $scope.$on('modal.removed', function () {
+        $scope.$on('modal.removed', function() {
             // Execute action
         });
-        $scope.$on('modal.shown', function () {
+        $scope.$on('modal.shown', function() {
             console.log('Modal is shown!');
         });
 
         // Call this functions if you need to manually control the slides
-        $scope.next = function () {
+        $scope.next = function() {
             $ionicSlideBoxDelegate.next();
         };
 
-        $scope.previous = function () {
+        $scope.previous = function() {
             $ionicSlideBoxDelegate.previous();
         };
 
         // Called each time the slide changes
-        $scope.slideChanged = function (index) {
+        $scope.slideChanged = function(index) {
             $scope.slideIndex = index;
         };
     });
