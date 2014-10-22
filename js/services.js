@@ -8,6 +8,7 @@ var myservices = angular.module('myservices', [])
     var category=0;
     var area=0;
     var searchtxt = "" ;
+    var areaID=0;
     var d = new Date();
     //var myorderdate="2014-08-08";
     var myorderdate=d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);
@@ -75,6 +76,7 @@ var myservices = angular.module('myservices', [])
         },
         setareaid: function(aid){
             areaID = aid;
+            return areaID;
         },
         getareaid: function(){
             return areaID;
@@ -95,6 +97,9 @@ var myservices = angular.module('myservices', [])
         },
         setretailer: function ( retail ){
             retailer = retail;
+        },
+        sendorderemail: function (id,retail,amount,user,datetime) {
+            return $http.get(adminurl + "orders/sendorderemail?id="+id+"&retail="+retail+"&amount="+amount+"&user="+user+"&datetime="+datetime, {});
         },
         findzonebyuser: function () {
             return $http.get(adminurl + "zone/find", {params: {user: user}});
@@ -281,7 +286,7 @@ var myservices = angular.module('myservices', [])
         },
         sendemail: function(data)
         {
-            return $http.post("https://mandrillapp.com/api/1.0/messages/send-template.json",  data );  
+           return $http.post("https://mandrillapp.com/api/1.0/messages/send-template.json",  data );  
         },
         sendsms: function(url)
         {

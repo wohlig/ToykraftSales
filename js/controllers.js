@@ -193,7 +193,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     var areaID = $stateParams.id;
     $scope.areaid = areaID;
-    MyServices.setareaid(areaID);
+//    var areaidset = function(data, status){
+//        console.log("set area id ");
+//        console.log(data);
+//    };
+    console.log(MyServices.setareaid(areaID));
     console.log("AREA ID is " + areaID);
     $scope.retailerdata = [];
 
@@ -209,6 +213,9 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 .controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicModal, $window, $ionicLoading) {
     $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
+    
+    $scope.params = {};
+    
     /*   //WATCH
     $scope.changetext = {name:"abhay"};
     $scope.$watch('changetext', function() {
@@ -552,14 +559,17 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     //E-mail FUNCTION
     var email = function () {
+        console.log("email function params");
         console.log($scope.params);
         var onemailsuccess = function (data, status) {
             //alert(data);
+            console.log("in email fucntion");
             console.log(data);
         };
 
         if ($scope.mycart.length > 0) {
-            MyServices.sendemail($scope.params).success(onemailsuccess);
+//            MyServices.sendemail($scope.params).success(onemailsuccess);
+//            MyServices.sendorderemail($scope.params).success(emailsend);
         };
     };
 
@@ -596,14 +606,21 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     };
 
     //ORDER SUCCESS
-    var orderSuccess = function (data, status) {
-
+    
+    var emailsend = function(data, status){
         console.log(data);
+    };
+    
+    
+    var orderSuccess = function (data, status) {
+        console.log("ordersuccess return data");
+        console.log(data);
+        MyServices.sendorderemail(data.id,data.retail,data.amount,data.sales,data.timestamp).success(emailsend);
         var datetime = data.timestamp;
         var orderid = data.id;
 
 
-        $scope.emaildata = '<p>Dear Distributor / Retailer,<br>Our sales executive ' + userdata.name + ' has booked an order with details as below:</p><p><strong>Order id: </strong>' + orderid + ' </p> <p><strong>Order placed on: </strong>' + datetime + ' </p> <p><strong>' + $scope.retailerdata2.name + '</strong></p> <p><strong>' + $scope.retailerdata2.address + '</strong></p> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
+        $scope.emaildata = '<p>Dear Distributor / Retailer,<br>Our sales executive ' + userdata.name + ' has booked an order with details as below:</p><p><strong>Order id: </strong>' + orderid + ' </p> <p><strong>Order placed on: </strong>' + datetime + ' </p> <p><strong>'+ $scope.retailerdata2.name + '</strong></p> <p><strong>' + $scope.retailerdata2.address + '</strong></p> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
 
         $scope.emailtotalquantity = 0;
         $scope.emailtotalvalue = 0;
@@ -644,7 +661,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
         var subject = "Order placed. Order Id.: " + orderid;
 
-        $scope.params = {};
+        
 
         //EMAIL SETTING
         if ($scope.retailerdata2.email == null) {
@@ -676,7 +693,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     ],
             "message": {
                 "subject": subject,
-                "to": emailArray,
+                "to": "jagruti@wohlig.com",
                 "headers": {
                     "Reply-To": "noreply@toy-kraft.com"
                 },
@@ -700,8 +717,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
             "async": false
         };
 
-        email();
-        sms();
+        //email();
+       // sms();
 
         MyServices.clearcart();
         MyServices.setretailer(0);
@@ -721,8 +738,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     $scope.useremail = userdata.email;
     //$scope.firstclick = 0;
 
+        
+    
     $scope.sendOrder = function (retailerdata2) {
-         
+        // MyServices.sendorderemail(retailerdata2.id).success(emailsend);
+        console.log("hello im in send order");
         if ($scope.firstclick == 0) {
             $scope.firstclick = 1;
             console.log();
@@ -787,114 +807,125 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         alert("e-mail has been sent");
     };
 
-    var email = function () {
-        $scope.emaildata = '<p>Dear Distributor / Retailer,<br>Our sales executive ' + userdata.name + ' has booked an order with details as below:</p><p><strong>Order id: </strong>' + orderid + ' </p> <p><strong>Order placed on: </strong>' + datetime + ' </p> <p><strong>' + $scope.retailerdata2.name + '</strong></p> <p><strong>' + $scope.retailerdata2.address + '</strong></p> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
+    
+     var emailsend = function(data, status){
+        console.log(data);
+    };
+    
+    
+    var email = function (data) {
+        console.log("im in email function");
+        console.log(data);
+        MyServices.sendorderemail(data.id,data.retail,data.amount,data.sales,data.timestamp).success(emailsend);
+       // $scope.emaildata = '<p>Dear Distributor / Retailer,<br>Our sales executive ' + user.name + ' has booked an order with details as below:</p><p><strong>Order id: </strong>' + data.id + ' </p> <p><strong>Order placed on: </strong>' + datetime + ' </p> <p><strong>' + $scope.retailerdata2.name + '</strong></p> <p><strong>' + $scope.retailerdata2.address + '</strong></p> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
 
-        $scope.emailtotalquantity = 0;
-        $scope.emailtotalvalue = 0;
-        var index = 1;
-        //E-MAIL
-        for (var e = 0; e < $scope.mycart.length; e++) {
-            $scope.emaildata += "<tr>";
-
-            $scope.emaildata += "<td>" + index + "</td>";
-            index++;
-            $scope.emaildata += "<td>" + $scope.mycart[e].productcode + "</td>";
-            $scope.emaildata += "<td>" + $scope.mycart[e].name + "</td>";
-            $scope.emaildata += "<td>" + $scope.mycart[e].quantity + "</td>";
-            $scope.emailtotalquantity += parseInt($scope.mycart[e].quantity);
-            $scope.emaildata += "<td>₹ " + ($scope.mycart[e].amount / $scope.mycart[e].quantity) + "</td>";
-            $scope.emaildata += "<td>₹ " + $scope.mycart[e].amount + "</td>";
-            $scope.emailtotalvalue += $scope.mycart[e].amount;
-            if ($scope.mycart[e].category == "scheme") {
-                $scope.emaildata += "<td> YES </td>";
-            } else {
-                $scope.emaildata += "<td> NO </td>";
-            };
-            $scope.emaildata += "</tr>";
-        }
-
-        $scope.emaildata += "<tr>";
-
-        $scope.emaildata += "<td></td>";
-        $scope.emaildata += "<td></td>";
-        $scope.emaildata += "<td><strong>Total: </strong></td>";
-        $scope.emaildata += "<td><strong>" + $scope.emailtotalquantity + "</strong></td>";
-        $scope.emaildata += "<td></td>";
-        $scope.emaildata += "<td><strong>₹ " + $scope.emailtotalvalue + "</strong></td>";
-        $scope.emaildata += "<td></td>";
-
-        $scope.emaildata += "</tr>";
-        $scope.emaildata += "</tbody></table>";
-        console.log($scope.emaildata);
-
-        var subject = "Order placed. Order ID:" + $scope.orderID;
-
-        $scope.params = {};
-
-
-        //EMAIL SETTING
-        if ($scope.retailerdata.email == null) {
-            var retaileremail = $scope.useremail
-        } else {
-            var retaileremail = $scope.retailerdata.email
-        };
-        if ($scope.distributoremail == null) {
-            var dealeremail = $scope.useremail
-        } else {
-            var dealeremail = $scope.distributoremail
-        };
-
-        var emailArray = [{
-            email: dealeremail,
-            name: 'Distributor'
-        }, {
-            email: retaileremail,
-            name: $scope.retailerdata.name
-        }];
-        $scope.params = {
-            "key": "cGE4EC2IdBhogNPk6e6-Xg",
-            "template_name": "ordertemplate",
-            "template_content": [
-                {
-                    "name": "table",
-                    "content": $scope.emaildata
-        }
-    ],
-            "message": {
-                "subject": subject,
-                "to": emailArray,
-                "headers": {
-                    "Reply-To": "noreply@toy-kraft.com"
-                },
-                "important": true,
-                //"bcc_address": "contactabhay2@gmail.com",//dealeremail,
-                "global_merge_vars": [
-                    {
-                        "name": "merge1",
-                        "content": "merge1 content"
-            }
-        ],
-                "recipient_metadata": [
-                    {
-                        "rcpt": "tushar@wohlig.com", //retaileremail,
-                        "values": {
-                            "user_id": 123456
-                        }
-                            }
-        ]
-            },
-            "async": false
-        };
-
-
-
-        if ($scope.mycart.length > 0) {
-            MyServices.sendemail($scope.params).success(onemailsuccess);
-        };
+//        $scope.emailtotalquantity = 0;
+//        $scope.emailtotalvalue = 0;
+//        var index = 1;
+//        //E-MAIL
+//        for (var e = 0; e < $scope.mycart.length; e++) {
+//            $scope.emaildata += "<tr>";
+//
+//            $scope.emaildata += "<td>" + index + "</td>";
+//            index++;
+//            $scope.emaildata += "<td>" + $scope.mycart[e].productcode + "</td>";
+//            $scope.emaildata += "<td>" + $scope.mycart[e].name + "</td>";
+//            $scope.emaildata += "<td>" + $scope.mycart[e].quantity + "</td>";
+//            $scope.emailtotalquantity += parseInt($scope.mycart[e].quantity);
+//            $scope.emaildata += "<td>₹ " + ($scope.mycart[e].amount / $scope.mycart[e].quantity) + "</td>";
+//            $scope.emaildata += "<td>₹ " + $scope.mycart[e].amount + "</td>";
+//            $scope.emailtotalvalue += $scope.mycart[e].amount;
+//            if ($scope.mycart[e].category == "scheme") {
+//                $scope.emaildata += "<td> YES </td>";
+//            } else {
+//                $scope.emaildata += "<td> NO </td>";
+//            };
+//            $scope.emaildata += "</tr>";
+//        }
+//
+//        $scope.emaildata += "<tr>";
+//
+//        $scope.emaildata += "<td></td>";
+//        $scope.emaildata += "<td></td>";
+//        $scope.emaildata += "<td><strong>Total: </strong></td>";
+//        $scope.emaildata += "<td><strong>" + $scope.emailtotalquantity + "</strong></td>";
+//        $scope.emaildata += "<td></td>";
+//        $scope.emaildata += "<td><strong>₹ " + $scope.emailtotalvalue + "</strong></td>";
+//        $scope.emaildata += "<td></td>";
+//
+//        $scope.emaildata += "</tr>";
+//        $scope.emaildata += "</tbody></table>";
+//        console.log($scope.emaildata);
+//
+//        var subject = "Order placed. Order ID:" + $scope.orderID;
+//
+//        $scope.params = {};
+//
+//
+//        //EMAIL SETTING
+//        if ($scope.retailerdata.email == null) {
+//            var retaileremail = $scope.useremail
+//        } else {
+//            var retaileremail = $scope.retailerdata.email
+//        };
+//        if ($scope.distributoremail == null) {
+//            var dealeremail = $scope.useremail
+//        } else {
+//            var dealeremail = $scope.distributoremail
+//        };
+//
+//        var emailArray = [{
+//            email: dealeremail,
+//            name: 'Distributor'
+//        }, {
+//            email: retaileremail,
+//            name: $scope.retailerdata.name
+//        }];
+//        $scope.params = {
+//            "key": "cGE4EC2IdBhogNPk6e6-Xg",
+//            "template_name": "ordertemplate",
+//            "template_content": [
+//                {
+//                    "name": "table",
+//                    "content": $scope.emaildata
+//        }
+//    ],
+//            "message": {
+//                "subject": subject,
+//                "to": "jagruti@wohlig.com",
+//                "headers": {
+//                    "Reply-To": "noreply@toy-kraft.com"
+//                },
+//                "important": true,
+//                //"bcc_address": "contactabhay2@gmail.com",//dealeremail,
+//                "global_merge_vars": [
+//                    {
+//                        "name": "merge1",
+//                        "content": "merge1 content"
+//            }
+//        ],
+//                "recipient_metadata": [
+//                    {
+//                        "rcpt": "tushar@wohlig.com", //retaileremail,
+//                        "values": {
+//                            "user_id": 123456
+//                        }
+//                            }
+//        ]
+//            },
+//            "async": false
+//        };
+//
+//        
+//
+//        if ($scope.mycart.length > 0) {
+//           // MyServices.sendemail($scope.params).success(onemailsuccess);
+//        };
     };
 
     var orderdetails = function (data, status) {
+        console.log("resend email success");
+        console.log(data);
         $scope.retailerdata = data.retailer;
         $scope.distributoremail = data.retailer.distributor;
         $scope.retaileremail = data.retailer.email;
@@ -904,7 +935,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         $scope.total = data.amount;
         $scope.timestamp = data.timestamp;
 
-        email();
+        email(data);
         console.log(data);
         console.log($scope.retailerdata);
         console.log($scope.mycart);
