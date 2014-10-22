@@ -615,7 +615,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var orderSuccess = function (data, status) {
         console.log("ordersuccess return data");
         console.log(data);
-        MyServices.sendorderemail(data.id,data.retail,data.amount,data.sales,data.timestamp).success(emailsend);
+        MyServices.sendorderemail(data.id,data.retail,data.amount,data.sales,data.timestamp,data.quantity).success(emailsend);
         var datetime = data.timestamp;
         var orderid = data.id;
 
@@ -816,7 +816,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
     var email = function (data) {
         console.log("im in email function");
         console.log(data);
-        MyServices.sendorderemail(data.id,data.retail,data.amount,data.sales,data.timestamp).success(emailsend);
+        MyServices.sendorderemail(data.id,data.retail,data.amount,data.sales,data.timestamp,data.quantity).success(emailsend);
        // $scope.emaildata = '<p>Dear Distributor / Retailer,<br>Our sales executive ' + user.name + ' has booked an order with details as below:</p><p><strong>Order id: </strong>' + data.id + ' </p> <p><strong>Order placed on: </strong>' + datetime + ' </p> <p><strong>' + $scope.retailerdata2.name + '</strong></p> <p><strong>' + $scope.retailerdata2.address + '</strong></p> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
 
 //        $scope.emailtotalquantity = 0;
