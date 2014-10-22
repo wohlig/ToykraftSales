@@ -787,7 +787,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
 })
 
-.controller('OrderCtrl', function($scope, $stateParams, MyServices, $ionicModal, $location, $ionicLoading) {
+.controller('OrderCtrl', function($scope, $stateParams, MyServices, $ionicModal, $location, $ionicLoading, $ionicPopup, $timeout) {
     $ionicLoading.hide();
 
 
@@ -935,6 +935,19 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         console.log($scope.mycart);
         console.log($scope.user);
         console.log($scope.total);
+
+        //resend popup
+        var myPopup = $ionicPopup.show({
+            template: '<center><h3>Order Resend !</h3></center>',
+            title: 'Hurray!',
+            scope: $scope
+        });
+        myPopup.then(function(res) {
+            console.log('Tapped!', res);
+        });
+        $timeout(function() {
+            myPopup.close(); //close the popup after 3 seconds for some reason
+        }, 2000);
     };
 
     //RESEND EMAIL
