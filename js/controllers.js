@@ -1174,7 +1174,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
 
     $scope.filename2 = "";
     //GEO-LOCATION
-    /*var onSuccess = function (position) {
+    
+    var geo = cordova.require('cordova/plugin/geolocation');
+    
+    var onSuccess = function (position) {
         alert('Latitude: ' + position.coords.latitude + '\n' +
             'Longitude: ' + position.coords.longitude);
          //$scope.lat = position.coords.latitude;
@@ -1190,16 +1193,17 @@ angular.module('starter.controllers', ['ngCordova', 'myservices'])
         $scope.addretailer.lat = 'not found';
         $scope.addretailer.long = 'not found';
     }
-    window.navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+   geo.getCurrentPosition(onSuccess, onError, {
         enableHighAccuracy: true
-    });*/
-    $cordovaGeolocation.getCurrentPosition().then(function(position) {
+    });
+    
+    /*$cordovaGeolocation.getCurrentPosition().then(function(position) {
         $scope.addretailer.lat = '' + position.coords.latitude + '';
         $scope.addretailer.long = '' + position.coords.longitude + '';
     }, function(err) {
         // error
         alert("GPS is off");
-    });
+    });*/
 
     $scope.addretailer = {};
     $scope.addretailer.area = aid;
