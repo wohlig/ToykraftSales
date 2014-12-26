@@ -1,109 +1,120 @@
 var adminurl = "http://admin.toy-kraft.com/rest/index.php/";
 var myservices = angular.module('myservices', [])
 
-.factory('MyServices', function ($http,$location) {
+.factory('MyServices', function ($http, $location) {
     var productarray = [];
     var cart = [];
-    var retailer=0;
-    var category=0;
-    var area=0;
-    var searchtxt = "" ;
-    var areaID=0;
+    var retailer = 0;
+    var category = 0;
+    var area = 0;
+    var searchtxt = "";
+    var areaID = 0;
     var d = new Date();
     //var myorderdate="2014-08-08";
-    var myorderdate=d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);
+    var myorderdate = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
     //console.log(myorderdate);
-    var myorderretailer={zone:'',state:'',city:'',area:'',retailer:''};
-    
+    var myorderretailer = {
+        zone: '',
+        state: '',
+        city: '',
+        area: '',
+        retailer: ''
+    };
+
     var productCatdata = [];
-    
+
 
 
     return {
-        getsearchtxt: function() {
-            return searchtxt;  
+        getsearchtxt: function () {
+            return searchtxt;
         },
-        setsearchtxt: function(data) {
-            searchtxt=data;  
-            console.log("Category is "+data);
+        setsearchtxt: function (data) {
+            searchtxt = data;
+            console.log("Category is " + data);
         },
-        getcategory: function() {
-            return category;  
+        getcategory: function () {
+            return category;
         },
-        setcategory: function(data) {
-            category=data;  
-            console.log("Category is "+data);
+        setcategory: function (data) {
+            category = data;
+            console.log("Category is " + data);
         },
-        getmyorderdate: function() {
-            return myorderdate;  
+        getmyorderdate: function () {
+            return myorderdate;
         },
-        setmyorderdate: function(date) {
-            myorderdate=date;  
+        setmyorderdate: function (date) {
+            myorderdate = date;
         },
-        getmyorderretailer: function() {
+        getmyorderretailer: function () {
             console.log(myorderretail);
             return myorderretail;
         },
-        setmyorderretailer: function(filter) {
-            myorderretail=filter;
+        setmyorderretailer: function (filter) {
+            myorderretail = filter;
         },
         loginFunc: function (userinfo) {
             return $http.get(adminurl + "user/authenticate", {
-                 params: {
+                params: {
                     username: userinfo.username,
                     password: userinfo.password
                 }
             });
         },
         setuser: function (data) {
-            user=data;
-            $.jStorage.set("user",data);
+            user = data;
+            $.jStorage.set("user", data);
         },
-         getuser: function () {
+        getuser: function () {
             return user;
         },
-        gettodaytally: function(userid){
-            return $http.get(adminurl + "orders/gettodaystally", { params: {
+        gettodaytally: function (userid) {
+            return $http.get(adminurl + "orders/gettodaystally", {
+                params: {
                     user: userid,
                 }
             });
         },
-        getmonthtally: function(userid2){
-            return $http.get(adminurl + "orders/getmonthstally", {params: {
-                user: userid2,
+        getmonthtally: function (userid2) {
+            return $http.get(adminurl + "orders/getmonthstally", {
+                params: {
+                    user: userid2,
                 }
             });
         },
-        setareaid: function(aid){
+        setareaid: function (aid) {
             areaID = aid;
             return areaID;
         },
-        getareaid: function(){
+        getareaid: function () {
             return areaID;
         },
         checkretailer: function (retail) {
-            if(retail==retailer)
-            {
-                
-            }
-            else 
-            {
-                retailer=retail;
-                cart=[];
+            if (retail == retailer) {
+
+            } else {
+                retailer = retail;
+                cart = [];
             }
         },
         getretailer: function () {
             return retailer;
         },
-        setretailer: function ( retail ){
+        setretailer: function (retail) {
             retailer = retail;
         },
-        sendorderemail: function (id,retail,amount,user,datetime,quantity,remark) {
-            return $http.get(adminurl + "orders/sendorderemail?id="+id+"&retail="+retail+"&amount="+amount+"&user="+user+"&datetime="+datetime+"&quantity="+quantity+"&remark="+remark, {});
+        sendorderemail: function (id, retail, amount, user, datetime, quantity, remark) {
+            return $http.get(adminurl + "orders/sendorderemail?id=" + id + "&retail=" + retail + "&amount=" + amount + "&user=" + user + "&datetime=" + datetime + "&quantity=" + quantity + "&remark=" + remark, {});
         },
         findzonebyuser: function () {
-            return $http.get(adminurl + "zone/find", {params: {user: user}});
+            console.log(user);
+            return $http.get(adminurl + "zone/find", {
+                params: {
+                    user: user
+                }
+            });
         },
+        
         findstate: function (zone) {
             return $http.get(adminurl + "state/findbyzone", {
                 params: {
@@ -147,13 +158,15 @@ var myservices = angular.module('myservices', [])
             });
         },
         addNewRetailer: function (object1) {
-            return $http.get(adminurl + "retailer/create", { params: object1 });
+            return $http.get(adminurl + "retailer/create", {
+                params: object1
+            });
         },
         getCart: function () {
             return cart;
         },
         setcart: function (newcart) {
-            cart=newcart;
+            cart = newcart;
         },
         getData: function () {
             console.log(cart);
@@ -161,15 +174,14 @@ var myservices = angular.module('myservices', [])
         addItemToCart: function (pid, pproductcode, pname, pquantity, pmrp, ptotalprice) {
             var isnew = true;
             var addquantityon = 0;
-            if(!pid)
-            {
-                return false;   
+            if (!pid) {
+                return false;
             }
             pid = parseInt(pid);
             pquantity = parseInt(pquantity);
             pmrp = parseFloat(pmrp);
             for (var i = 0; i < cart.length; i++) {
-                if (cart[i].id == pid && cart[i].category==category) {
+                if (cart[i].id == pid && cart[i].category == category) {
                     isnew = false;
                     addquantityon = i;
                 }
@@ -181,125 +193,130 @@ var myservices = angular.module('myservices', [])
                     name: pname,
                     quantity: pquantity,
                     mrp: pmrp,
-                    totalprice: pmrp*pquantity,
+                    totalprice: pmrp * pquantity,
                     category: category
                 });
             } else {
                 if (cart[addquantityon].quantity > 0) {
-                    cart[addquantityon].quantity = parseInt(cart[addquantityon].quantity)+pquantity;
-                    cart[addquantityon].totalprice = parseFloat(pmrp)*cart[addquantityon].quantity;
+                    cart[addquantityon].quantity = parseInt(cart[addquantityon].quantity) + pquantity;
+                    cart[addquantityon].totalprice = parseFloat(pmrp) * cart[addquantityon].quantity;
                 } else {
                     cart[addquantityon].quantity = parseInt(pquantity);
-                    cart[addquantityon].totalprice = parseFloat(pmrp)*cart[addquantityon].quantity;
+                    cart[addquantityon].totalprice = parseFloat(pmrp) * cart[addquantityon].quantity;
                 }
             }
             console.log(cart);
 
         },
-        sendOrderNow: function (retailer) {
-            
+        sendOrderNow: function (retailer, remark) {
+
             return $http.post(adminurl + "orders/makeorder", {
                 cart: cart,
-                user:user,
-                retailer:retailer,
+                user: user,
+                retailer: retailer,
             });
             console.log(cart);
             cart = [];
             console.log(cart);
         },
         removeObject: function (oid) {
-            
+
             cart.splice(oid, 1);
         },
-        findnext: function(id, next){
-        return $http.get(adminurl + "product/getnextproduct", {
-                params:{id:id, category:category, next: next} //id: category: next:0
+        findnext: function (id, next) {
+            return $http.get(adminurl + "product/getnextproduct", {
+                params: {
+                    id: id,
+                    category: category,
+                    next: next
+                } //id: category: next:0
             });
         },
-        findprevious: function(id){
-        return $http.get(adminurl + "product/getpreviousproduct", {
-                params:{id: id, category:category}
+        findprevious: function (id) {
+            return $http.get(adminurl + "product/getpreviousproduct", {
+                params: {
+                    id: id,
+                    category: category
+                }
             });
         },
-        clearcart: function() 
-        {
-            cart=[];
+        clearcart: function () {
+            cart = [];
         },
-        getuserorders: function(user) 
-        {
+        getuserorders: function (user) {
             return $http.get(adminurl + "orders/findbyuser", {
                 params: {
                     user: user
                 }
             });
         },
-        getorderdetail: function(order) 
-        {
+        getorderdetail: function (order) {
             return $http.get(adminurl + "orders/findone", {
                 params: {
                     id: order
                 }
             });
         },
-        getrecentorders:function(retailerid)
-        {
-            return $http.get(adminurl + "orders/findbyretailer?retailer="+retailerid);
+        getrecentorders: function (retailerid) {
+            return $http.get(adminurl + "orders/findbyretailer?retailer=" + retailerid);
         },
-        getretailerdata:function(retailerid)
-        {
-            return $http.get(adminurl + "orders/getmyordersbyretailer" , {params: {retailer:retailerid, user:user.id }});
+        getretailerdata: function (retailerid) {
+            return $http.get(adminurl + "orders/getmyordersbyretailer", {
+                params: {
+                    retailer: retailerid,
+                    user: user.id
+                }
+            });
         },
-        getdatedata: function(did) 
-        {
+        getdatedata: function (did) {
             console.log(did);
-            return $http.get(adminurl + "orders/getmyordersbydate", {params: {date: did, user:user.id}});
+            return $http.get(adminurl + "orders/getmyordersbydate", {
+                params: {
+                    date: did,
+                    user: user.id
+                }
+            });
         },
-        
+
         //GETTING NAMES OF CATEGORIES TO LIST
-         getcategoriesname: function()
-        {
+        getcategoriesname: function () {
             return $http.get(adminurl + "catelog/getcatelog");
         },
         //CALLED DURING CHANGE OF CATEGORY
-        findproductbycategory: function(id)
-        {
+        findproductbycategory: function (id) {
             $http.get(adminurl + "", {
-            params: {
-                id : id
+                params: {
+                    id: id
                 }
             })
         },
         //SETTING GLOBAL CATEGORY DATA
-        setproductCatdata: function(data)
-        {
+        setproductCatdata: function (data) {
             productCatdata = data;
         },
-        gettoptenproducts: function()
-        {
+        gettoptenproducts: function () {
             return $http.get(adminurl + "product/gettoptenproducts");
         },
-        editretailerdetails: function(data)
-        {
+        editretailerdetails: function (data) {
             console.log("DATA/////////////////////");
             console.log(data);
-            return $http.get(adminurl + "retailer/updatecontact", {params:  data });  
+            return $http.get(adminurl + "retailer/updatecontact", {
+                params: data
+            });
         },
-        sendemail: function(data)
-        {
-           return $http.post("https://mandrillapp.com/api/1.0/messages/send-template.json",  data );  
+        sendemail: function (data) {
+            return $http.post("https://mandrillapp.com/api/1.0/messages/send-template.json", data);
         },
-        sendsms: function(url)
-        {
+        sendsms: function (url) {
             return $http.post(url);
         },
-        areaone: function(id)
-        {
+        areaone: function (id) {
             return $http.get(adminurl + "area/findone", {
                 params: {
                     id: id
                 }
-            } );
+            });
         },
-       
+
     }
 });

@@ -1,0 +1,140 @@
+//VARIABLES NEEDED
+var adminurl = "http://admin.toy-kraft.com/rest/index.php/";
+var zone;
+
+//CREATE THE DATABASE
+var db = openDatabase('toykraftapp', '1.0', 'toykraftapp DB', 2 * 1024 * 1024);
+
+//CREATE ALL TABLES
+db.transaction(function (tx) {
+    tx.executeSql('CREATE TABLE IF NOT EXISTS ZONE (id Integer PRIMARY KEY, name, email)');
+    console.log("created");
+
+
+
+    //    /tx.executeSql('DROP TABLE ZONE');
+});
+
+console.log("ABHAY ABHAY ABHAY ABHAY ABHAY");
+
+var mydatabase = angular.module('mydatabase', [])
+    .factory('MyDatabase', function ($http, $location, $cordovaNetwork) {
+
+        var statedata = {};
+
+        return {
+
+            findzonebyuser: function () {
+                return $http.get(adminurl + "zone/find", {
+                    params: {
+                        user: user
+                    }
+                });
+            },
+            addzonedata: function (data) {
+                db.transaction(function (tx) {
+                    for (var i = 0; i < data.length; i++) {
+                        var sqls = 'INSERT INTO ZONE (id , name, email) VALUES (' + data[i].id + ',"' + data[i].name + '","' + data[i].email + '")';
+                        console.log(sqls);
+                        tx.executeSql(sqls, [], function (tx, results) {
+                            console.log("RAOW INSERTED");
+                        }, null);
+                    };
+                    console.log("zones added");
+                });
+            },
+            findzonebyuseroffline: function () {
+                zone = user.zone;
+            },
+
+            createretailertables: function () {
+                db.transaction(function (tx) {
+                    //tx.executeSql('DROP TABLE STATE');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS STATE (id Integer PRIMARY KEY, zone, name)');
+                    console.log("states created");
+                });
+                db.transaction(function (tx2) {
+                    //tx2.executeSql('DROP TABLE CITY');
+                    tx2.executeSql('CREATE TABLE IF NOT EXISTS CITY (id Integer PRIMARY KEY, state, name)');
+                    console.log("City created");
+                });
+                db.transaction(function (tx3) {
+                    //tx3.executeSql('DROP TABLE AREA');
+                    tx3.executeSql('CREATE TABLE IF NOT EXISTS AREA (id Integer PRIMARY KEY, city, name, distributor)');
+                    console.log("Area created");
+                });
+                db.transaction(function (tx5) {
+                    //tx5.executeSql('DROP TABLE AREA');
+                    tx5.executeSql('CREATE TABLE IF NOT EXISTS RETAILER (id Integer PRIMARY KEY, lat, long, dob, area, type_of_area, sq_feet, store_image, name, number, email, address, ownername, ownernumber, contactname, contactnumber, timestamp, sync)');
+                    console.log("Retailer created");
+                });
+            },
+            syncinretailerstatedata: function () {
+                return $http.get(adminurl + "state/find", {
+                    params: {}
+                })
+                console.log(statedata);
+            },
+            insertretailerstatedata: function (data) {
+                db.transaction(function (tx) {
+                    for (var i = 0; i < data.length; i++) {
+                        var sqls = 'INSERT INTO STATE (id , zone, name) VALUES (' + data[i].id + ',"' + data[i].zone + '","' + data[i].name + '")';
+                        console.log(sqls);
+                        tx.executeSql(sqls, [], function (tx, results) {
+                            console.log("RAOW INSERTED");
+                        }, null);
+                    };
+                });
+            },
+            syncinretailercitydata: function () {
+                return $http.get(adminurl + "city/find", {
+                    params: {}
+                })
+            },
+            insertretailercitydata: function (data) {
+                db.transaction(function (tx) {
+                    for (var i = 0; i < data.length; i++) {
+                        var sqls = 'INSERT INTO CITY (id , state, name) VALUES (' + data[i].id + ',"' + data[i].state + '","' + data[i].name + '")';
+                        console.log(sqls);
+                        tx.executeSql(sqls, [], function (tx, results) {
+                            console.log("RAOW INSERTED");
+                        }, null);
+                    };
+                });
+            },
+            syncinretailerareadata: function () {
+                return $http.get(adminurl + "area/find", {
+                    params: {}
+                })
+            },
+            insertretailerareadata: function (data) {
+                db.transaction(function (tx) {
+                    for (var i = 0; i < data.length; i++) {
+                        var sqls = 'INSERT INTO AREA (id , city, name) VALUES (' + data[i].id + ',"' + data[i].city + '","' + data[i].name + '")';
+                        console.log(sqls);
+                        tx.executeSql(sqls, [], function (tx, results) {
+                            console.log("RAOW INSERTED");
+                        }, null);
+                    };
+                });
+            },
+            syncinretailerdata: function () {
+                return $http.get(adminurl + "retailer/find", {
+                    params: {}
+                })
+            },
+            insertretailerdata: function (data) {
+                db.transaction(function (tx) {
+                    for (var i = 0; i < data.length; i++) {
+                        var sqls = 'INSERT INTO RETAILER (id , lat, long, dob, area, type_of_area, sq_feet, store_image, name, number, email, address, ownername, ownernumber, contactname, contactnumber, timestamp, sync) VALUES (' + data[i].id + ',"' + data[i].lat + '","' + data[i].long +'","' + data[i].dob +'","' + data[i].area +'","' + data[i].type_of_area +'","' + data[i].sq_feet +'","' + data[i].store_image +'","' + data[i].name +'","' + data[i].number +'","' + data[i].email +'","' + data[i].address +'","' + data[i].ownername +'","' + data[i].ownernumber +'","' + data[i].contactname +'","' + data[i].contactnumber +'","' + data[i].timestamp +'","' + data[i].sync +'")';
+                        console.log(sqls);
+                        tx.executeSql(sqls, [], function (tx, results) {
+                            console.log("RAOW INSERTED");
+                        }, null);
+                    };
+                });
+            },
+
+
+        }
+    });
