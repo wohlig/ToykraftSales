@@ -220,8 +220,9 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     };
     
     $scope.type = $cordovaNetwork.getNetwork();
-    alert($scope.type);
-    if ($scope.type == none) {
+    var isOnline = $cordovaNetwork.isOnline();
+    alert(isOnline);
+    if (isOnline == false) {
         MyDatabase.getstatesoffline(zoneID).success(onsuccess);
     }else{
         MyServices.findstate(zoneID).success(onsuccess);
