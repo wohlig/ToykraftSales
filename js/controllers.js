@@ -223,7 +223,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     var isOnline = $cordovaNetwork.isOnline();
     alert(isOnline);
     if (isOnline == false) {
-        MyDatabase.getstatesoffline(zoneID).success(onsuccess);
+        $scope.statedata = MyDatabase.getstatesoffline(zoneID);
     }else{
         MyServices.findstate(zoneID).success(onsuccess);
     };
