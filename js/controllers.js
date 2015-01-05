@@ -57,22 +57,21 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         $scope.userz = {};
         $scope.userz.zone = ""
 
+        var type = $cordovaNetwork.getNetwork();
+        console.log("The type of network is");
+        alert(type);
         //SETS VALUE FOR ZONE
         //MyDatabase.findzonebyuseroffline();
+    
+        if(windowa.Connection){
+            if(navigator.connection.type == Connection.NONE)
+            {
+                alert("No Internet Found");
+            };
+        };
         var checkConnection = function () {
-            var networkState = navigator.network.type;
-
-            var states = {};
-            states[Connection.UNKNOWN] = 'Unknown connection';
-            states[Connection.ETHERNET] = 'Ethernet connection';
-            states[Connection.WIFI] = 'WiFi connection';
-            states[Connection.CELL_2G] = 'Cell 2G connection';
-            states[Connection.CELL_3G] = 'Cell 3G connection';
-            states[Connection.CELL_4G] = 'Cell 4G connection';
-            states[Connection.CELL] = 'Cell generic connection';
-            states[Connection.NONE] = 'No network connection';
-
-            alert('Connection type: ' + states[networkState]);
+            var type = $cordovaNetwork.getNetwork();
+            alert('Connection type: ' +type);
         };
 
         checkConnection();
