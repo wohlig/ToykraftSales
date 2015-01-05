@@ -63,7 +63,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         //SETS VALUE FOR ZONE
         //MyDatabase.findzonebyuseroffline();
     
-        if(windowa.Connection){
+        if(windows.Connection){
             if(navigator.connection.type == Connection.NONE)
             {
                 alert("No Internet Found");
