@@ -58,23 +58,22 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         $scope.userz.zone = ""
 
         var type = $cordovaNetwork.getNetwork();
-        console.log("The type of network is");
+        console.log("The type of network is"+type);
         alert(type);
         //SETS VALUE FOR ZONE
         //MyDatabase.findzonebyuseroffline();
-    
-        if(windows.Connection){
-            if(navigator.connection.type == Connection.NONE)
-            {
+
+        /*if (windows.Connection) {
+            if (navigator.connection.type == Connection.NONE) {
                 alert("No Internet Found");
             };
         };
         var checkConnection = function () {
             var type = $cordovaNetwork.getNetwork();
-            alert('Connection type: ' +type);
+            alert('Connection type: ' + type);
         };
 
-        checkConnection();
+        checkConnection();*/
 
         $scope.retailerdatao = [];
         //CREATE TABLES
@@ -209,17 +208,27 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
 })
 
-.controller('StateCtrl', function ($scope, $stateParams, $http, MyServices, $ionicLoading) {
-
+.controller('StateCtrl', function ($scope, $stateParams, $http, MyServices, MyDatabase, $ionicLoading, $cordovaNetwork) {
 
     var zoneID = $stateParams.id;
     $scope.statedata = [];
-    var onsuccess = function (data, status) {
 
+    var onsuccess = function (data, status) {
         $ionicLoading.hide();
+        console.log(data);
         $scope.statedata = data;
     };
-    MyServices.findstate(zoneID).success(onsuccess);
+    
+    $scope.type = $cordovaNetwork.getNetwork();
+    if ($scope.type == "none") {
+        MyDatabase.getstatesoffline(zoneID).success(onsuccess);
+    }else{
+        MyServices.findstate(zoneID).success(onsuccess);
+    };
+
+
+
+    
 
 })
 
