@@ -58,8 +58,26 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         $scope.userz.zone = ""
 
         //SETS VALUE FOR ZONE
-        MyDatabase.findzonebyuseroffline();
+        //MyDatabase.findzonebyuseroffline();
+        var checkConnection = function () {
+            var networkState = navigator.network.type;
 
+            var states = {};
+            states[Connection.UNKNOWN] = 'Unknown connection';
+            states[Connection.ETHERNET] = 'Ethernet connection';
+            states[Connection.WIFI] = 'WiFi connection';
+            states[Connection.CELL_2G] = 'Cell 2G connection';
+            states[Connection.CELL_3G] = 'Cell 3G connection';
+            states[Connection.CELL_4G] = 'Cell 4G connection';
+            states[Connection.CELL] = 'Cell generic connection';
+            states[Connection.NONE] = 'No network connection';
+
+            alert('Connection type: ' + states[networkState]);
+        };
+
+        checkConnection();
+
+        $scope.retailerdatao = [];
         //CREATE TABLES
         MyDatabase.createretailertables();
 
@@ -67,17 +85,18 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             console.log(data);
             MyDatabase.insertretailerstatedata(data);
         };
-    syncretailercitydatasuccess = function (data, status) {
+        syncretailercitydatasuccess = function (data, status) {
             console.log(data);
             MyDatabase.insertretailercitydata(data);
         };
-    syncretailerareadatasuccess = function (data, status) {
+        syncretailerareadatasuccess = function (data, status) {
             console.log(data);
             MyDatabase.insertretailerareadata(data);
         };
-    syncretailerdatasuccess = function (data, status) {
-            console.log(data)
-            MyDatabase.insertretailerdata(data); 
+        syncretailerdatasuccess = function (data, status) {
+            console.log(data);
+            $scope.retailerdatao = data;
+            MyDatabase.insertretailerdata(data);
         };
         $scope.getdatatables = function () {
             //SYNC IN DATA

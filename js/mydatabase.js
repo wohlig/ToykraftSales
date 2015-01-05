@@ -3,12 +3,13 @@ var adminurl = "http://admin.toy-kraft.com/rest/index.php/";
 var zone;
 
 //CREATE THE DATABASE
-var db = openDatabase('toykraftapp', '1.0', 'toykraftapp DB', 2 * 1024 * 1024);
+var db = openDatabase('toykraftapp2', '1.0', 'toykraftapp DB', 50 * 1024 * 1024);
 
 //CREATE ALL TABLES
 db.transaction(function (tx) {
     tx.executeSql('CREATE TABLE IF NOT EXISTS ZONE (id Integer PRIMARY KEY, name, email)');
     console.log("created");
+    //tx.executeSql('DROP DATABASE toykraftapp')
 
 
 
@@ -65,7 +66,8 @@ var mydatabase = angular.module('mydatabase', [])
                 });
                 db.transaction(function (tx5) {
                     //tx5.executeSql('DROP TABLE AREA');
-                    tx5.executeSql('CREATE TABLE IF NOT EXISTS RETAILER (id Integer PRIMARY KEY, lat, long, dob, area, type_of_area, sq_feet, store_image, name, number, email, address, ownername, ownernumber, contactname, contactnumber, timestamp, sync)');
+                   tx5.executeSql('CREATE TABLE IF NOT EXISTS RETAILER (id INTEGER PRIMARY KEY,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync)');
+                    //tx5.executeSql('DROP TABLE RETAILER');
                     console.log("Retailer created");
                 });
             },
@@ -123,14 +125,19 @@ var mydatabase = angular.module('mydatabase', [])
                     params: {}
                 })
             },
+            
+            /*id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync*/            
+            
             insertretailerdata: function (data) {
                 db.transaction(function (tx) {
-                    for (var i = 0; i < data.length; i++) {
-                        var sqls = 'INSERT INTO RETAILER (id , lat, long, dob, area, type_of_area, sq_feet, store_image, name, number, email, address, ownername, ownernumber, contactname, contactnumber, timestamp, sync) VALUES (' + data[i].id + ',"' + data[i].lat + '","' + data[i].long +'","' + data[i].dob +'","' + data[i].area +'","' + data[i].type_of_area +'","' + data[i].sq_feet +'","' + data[i].store_image +'","' + data[i].name +'","' + data[i].number +'","' + data[i].email +'","' + data[i].address +'","' + data[i].ownername +'","' + data[i].ownernumber +'","' + data[i].contactname +'","' + data[i].contactnumber +'","' + data[i].timestamp +'","' + data[i].sync +'")';
+                    for (var i = 55; i < data.length; i++) {
+                        var sqls = 'INSERT INTO RETAILER (id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync) VALUES ("' + data[i].id + '","' + data[i].lat + '","' + data[i].long +'","' + data[i].area +'","' + data[i].dob +'","' + data[i].type_of_area +'","' + data[i].sq_feet +'","' + data[i].store_image +'","' + data[i].name +'","' + data[i].number +'","' + data[i].email +'","' + data[i].address +'","' + data[i].ownername +'","' + data[i].ownernumber +'","' + data[i].contactname +'","' + data[i].contactnumber +'","' + data[i].timestamp +'", "true")';
                         console.log(sqls);
                         tx.executeSql(sqls, [], function (tx, results) {
                             console.log("RAOW INSERTED");
-                        }, null);
+                        }, function (tx, results) {
+                            console.log("RAOW NOT INSERTED");
+                        });
                     };
                 });
             },
