@@ -66,7 +66,7 @@ var mydatabase = angular.module('mydatabase', [])
                 });
                 db.transaction(function (tx5) {
                     //tx5.executeSql('DROP TABLE AREA');
-                   tx5.executeSql('CREATE TABLE IF NOT EXISTS RETAILER (id INTEGER PRIMARY KEY,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync)');
+                    tx5.executeSql('CREATE TABLE IF NOT EXISTS RETAILER (id INTEGER PRIMARY KEY,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync)');
                     //tx5.executeSql('DROP TABLE RETAILER');
                     console.log("Retailer created");
                 });
@@ -125,13 +125,13 @@ var mydatabase = angular.module('mydatabase', [])
                     params: {}
                 })
             },
-            
-            /*id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync*/            
-            
+
+            /*id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync*/
+
             insertretailerdata: function (data) {
                 db.transaction(function (tx) {
-                    for (var i = 55; i < data.length; i++) {
-                        var sqls = 'INSERT INTO RETAILER (id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync) VALUES ("' + data[i].id + '","' + data[i].lat + '","' + data[i].long +'","' + data[i].area +'","' + data[i].dob +'","' + data[i].type_of_area +'","' + data[i].sq_feet +'","' + data[i].store_image +'","' + data[i].name +'","' + data[i].number +'","' + data[i].email +'","' + data[i].address +'","' + data[i].ownername +'","' + data[i].ownernumber +'","' + data[i].contactname +'","' + data[i].contactnumber +'","' + data[i].timestamp +'", "true")';
+                    for (var i = 0; i < data.length; i++) {
+                        var sqls = 'INSERT INTO RETAILER (id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync) VALUES ("' + data[i].id + '","' + data[i].lat + '","' + data[i].long + '","' + data[i].area + '","' + data[i].dob + '","' + data[i].type_of_area + '","' + data[i].sq_feet + '","' + data[i].store_image + '","' + data[i].name + '","' + data[i].number + '","' + data[i].email + '","' + data[i].address + '","' + data[i].ownername + '","' + data[i].ownernumber + '","' + data[i].contactname + '","' + data[i].contactnumber + '","' + data[i].timestamp + '", "true")';
                         console.log(sqls);
                         tx.executeSql(sqls, [], function (tx, results) {
                             console.log("RAOW INSERTED");
@@ -142,6 +142,15 @@ var mydatabase = angular.module('mydatabase', [])
                 });
             },
 
+            getstatesoffline: function (id) {
+                db.transaction(function (tx) {
+                    var sqls = 'SELECT * FROM STATE WHERE zone = '+id;
+                    tx.executeSql(sqls, [], function (tx, results) {
+                        return results;
+                    }, function (tx, results) {
 
+                    });
+                });
+            },
         }
     });
