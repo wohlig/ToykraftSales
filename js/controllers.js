@@ -127,7 +127,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
 })
 
-.controller('HomeCtrl', function ($scope, $stateParams, $location, MyServices, $ionicLoading, $cordovaSQLite) {
+.controller('HomeCtrl', function ($scope, $stateParams, $location, MyServices, $ionicLoading) {
 
     /*var db = $cordovaSQLite.openDB({ name: "my.db" });
     $scope.execute = function() {
@@ -218,7 +218,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
 })
 
-.controller('StateCtrl', function ($scope, $stateParams, $http, MyServices, MyDatabase, $ionicLoading, $cordovaNetwork, $cordovaSQLite) {
+.controller('StateCtrl', function ($scope, $stateParams, $http, MyServices, MyDatabase, $ionicLoading, $cordovaNetwork) {
 
     var zoneID = $stateParams.id;
     $scope.statedata = [];

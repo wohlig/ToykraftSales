@@ -42,7 +42,6 @@
     <gap:plugin name="org.apache.cordova.file-transfer" />
     <gap:plugin name="com.ionic.keyboard" />
     <gap:plugin name="org.apache.cordova.network-information" />
-    <gap:plugin name="https://github.com/brodysoft/Cordova-SQLitePlugin.git" />
    
 
 
