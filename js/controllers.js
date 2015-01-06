@@ -233,7 +233,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     var isOnline = $cordovaNetwork.isOnline();
     alert(isOnline);
     
-    if (isOnline == true) {
+    if (isOnline == false) {
         db.transaction(function (tx) {
             var sqls = 'SELECT * FROM STATE WHERE "zone" = "' + zoneID + '"';
             console.log(sqls);
