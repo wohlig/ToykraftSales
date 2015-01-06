@@ -21,7 +21,7 @@ console.log("ABHAY ABHAY ABHAY ABHAY ABHAY");
 var mydatabase = angular.module('mydatabase', [])
     .factory('MyDatabase', function ($http, $location, $cordovaNetwork) {
 
-        var statedata = {};
+        var statedata = [];
 
         return {
 
@@ -141,16 +141,6 @@ var mydatabase = angular.module('mydatabase', [])
                     };
                 });
             },
-
-            getstatesoffline: function (id) {
-                db.transaction(function (tx) {
-                    var sqls = 'SELECT * FROM STATE WHERE zone = '+id;
-                    tx.executeSql(sqls, [], function (tx, results) {
-                        return results;
-                    }, function (tx, results) {
-
-                    });
-                });
-            },
+            
         }
     });

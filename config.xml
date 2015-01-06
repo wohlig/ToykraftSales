@@ -33,6 +33,7 @@
     
     <feature name="http://api.phonegap.com/1.0/geolocation"/>
     
+    
     <gap:plugin name="org.apache.cordova.device" />
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
@@ -41,6 +42,7 @@
     <gap:plugin name="org.apache.cordova.file-transfer" />
     <gap:plugin name="com.ionic.keyboard" />
     <gap:plugin name="org.apache.cordova.network-information" />
+    <gap:plugin name="https://github.com/brodysoft/Cordova-SQLitePlugin.git" />
    
 
 
