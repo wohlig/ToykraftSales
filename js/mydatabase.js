@@ -65,10 +65,14 @@ var mydatabase = angular.module('mydatabase', [])
                     console.log("Area created");
                 });
                 db.transaction(function (tx5) {
-                    //tx5.executeSql('DROP TABLE AREA');
                     tx5.executeSql('CREATE TABLE IF NOT EXISTS RETAILER (id INTEGER PRIMARY KEY,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync)');
                     //tx5.executeSql('DROP TABLE RETAILER');
                     console.log("Retailer created");
+                });
+                db.transaction(function (tx6) {
+                    tx6.executeSql('CREATE TABLE IF NOT EXISTS PRODUCT (id INTEGER PRIMARY KEY, name, product, encode, name2, productcode, category,video,mrp,description VARCHAR2(5000),age,scheme,isnew,timestamp)');
+                    //tx6.executeSql('DROP TABLE PRODUCT');
+                    console.log("Product created");
                 });
             },
             syncinretailerstatedata: function () {
@@ -137,6 +141,24 @@ var mydatabase = angular.module('mydatabase', [])
                             console.log("RAOW INSERTED");
                         }, function (tx, results) {
                             console.log("RAOW NOT INSERTED");
+                        });
+                    };
+                });
+            },
+            syncinproductdata: function() {
+                return $http.get(adminurl + "product/find", {
+                    params: {}
+                })            
+            },
+            insertproductdata: function (data) {
+                db.transaction(function (tx) {
+                    for (var i = 0; i < data.length; i++) {
+                        var sqls = 'INSERT INTO PRODUCT (id, name, product, encode, name2, productcode, category,video,mrp,description,age,scheme,isnew,timestamp) VALUES (' + data[i].id + ',"' + data[i].name + '","' + data[i].product + '","' + data[i].encode + '","' + data[i].name2 + '","' + data[i].productcode + '","' + data[i].category + '","' + data[i].video + '","' + data[i].mrp + '","' + data[i].description + '","' + data[i].age + '","' + data[i].scheme + '","' + data[i].isnew + '","' + data[i].timestamp + '")';
+                        console.log(sqls);
+                        tx.executeSql(sqls, [], function (tx, results) {
+                            console.log("PRODUCT RAOW INSERTED");
+                        }, function (tx, results) {
+                            console.log("PRODUCT RAOW NOT INSERTED");
                         });
                     };
                 });

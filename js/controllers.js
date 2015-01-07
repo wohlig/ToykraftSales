@@ -57,23 +57,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         $scope.userz = {};
         $scope.userz.zone = ""
 
-        var type = $cordovaNetwork.getNetwork();
+        /*var type = $cordovaNetwork.getNetwork();
         console.log("The type of network is" + type);
-        alert(type);
+        alert(type);*/
         //SETS VALUE FOR ZONE
         //MyDatabase.findzonebyuseroffline();
-
-        /*if (windows.Connection) {
-            if (navigator.connection.type == Connection.NONE) {
-                alert("No Internet Found");
-            };
-        };
-        var checkConnection = function () {
-            var type = $cordovaNetwork.getNetwork();
-            alert('Connection type: ' + type);
-        };
-
-        checkConnection();*/
 
         $scope.retailerdatao = [];
         //CREATE TABLES
@@ -96,12 +84,17 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             $scope.retailerdatao = data;
             MyDatabase.insertretailerdata(data);
         };
+        syncproductdatasuccess = function (data, status) {
+            console.log(data);
+            MyDatabase.insertproductdata(data);
+        };
         $scope.getdatatables = function () {
             //SYNC IN DATA
             MyDatabase.syncinretailerstatedata().success(syncretailerstatedatasuccess);
             MyDatabase.syncinretailercitydata().success(syncretailercitydatasuccess);
             MyDatabase.syncinretailerareadata().success(syncretailerareadatasuccess);
             MyDatabase.syncinretailerdata().success(syncretailerdatasuccess);
+            MyDatabase.syncinproductdata().success(syncproductdatasuccess);
         };
     })
 
@@ -320,8 +313,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     };
 })
 
-.controller('RetailerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicLoading, $cordovaNetwork
-) {
+.controller('RetailerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicLoading, $cordovaNetwork) {
 
     var areaID = $stateParams.id;
     $scope.areaid = areaID;
@@ -352,27 +344,18 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
             });
         });
-    //IF INTERNET CONNECTION EXISTS
+        //IF INTERNET CONNECTION EXISTS
     } else {
         MyServices.findretailer(areaID).success(retailSuccess);
     };
 })
 
-.controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicModal, $window, $ionicLoading) {
+.controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicModal, $window, $ionicLoading, $cordovaNetwork) {
     $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
 
+    var offline = true;
     $scope.params = {};
-
-    /*   //WATCH
-    $scope.changetext = {name:"abhay"};
-    $scope.$watch('changetext', function() {
-      // alert('hey, myVar has changed!');
-   });
-    $scope.change = function() {
-        MyServices.setproductCatdata([{name: "Abhay"},{name:"Chintan"}]);
-    };*/
-
 
     //GEO-LOCATION
     var onSuccess = function (position) {
@@ -399,23 +382,21 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     MyServices.setretailer($scope.retailerid);
     //GET CART
     $scope.mycart = MyServices.getCart();
+    //RETAILER DATA VARIABLE
+    $scope.retailerdata2 = [];
 
     $scope.retailerID = $stateParams.id;
     if ($scope.retailerID == 0) {
         $location.path("/app/home");
     };
 
-
-
-    // console.log('retailer ID is ' + retailerID);
-
-    //GAINING RETAILER INFORMATION
-    $scope.retailerdata2 = [];
-    console.log($scope.retailerdata2);
+    ////////////////////////////////////////////////////GAINING RETAILER INFO//////////////////////////////////////////////
+    //GAINING RETAILER INFORMATION - ONLINE//
     var retailSuccess2 = function (data, status) {
         $scope.firstclick = 0;
         console.log("Retailer info gained");
         console.log(data);
+        //RETAILER DATA VARIABLE
         $scope.retailerdata2 = data;
         $scope.dealeremail = data.distributor;
         console.log("Dealer is " + $scope.dealeremail);
@@ -425,7 +406,32 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         $scope.editretailer.contactnumber = $scope.retailerdata2.contactnumber;
         $scope.editretailer.email = $scope.retailerdata2.email;
     };
-    MyServices.findoneretailer($scope.retailerID).success(retailSuccess2);
+
+    //GAINING RETAILER INFORMATION - OFFLINE//
+    var getretailerdataoffline = function () {
+        db.transaction(function (tx) {
+            var sqls = 'SELECT * FROM RETAILER WHERE "id" = "' + $scope.retailerid + '"';
+            tx.executeSql(sqls, [], function (tx, results) {
+                var length = results.rows.length;
+                for (var i = 0; i < length; i++) {
+                    $scope.retailerdata2 = results.rows.item(i);
+                    console.log($scope.retailerdata2);
+                };
+                $ionicLoading.hide();
+            }, function (tx, results) {});
+        });
+    };
+    
+    //IF INTERNET CONNECTION EXISTS
+    if(offline){
+        getretailerdataoffline();
+    } else {
+        MyServices.findoneretailer($scope.retailerID).success(retailSuccess2);
+    };
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
     $scope.productquantity = 1;
 
     //PRODUCT INFORMATION
@@ -444,22 +450,20 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         return returnval;
     };
 
+    ////FUNCTION CALLED WHEN QUANTITY IS CHANGED////
     $scope.changequantity = function (quantity, code, category) {
         var id = -1;
         for (var i = 0; i < $scope.mycart.length; i++) {
             if ($scope.mycart[i].productcode == code && $scope.mycart[i].category == category) {
                 id = i;
-            }
+            };
         }
-        if (id > 0) {
-            console.log("KEY IS " + id);
+        if (id >= 0) {
             $scope.mycart[id].quantity = parseInt(quantity);
             var mrp = $scope.mycart[id].mrp;
             $scope.mycart[id].totalprice = $scope.mycart[id].quantity * mrp;
-            // $scope.
             MyServices.setcart($scope.mycart);
         }
-        //$scope.total += ;
     };
 
 
@@ -520,7 +524,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //DEFINING THE ARRAY VARIABLE
     $scope.categoryproductdata = {};
 
-    //GIVING VALUES IN VARIABLE
+    //GIVING VALUES IN VARIABLE - ONLINE
     var oncategoryproductsuccess = function (data, status) {
         $ionicLoading.hide();
         console.log(data);
@@ -534,8 +538,101 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         };
     };
 
-    //INITITAL FUNCTION ON PAGE CALL
-    MyServices.findnext(0, 1).success(oncategoryproductsuccess);
+    //GIVING VALUES IN VARIABLE - OFFLINE
+    var oncategoryproductofflinesuccess = function (data) {
+        $ionicLoading.hide();
+        console.log(data);
+        $scope.categoryproductdata = data;
+        /*if ($scope.categoryproductdata.scheme2) {
+            if ($scope.categoryproductdata.scheme2.name) {
+                $scope.categoryname = "Scheme : " + $scope.categoryproductdata.scheme2.name + " (" + $scope.categoryproductdata.scheme2.discount_percent + "%)";
+            } else {
+                $scope.categoryname = ""
+            };
+        };*/
+    };
+
+    //OFFLINE PRODUCT CALL FUNCTION
+    nextproductoffline = function (productid, next) {
+        var tempproducts = [];
+        db.transaction(function (tx2) {
+            var sqls2 = 'SELECT * FROM PRODUCT WHERE "category" = "' + $scope.categoryid + '"';
+            tx2.executeSql(sqls2, [], function (tx2, results2) {
+                for (var i = 0; i < results2.rows.length; i++) {
+                    tempproducts.push(results2.rows.item(i));
+                };
+                var one
+                if (next == 1) {
+                    one = 9999;
+                    for (var j = 0; j < tempproducts.length; j++) {
+                        if (tempproducts[j].id > productid) {
+                            var two = one;
+                            one = Math.min(tempproducts[j].id, one);
+                            if (one != two) {
+                                var varid = j;
+                            };
+                        };
+                    };
+                    if (one == 9999) {
+                        for (var j = 0; j < tempproducts.length; j++) {
+                            var two = one;
+                            one = Math.min(tempproducts[j].id, one)
+                            if (one != two) {
+                                var varid = j;
+                            };
+                        };
+                    };
+                } else {
+                    one = 0;
+                    for (var j = 0; j < tempproducts.length; j++) {
+                        if (tempproducts[j].id < productid) {
+                            var two = one;
+                            one = Math.max(tempproducts[j].id, one);
+                            if (one != two) {
+                                var varid = j;
+                            };
+                        };
+                    };
+                    if (one == 0) {
+                        for (var j = 0; j < tempproducts.length; j++) {
+                            var two = one;
+                            one = Math.max(tempproducts[j].id, one)
+                            if (one != two) {
+                                var varid = j;
+                            };
+                        };
+                    };
+                };
+                console.log(one);
+                oncategoryproductofflinesuccess(tempproducts[varid]);
+
+            }, function (tx2, results2) {});
+        });
+
+    };
+
+    //INITITAL FUNCTION CALL ON PAGE LOAD
+    var initialproductcall = function () {
+        if (offline) {
+            console.log("OFFLINE MODE");
+            nextproductoffline(0, 1);
+        } else {
+            MyServices.findnext(0, 1).success(oncategoryproductsuccess);
+        };
+    };
+    initialproductcall();
+
+    //NEXT BUTTON AN PREVIOUS BUTTON (1 FOR NEXT, 0 FOR PREVIOUS)
+    $scope.getnextproduct = function (next) {
+        if (offline) {
+            console.log("OFFLINE MODE");
+            nextproductoffline($scope.categoryproductdata.id, next);
+        } else {
+            console.log("SENDING ID " + $scope.categoryproductdata.id);
+            MyServices.findnext($scope.categoryproductdata.id, next).success(oncategoryproductsuccess);
+        }
+
+    };
 
     //SCHEME AND NEW PRODUCTS
     $scope.getscheme = function (cid) {
@@ -546,11 +643,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         $location.replace();
     };
 
-    //NEXT BUTTON AN PREVIOUS BUTTON (1 FOR NEXT, 0 FOR PREVIOUS)
-    $scope.getnextproduct = function (next) {
-        console.log("SENDING ID " + $scope.categoryproductdata.id);
-        MyServices.findnext($scope.categoryproductdata.id, next).success(oncategoryproductsuccess);
-    };
+
 
 
     //SEARCH
@@ -677,19 +770,16 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         }
     };
 
-
     //ADD TO CART
     $scope.addToCart = function (id, productcode, name, quantity, mrp) {
 
         $scope.totalprice = quantity * mrp;
         //$scope.total += totalprice;
         if (quantity > 0) {
-
             MyServices.addItemToCart(id, productcode, name, quantity, mrp, $scope.totalprice);
             $scope.mycart = MyServices.getCart();
             //console.log("YOUR CART "+ mycart);+
         };
-
     };
 
     //REMOVE FROM CART
@@ -701,8 +791,6 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             }
         }
         console.log("REMOVE FUNCITON CALLED");
-
-
     };
 
     //E-mail FUNCTION
