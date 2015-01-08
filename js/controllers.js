@@ -365,7 +365,6 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
 
-    var offline = true;
     $scope.params = {};
 
     //GEO-LOCATION
@@ -405,12 +404,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //GAINING RETAILER INFORMATION - ONLINE//
     var retailSuccess2 = function (data, status) {
         $scope.firstclick = 0;
-        console.log("Retailer info gained");
-        console.log(data);
         //RETAILER DATA VARIABLE
         $scope.retailerdata2 = data;
+        //DEALER EMAIL ID
         $scope.dealeremail = data.distributor;
-        console.log("Dealer is " + $scope.dealeremail);
+        //EDIT RETAILER INFO
         $scope.editretailer.ownername = $scope.retailerdata2.ownername;
         $scope.editretailer.ownernumber = $scope.retailerdata2.ownernumber;
         $scope.editretailer.contactname = $scope.retailerdata2.contactname;
@@ -429,6 +427,15 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
                     console.log($scope.retailerdata2);
                 };
                 $ionicLoading.hide();
+                $scope.firstclick = 0;
+                //DEALER EMAIL ID
+                $scope.dealeremail = $scope.retailerdata2.distributor;
+                //EDIT RETAILER INFO
+                $scope.editretailer.ownername = $scope.retailerdata2.ownername;
+                $scope.editretailer.ownernumber = $scope.retailerdata2.ownernumber;
+                $scope.editretailer.contactname = $scope.retailerdata2.contactname;
+                $scope.editretailer.contactnumber = $scope.retailerdata2.contactnumber;
+                $scope.editretailer.email = $scope.retailerdata2.email;
             }, function (tx, results) {});
         });
     };
