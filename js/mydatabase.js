@@ -10,18 +10,21 @@ db.transaction(function (tx) {
     tx.executeSql('CREATE TABLE IF NOT EXISTS ZONE (id Integer PRIMARY KEY, name, email)');
     console.log("created");
     //tx.executeSql('DROP DATABASE toykraftapp')
-
-
-
     //    /tx.executeSql('DROP TABLE ZONE');
 });
 
-console.log("ABHAY ABHAY ABHAY ABHAY ABHAY");
+console.log("ABHAY RISHI OMKAR");
 
 var mydatabase = angular.module('mydatabase', [])
     .factory('MyDatabase', function ($http, $location, $cordovaNetwork) {
 
         var statedata = [];
+        var categorydata = [];
+        if($.jStorage.get("categoriesdata"))
+        {
+            var categorydata = $.jStorage.get("categoriesdata");
+        };
+        
 
         return {
 
@@ -145,10 +148,10 @@ var mydatabase = angular.module('mydatabase', [])
                     };
                 });
             },
-            syncinproductdata: function() {
+            syncinproductdata: function () {
                 return $http.get(adminurl + "product/find", {
                     params: {}
-                })            
+                })
             },
             insertproductdata: function (data) {
                 db.transaction(function (tx) {
@@ -163,6 +166,14 @@ var mydatabase = angular.module('mydatabase', [])
                     };
                 });
             },
-            
+            synccategorydata : function (data) {
+                $.jStorage.set("categoriesdata", data);
+                console.log(data);
+                categorydata = data;
+            },
+            getcategoriesoffline: function () {
+                return categorydata;
+            },
+
         }
     });

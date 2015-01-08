@@ -22,9 +22,7 @@ var myservices = angular.module('myservices', [])
     };
 
     var productCatdata = [];
-
-
-
+    
     return {
         getsearchtxt: function () {
             return searchtxt;

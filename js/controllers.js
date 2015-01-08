@@ -1,6 +1,7 @@
 var adminurl = "http://mafiawarloots.com/clientunderworkcode/index.php/";
 
 var filenameee = "";
+var offline = true;
 angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 'ngCordova'])
 
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout, $location, MyServices, MyDatabase, $cordovaKeyboard, $ionicLoading) {
@@ -29,10 +30,16 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         var isVisible = $cordovaKeyboard.isVisible();
     };
 
+    //GET CATEGORY NAMES
     var categorynamesuccess = function (data, status) {
         $scope.categorynamedata = data;
     };
-    MyServices.getcategoriesname().success(categorynamesuccess);
+    if (offline) {
+        $scope.categorynamedata = MyDatabase.getcategoriesoffline();
+    } else {
+        MyServices.getcategoriesname().success(categorynamesuccess);
+    };
+
 
     $scope.rid = MyServices.getretailer();
     $scope.changecategory = function (cid) {
@@ -88,6 +95,9 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             console.log(data);
             MyDatabase.insertproductdata(data);
         };
+        synccategorydatasuccess = function (data, status) {
+            MyDatabase.synccategorydata(data);
+        };
         $scope.getdatatables = function () {
             //SYNC IN DATA
             MyDatabase.syncinretailerstatedata().success(syncretailerstatedatasuccess);
@@ -95,6 +105,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             MyDatabase.syncinretailerareadata().success(syncretailerareadatasuccess);
             MyDatabase.syncinretailerdata().success(syncretailerdatasuccess);
             MyDatabase.syncinproductdata().success(syncproductdatasuccess);
+            MyServices.getcategoriesname().success(synccategorydatasuccess);
         };
     })
 
@@ -421,14 +432,14 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             }, function (tx, results) {});
         });
     };
-    
+
     //IF INTERNET CONNECTION EXISTS
-    if(offline){
+    if (offline) {
         getretailerdataoffline();
     } else {
         MyServices.findoneretailer($scope.retailerID).success(retailSuccess2);
     };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
