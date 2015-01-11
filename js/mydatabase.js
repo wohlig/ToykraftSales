@@ -16,7 +16,7 @@ db.transaction(function (tx) {
 console.log("ABHAY RISHI OMKAR");
 
 var mydatabase = angular.module('mydatabase', [])
-    .factory('MyDatabase', function ($http, $location, $cordovaNetwork) {
+    .factory('MyDatabase', function ($http, $location, $cordovaNetwork, MyServices) {
 
         var statedata = [];
         var categorydata = [];
@@ -186,7 +186,7 @@ var mydatabase = angular.module('mydatabase', [])
             sendcartoffline: function (orid, ouid, ocart) {
                 //orderid(generate), userid, retailerid, productid(many), quantity, mrp, totalprice
                 //cart=[];
-                if ($.jStorage.get("offlineorderid")>0) {
+                if ($.jStorage.get("offlineorderid") > 0) {
                     orderid = $.jStorage.get("offlineorderid");
                 } else {
                     orderid = 0
@@ -204,6 +204,42 @@ var mydatabase = angular.module('mydatabase', [])
                         });
                     };
                 });
+            },
+            syncsendorders: function () {
+                var numorders = 0;
+                var orderrid, orderuid;
+                //find maximum number in order number
+                db.transaction(function (tx) {
+                    var sqls = 'SELECT max(id) as maxorder FROM ORDERS';
+                    console.log(sqls);
+                    tx.executeSql(sqls, [], function (tx, results) {
+                        numorders = parseInt(results.rows.item(0).maxorder);
+                    }, function (tx, results) {});
+
+                });
+                //see if it is greater than 0
+                if (numorders > 0) {
+                    console.log("greater");
+                    //start from 1 to greates number
+                    for (var j = 1; j == numorders; j++) {
+                        db.transaction(function (tx2) {
+                            var sqls = 'SELECT retailerid FROM ORDERS WHERE id=='+j;
+                            console.log(sqls);
+                            tx2.executeSql(sqls, [], function (tx2, results2) {
+                                console.log(results2.rows.item(0).retailerid);
+                            }, function (tx2, results2) {});
+
+                        });
+                        
+                    };
+                };
+
+
+
+                //where 1, take retailer id, user id, take product id (make array, keep pushing) and delete that row
+                //make array of retailerid and user id, cart
+                //send the order
+                //next
             },
 
 

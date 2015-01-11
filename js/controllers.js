@@ -109,8 +109,30 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         };
 
         $scope.sendofflineorders = function () {
-            MyDatabase.
+            MyDatabase.syncsendorders();
         };
+    
+    
+    db.transaction(function (tx) {
+            var sqls = 'SELECT * FROM RETAILER WHERE "id" = "' + $scope.retailerid + '"';
+            tx.executeSql(sqls, [], function (tx, results) {
+                var length = results.rows.length;
+                for (var i = 0; i < length; i++) {
+                    $scope.retailerdata2 = results.rows.item(i);
+                    console.log($scope.retailerdata2);
+                };
+                $ionicLoading.hide();
+                $scope.firstclick = 0;
+                //DEALER EMAIL ID
+                $scope.dealeremail = $scope.retailerdata2.distributor;
+                //EDIT RETAILER INFO
+                $scope.editretailer.ownername = $scope.retailerdata2.ownername;
+                $scope.editretailer.ownernumber = $scope.retailerdata2.ownernumber;
+                $scope.editretailer.contactname = $scope.retailerdata2.contactname;
+                $scope.editretailer.contactnumber = $scope.retailerdata2.contactnumber;
+                $scope.editretailer.email = $scope.retailerdata2.email;
+            }, function (tx, results) {});
+        });
     })
 
 .controller('LoginCtrl', function ($scope, $stateParams, MyServices, $location, MyDatabase) {
