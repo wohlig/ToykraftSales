@@ -77,6 +77,12 @@ var mydatabase = angular.module('mydatabase', [])
                     //tx6.executeSql('DROP TABLE PRODUCT');
                     console.log("Product created");
                 });
+                //orderid(generate), userid, retailerid, productid(many), quantity, mrp, totalprice
+                db.transaction(function (tx7) {
+                    tx7.executeSql('CREATE TABLE IF NOT EXISTS ORDERS (id INTEGER PRIMARY KEY, userid INTEGER, retailerid INTEGER, productid INTEGER, quantity INTEGER, mrp, totalprice)');
+                    //tx7.executeSql('DROP TABLE ORDERS');
+                    console.log("Order Transaction Table created");
+                });
             },
             syncinretailerstatedata: function () {
                 return $http.get(adminurl + "state/find", {
@@ -174,6 +180,7 @@ var mydatabase = angular.module('mydatabase', [])
             getcategoriesoffline: function () {
                 return categorydata;
             },
+            
 
         }
     });

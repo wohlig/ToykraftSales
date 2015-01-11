@@ -361,7 +361,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     };
 })
 
-.controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicModal, $window, $ionicLoading, $cordovaNetwork) {
+.controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices,MyDatabase, $location, $ionicModal, $window, $ionicLoading, $cordovaNetwork) {
     $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
 
@@ -545,8 +545,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //GIVING VALUES IN VARIABLE - ONLINE
     var oncategoryproductsuccess = function (data, status) {
         $ionicLoading.hide();
-        console.log(data);
         $scope.categoryproductdata = data;
+        //CATEGORY SCHEME INFO//
         if ($scope.categoryproductdata.scheme2) {
             if ($scope.categoryproductdata.scheme2.name) {
                 $scope.categoryname = "Scheme : " + $scope.categoryproductdata.scheme2.name + " (" + $scope.categoryproductdata.scheme2.discount_percent + "%)";
@@ -554,6 +554,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
                 $scope.categoryname = ""
             };
         };
+        ////
     };
 
     //GIVING VALUES IN VARIABLE - OFFLINE
@@ -632,7 +633,6 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //INITITAL FUNCTION CALL ON PAGE LOAD
     var initialproductcall = function () {
         if (offline) {
-            console.log("OFFLINE MODE");
             nextproductoffline(0, 1);
         } else {
             MyServices.findnext(0, 1).success(oncategoryproductsuccess);
@@ -643,10 +643,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //NEXT BUTTON AN PREVIOUS BUTTON (1 FOR NEXT, 0 FOR PREVIOUS)
     $scope.getnextproduct = function (next) {
         if (offline) {
-            console.log("OFFLINE MODE");
             nextproductoffline($scope.categoryproductdata.id, next);
         } else {
-            console.log("SENDING ID " + $scope.categoryproductdata.id);
             MyServices.findnext($scope.categoryproductdata.id, next).success(oncategoryproductsuccess);
         }
 
@@ -999,7 +997,12 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             var recieversname = retailerdata2.name;
             console.log($scope.mycart);
 
-            MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
+            if (offline) {
+                MyServices.sendcartoffline();
+            } else {
+                MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
+            };
+
 
             $scope.number1 = retailerdata2.contactnumber;
             $scope.number2 = retailerdata2.ownernumber;

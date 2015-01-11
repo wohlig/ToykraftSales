@@ -22,7 +22,7 @@ var myservices = angular.module('myservices', [])
     };
 
     var productCatdata = [];
-    
+
     return {
         getsearchtxt: function () {
             return searchtxt;
@@ -112,7 +112,7 @@ var myservices = angular.module('myservices', [])
                 }
             });
         },
-        
+
         findstate: function (zone) {
             return $http.get(adminurl + "state/findbyzone", {
                 params: {
@@ -216,6 +216,10 @@ var myservices = angular.module('myservices', [])
             console.log(cart);
             cart = [];
             console.log(cart);
+        },
+        sendcartoffline: function () {
+            //orderid(generate), userid, retailerid, productid(many), quantity, mrp, totalprice
+            //cart=[];
         },
         removeObject: function (oid) {
 
