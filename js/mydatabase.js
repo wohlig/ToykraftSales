@@ -20,11 +20,14 @@ var mydatabase = angular.module('mydatabase', [])
 
         var statedata = [];
         var categorydata = [];
-        if($.jStorage.get("categoriesdata"))
-        {
+        if ($.jStorage.get("categoriesdata")) {
             var categorydata = $.jStorage.get("categoriesdata");
         };
-        
+        var orderid = 0;
+        if ($.jStorage.get("offlineorderid")) {
+            orderid = $.jStorage.get("offlineorderid");
+        };
+
 
         return {
 
@@ -79,7 +82,7 @@ var mydatabase = angular.module('mydatabase', [])
                 });
                 //orderid(generate), userid, retailerid, productid(many), quantity, mrp, totalprice
                 db.transaction(function (tx7) {
-                    tx7.executeSql('CREATE TABLE IF NOT EXISTS ORDERS (id INTEGER PRIMARY KEY, userid INTEGER, retailerid INTEGER, productid INTEGER, quantity INTEGER, mrp, totalprice)');
+                    tx7.executeSql('CREATE TABLE IF NOT EXISTS ORDERS (id INTEGER, userid INTEGER, retailerid INTEGER, productid INTEGER, quantity INTEGER, mrp, totalprice)');
                     //tx7.executeSql('DROP TABLE ORDERS');
                     console.log("Order Transaction Table created");
                 });
@@ -172,7 +175,7 @@ var mydatabase = angular.module('mydatabase', [])
                     };
                 });
             },
-            synccategorydata : function (data) {
+            synccategorydata: function (data) {
                 $.jStorage.set("categoriesdata", data);
                 console.log(data);
                 categorydata = data;
@@ -180,7 +183,29 @@ var mydatabase = angular.module('mydatabase', [])
             getcategoriesoffline: function () {
                 return categorydata;
             },
-            
+            sendcartoffline: function (orid, ouid, ocart) {
+                //orderid(generate), userid, retailerid, productid(many), quantity, mrp, totalprice
+                //cart=[];
+                if ($.jStorage.get("offlineorderid")>0) {
+                    orderid = $.jStorage.get("offlineorderid");
+                } else {
+                    orderid = 0
+                };
+                orderid += 1;
+                $.jStorage.set("offlineorderid", orderid);
+                db.transaction(function (tx) {
+                    for (var i = 0; i < ocart.length; i++) {
+                        var sqls = 'INSERT INTO ORDERS (id, userid, retailerid , productid , quantity , mrp, totalprice) VALUES (' + orderid + ',' + ouid + ',' + orid + ',' + ocart[i].id + ',' + ocart[i].quantity + ',"' + ocart[i].mrp + '","' + ocart[i].totalprice + '")';
+                        console.log(sqls);
+                        tx.executeSql(sqls, [], function (tx, results) {
+                            console.log('added ' + i + ' products with order id ' + orderid);
+                        }, function (tx, results) {
+                            console.log('did not add product with name' + ocart.name);
+                        });
+                    };
+                });
+            },
+
 
         }
     });

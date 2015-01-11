@@ -107,6 +107,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             MyDatabase.syncinproductdata().success(syncproductdatasuccess);
             MyServices.getcategoriesname().success(synccategorydatasuccess);
         };
+
+        $scope.sendofflineorders = function () {
+            MyDatabase.
+        };
     })
 
 .controller('LoginCtrl', function ($scope, $stateParams, MyServices, $location, MyDatabase) {
@@ -361,7 +365,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     };
 })
 
-.controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices,MyDatabase, $location, $ionicModal, $window, $ionicLoading, $cordovaNetwork) {
+.controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, MyDatabase, $location, $ionicModal, $window, $ionicLoading, $cordovaNetwork) {
     $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
 
@@ -998,7 +1002,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             console.log($scope.mycart);
 
             if (offline) {
-                MyServices.sendcartoffline();
+                var u = MyServices.getuser();
+                var c = MyServices.getCart()
+                console.log(u);
+                console.log(c);
+                MyDatabase.sendcartoffline(retailerdata2.id, u.id, c);
             } else {
                 MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
             };

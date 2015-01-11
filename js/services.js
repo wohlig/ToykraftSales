@@ -217,10 +217,6 @@ var myservices = angular.module('myservices', [])
             cart = [];
             console.log(cart);
         },
-        sendcartoffline: function () {
-            //orderid(generate), userid, retailerid, productid(many), quantity, mrp, totalprice
-            //cart=[];
-        },
         removeObject: function (oid) {
 
             cart.splice(oid, 1);
