@@ -1,11 +1,12 @@
 var adminurl = "http://mafiawarloots.com/clientunderworkcode/index.php/";
 
 var filenameee = "";
-var offline = true;
+
 angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 'ngCordova'])
 
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout, $location, MyServices, MyDatabase, $cordovaKeyboard, $ionicLoading) {
-
+    //GET OFFLINE MODE VALUE
+    var offline = MyServices.getmode();
     console.log("APP CONTROL");
     $scope.setslide = function () {
         var path = $location.path();
@@ -60,9 +61,19 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     MyDatabase.findzonebyuser().success(zonedata);
 
 })
-    .controller('syncCtrl', function ($scope, $stateParams, MyServices, MyDatabase, $location, $cordovaNetwork) {
+    .controller('syncCtrl', function ($scope, $stateParams, MyServices, MyDatabase, $location, $cordovaNetwork, $cordovaToast) {
+        //GET OFFLINE MODE VALUE
+        var offline = MyServices.getmode();
         $scope.userz = {};
         $scope.userz.zone = ""
+        $scope.offlinemodebutton = false;
+        $scope.offlinemoder = function () {
+            $scope.offlinemodebutton = !($scope.offlinemodebutton);
+            console.log($scope.offlinemodebutton);
+            MyServices.setmode($scope.offlinemodebutton);
+        };
+
+        //$cordovaToast.show('Offline Mode'+$scope.offlinemodebutton, 'long', 'bottom')
 
         /*var type = $cordovaNetwork.getNetwork();
         console.log("The type of network is" + type);
@@ -74,6 +85,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         //CREATE TABLES
         MyDatabase.createretailertables();
 
+        //RETRIEVING DATA INTO TABLES
         syncretailerstatedatasuccess = function (data, status) {
             console.log(data);
             MyDatabase.insertretailerstatedata(data);
@@ -109,11 +121,28 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         };
 
         $scope.sendofflineorders = function () {
-            MyDatabase.syncsendorders();
+            db.transaction(function (tx) {
+                var sqls = 'SELECT max(orderid) as maxorder FROM ORDERS';
+                console.log(sqls);
+                tx.executeSql(sqls, [], function (tx, results) {
+                    numorders = parseInt(results.rows.item(0).maxorder);
+                    //see if it is greater than 0
+                    if (numorders > 0) {
+                        console.log("greater");
+                        console.log(numorders);
+                        for (var i = 1; i <= numorders; i++) {
+                            var sqls = 'SELECT * FROM ORDERS WHERE orderid=' + i;
+                            var dsqls = 'DELETE FROM ORDERS WHERE orderid=' + i;
+                            MyDatabase.syncsendorders(sqls, dsqls);
+                        };
+
+                    };
+                }, function (tx, results) {});
+            });
         };
-    
-    
-    db.transaction(function (tx) {
+
+
+        db.transaction(function (tx) {
             var sqls = 'SELECT * FROM RETAILER WHERE "id" = "' + $scope.retailerid + '"';
             tx.executeSql(sqls, [], function (tx, results) {
                 var length = results.rows.length;
@@ -158,6 +187,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 })
 
 .controller('HomeCtrl', function ($scope, $stateParams, $location, MyServices, $ionicLoading) {
+    //GET OFFLINE MODE VALUE
+    var offline = MyServices.getmode();
 
     /*var db = $cordovaSQLite.openDB({ name: "my.db" });
     $scope.execute = function() {
@@ -239,6 +270,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
 
 .controller('ZoneCtrl', function ($scope, $stateParams, $http, MyServices) {
+    //GET OFFLINE MODE VALUE
+    var offline = MyServices.getmode();
 
     $scope.zonedata = [];
     var onzonesuccess = function (data, status) {
@@ -249,6 +282,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 })
 
 .controller('StateCtrl', function ($scope, $stateParams, $http, MyServices, MyDatabase, $ionicLoading, $cordovaNetwork) {
+    //GET OFFLINE MODE VALUE
+    var offline = MyServices.getmode();
 
     var zoneID = $stateParams.id;
     $scope.statedata = [];
@@ -261,9 +296,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //CHECK IF INTERNET IS CONNECTED
     $scope.type = $cordovaNetwork.getNetwork();
     var isOnline = $cordovaNetwork.isOnline();
+    offline = !(isOnline);
     alert(isOnline);
     //IF NO INTERNET THEN
-    if (isOnline == false) {
+    if (offline) {
         db.transaction(function (tx) {
             var sqls = 'SELECT * FROM STATE WHERE "zone" = "' + zoneID + '"';
             tx.executeSql(sqls, [], function (tx, results) {
@@ -283,6 +319,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 })
 
 .controller('CityCtrl', function ($scope, $stateParams, $http, MyServices, $ionicLoading, $cordovaNetwork) {
+    //GET OFFLINE MODE VALUE
+    var offline = MyServices.getmode();
 
     var stateID = $stateParams.id;
     $scope.citydata = [];
@@ -295,9 +333,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //CHECK IF INTERNET IS CONNECTED
     $scope.type = $cordovaNetwork.getNetwork();
     var isOnline = $cordovaNetwork.isOnline();
+    offline = !(isOnline);
     alert(isOnline);
     //IF NO INTERNET THEN
-    if (isOnline == false) {
+    if (offline) {
         db.transaction(function (tx) {
             var sqls = 'SELECT * FROM CITY WHERE "state" = "' + stateID + '"';
             tx.executeSql(sqls, [], function (tx, results) {
@@ -317,6 +356,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 })
 
 .controller('AreaCtrl', function ($scope, $stateParams, $http, MyServices, $ionicLoading, $cordovaNetwork) {
+    //GET OFFLINE MODE VALUE
+    var offline = MyServices.getmode();
 
     var cityID = $stateParams.id;
     $scope.areadata = [];
@@ -329,9 +370,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //CHECK IF INTERNET IS CONNECTED
     $scope.type = $cordovaNetwork.getNetwork();
     var isOnline = $cordovaNetwork.isOnline();
+    offline = !(isOnline);
     alert(isOnline);
     //IF NO INTERNET THEN
-    if (isOnline == false) {
+    if (offline) {
         db.transaction(function (tx) {
             var sqls = 'SELECT * FROM AREA WHERE "city" = "' + cityID + '"';
             tx.executeSql(sqls, [], function (tx, results) {
@@ -351,6 +393,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 })
 
 .controller('RetailerCtrl', function ($scope, $stateParams, $http, MyServices, $location, $ionicLoading, $cordovaNetwork) {
+    //GET OFFLINE MODE VALUE
+    var offline = MyServices.getmode();
 
     var areaID = $stateParams.id;
     $scope.areaid = areaID;
@@ -366,9 +410,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //CHECK IF INTERNET IS CONNECTED
     $scope.type = $cordovaNetwork.getNetwork();
     var isOnline = $cordovaNetwork.isOnline();
+    offline = !(isOnline);
     alert(isOnline);
     //IF NO INTERNET THEN
-    if (isOnline == false) {
+    if (offline) {
         db.transaction(function (tx) {
             var sqls = 'SELECT * FROM RETAILER WHERE "area" = "' + areaID + '"';
             tx.executeSql(sqls, [], function (tx, results) {
@@ -388,6 +433,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 })
 
 .controller('DealerCtrl', function ($scope, $stateParams, $http, MyServices, MyDatabase, $location, $ionicModal, $window, $ionicLoading, $cordovaNetwork) {
+    //GET OFFLINE MODE VALUE
+    var offline = MyServices.getmode();
+    //CHECK IF INTERNET IS CONNECTED
+    $scope.type = $cordovaNetwork.getNetwork();
+    var isOnline = $cordovaNetwork.isOnline();
+    offline = !(isOnline);
+
     $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
 
@@ -851,6 +903,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         };
     };
 
+    /*
     //SMS
     var sms = function () {
         if ($scope.mycart.length > 0) {
@@ -882,21 +935,29 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             };
         }
     };
+    */
 
-    //ORDER SUCCESS
-
+    //ONLINE - ORDER SUCCESS
     var emailsend = function (data, status) {
         console.log(data);
     };
-
-
+    var smssuccess = function (data, status) {
+        console.log(data);
+    };
     var orderSuccess = function (data, status) {
         console.log("ordersuccess return data");
         console.log(data);
         MyServices.sendorderemail(data.id, data.retail, data.amount, data.sales, data.timestamp, data.quantity, data.remark).success(emailsend);
-        var datetime = data.timestamp;
-        var orderid = data.id;
+        $scope.emailtotalquantity = 0;
+        $scope.emailtotalvalue = 0;
+        for (var e = 0; e < $scope.mycart.length; e++) {
+            $scope.emailtotalquantity += parseInt($scope.mycart[e].quantity);
+            $scope.emailtotalvalue += $scope.mycart[e].totalprice;
+        }
 
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        /*var datetime = data.timestamp;
+        var orderid = data.id;
 
         $scope.emaildata = '<p>Dear Distributor / Retailer,<br>Our sales executive ' + userdata.name + ' has booked an order with details as below:</p><p><strong>Order id: </strong>' + orderid + ' </p> <p><strong>Order placed on: </strong>' + datetime + ' </p> <p><strong>' + $scope.retailerdata2.name + '</strong></p> <p><strong>' + $scope.retailerdata2.address + '</strong></p> <table class="table2" style="width:100%"><thead style="text-align:center;"> <tr> <th> Sr.no. </th> <th> Product Code </th> <th> Name </th> <th> Quantity </th> <th> MRP </th> <th> Amount </th> <th> Scheme </th> </tr></thead><tbody style="text-align:center;">';
 
@@ -989,8 +1050,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             "async": false
         };
 
-        //email();
-        sms();
+        //email();*/
+        if ($scope.mycart.length > 0) {
+            MyServices.sms($scope.number1, $scope.number2, $scope.emailtotalquantity, $scope.emailtotalvalue).success(smssuccess);
+        };
 
         MyServices.clearcart();
         MyServices.setretailer(0);
@@ -1001,26 +1064,20 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         } else {
             $location.path("/app/home");
         };
-
-
     };
 
     var userdata = MyServices.getuser();
     console.log(userdata);
     $scope.useremail = userdata.email;
-    //$scope.firstclick = 0;
 
 
 
     $scope.sendOrder = function (retailerdata2) {
-        // MyServices.sendorderemail(retailerdata2.id).success(emailsend);
         console.log("hello im in send order");
         if ($scope.firstclick == 0) {
             $scope.firstclick = 1;
-            console.log();
             console.log("Send Order pressed");
             console.log(retailerdata2);
-            var recieversname = retailerdata2.name;
             console.log($scope.mycart);
 
             if (offline) {
@@ -1028,22 +1085,19 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
                 var c = MyServices.getCart()
                 console.log(u);
                 console.log(c);
-                MyDatabase.sendcartoffline(retailerdata2.id, u.id, c);
+                console.log(retailerdata2.remark);
+                MyDatabase.sendcartoffline(retailerdata2.id, u.id, c, retailerdata2.remark);
             } else {
+                $scope.number1 = retailerdata2.contactnumber;
+                $scope.number2 = retailerdata2.ownernumber;
                 MyServices.sendOrderNow(retailerdata2).success(orderSuccess);
             };
-
-
-            $scope.number1 = retailerdata2.contactnumber;
-            $scope.number2 = retailerdata2.ownernumber;
             $ionicLoading.show({
                 template: '<h1 class="ion-loading-c"></h1><br>Sendig order...',
                 animation: 'fade-in',
                 showBackdrop: true
             });
-        }
-        //sms(number1, number2, emailtotalquantity, emailtotalvalue);
-
+        };
     };
 
 
@@ -1065,10 +1119,8 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         } else {
             $scope.noorder = false;
             console.log("noorder is true");
-        }
-
+        };
     };
-
     MyServices.getuserorders(user.id).success(userorders);
 
 

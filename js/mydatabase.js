@@ -82,7 +82,7 @@ var mydatabase = angular.module('mydatabase', [])
                 });
                 //orderid(generate), userid, retailerid, productid(many), quantity, mrp, totalprice
                 db.transaction(function (tx7) {
-                    tx7.executeSql('CREATE TABLE IF NOT EXISTS ORDERS (id INTEGER, userid INTEGER, retailerid INTEGER, productid INTEGER, quantity INTEGER, mrp, totalprice)');
+                    tx7.executeSql('CREATE TABLE IF NOT EXISTS ORDERS (orderid INTEGER, userid INTEGER, retailerid INTEGER, id INTEGER,productcode, name, quantity INTEGER, mrp, totalprice, category, remark VARCHAR2(5000))');
                     //tx7.executeSql('DROP TABLE ORDERS');
                     console.log("Order Transaction Table created");
                 });
@@ -183,9 +183,7 @@ var mydatabase = angular.module('mydatabase', [])
             getcategoriesoffline: function () {
                 return categorydata;
             },
-            sendcartoffline: function (orid, ouid, ocart) {
-                //orderid(generate), userid, retailerid, productid(many), quantity, mrp, totalprice
-                //cart=[];
+            sendcartoffline: function (orid, ouid, ocart, remark) {
                 if ($.jStorage.get("offlineorderid") > 0) {
                     orderid = $.jStorage.get("offlineorderid");
                 } else {
@@ -194,54 +192,115 @@ var mydatabase = angular.module('mydatabase', [])
                 orderid += 1;
                 $.jStorage.set("offlineorderid", orderid);
                 db.transaction(function (tx) {
+                    if (ocart.length == 0) {
+                        var sqls = 'INSERT INTO ORDERS (orderid, userid, retailerid, id, productcode, name, quantity, mrp, totalprice, category, remark) VALUES (' + orderid + ',' + ouid + ',' + orid + ',null,null,null,null,null,null,null," no remark ")';
+                        tx.executeSql(sqls, [], function (tx, results) {
+                            console.log('added no products with order id ' + orderid);
+                            var aid = MyServices.getareaid();
+                            MyServices.clearcart();
+                            MyServices.setretailer(0);
+                            if (aid > 0) {
+                                window.location.replace(window.location.origin + window.location.pathname + "#/app/retailer/" + aid);
+                            } else {
+                                window.location.replace(window.location.origin + window.location.pathname + "#/app/home");
+                            };
+                        }, function (tx, results) {
+                            console.log('did not add no product with no name');
+                        });
+                    };
                     for (var i = 0; i < ocart.length; i++) {
-                        var sqls = 'INSERT INTO ORDERS (id, userid, retailerid , productid , quantity , mrp, totalprice) VALUES (' + orderid + ',' + ouid + ',' + orid + ',' + ocart[i].id + ',' + ocart[i].quantity + ',"' + ocart[i].mrp + '","' + ocart[i].totalprice + '")';
+                        var sqls = 'INSERT INTO ORDERS (orderid, userid, retailerid, id, productcode, name, quantity, mrp, totalprice, category, remark) VALUES (' + orderid + ',' + ouid + ',' + orid + ',' + ocart[i].id + ',"' + ocart[i].productcode + '","' + ocart[i].name + '",' + ocart[i].quantity + ',"' + ocart[i].mrp + '","' + ocart[i].totalprice + '","' + ocart[i].category + '","' + remark + '")';
                         console.log(sqls);
                         tx.executeSql(sqls, [], function (tx, results) {
                             console.log('added ' + i + ' products with order id ' + orderid);
+                            var aid = MyServices.getareaid();
+                            MyServices.clearcart();
+                            MyServices.setretailer(0);
+                            if (aid > 0) {
+                                window.location.replace(window.location.origin + window.location.pathname + "#/app/retailer/" + aid);
+                            } else {
+                                window.location.replace(window.location.origin + window.location.pathname + "#/app/home");
+                            };
                         }, function (tx, results) {
                             console.log('did not add product with name' + ocart.name);
                         });
                     };
                 });
             },
-            syncsendorders: function () {
-                var numorders = 0;
-                var orderrid, orderuid;
-                //find maximum number in order number
-                db.transaction(function (tx) {
-                    var sqls = 'SELECT max(id) as maxorder FROM ORDERS';
-                    console.log(sqls);
-                    tx.executeSql(sqls, [], function (tx, results) {
-                        numorders = parseInt(results.rows.item(0).maxorder);
-                    }, function (tx, results) {});
-
-                });
-                //see if it is greater than 0
-                if (numorders > 0) {
-                    console.log("greater");
-                    //start from 1 to greates number
-                    for (var j = 1; j == numorders; j++) {
-                        db.transaction(function (tx2) {
-                            var sqls = 'SELECT retailerid FROM ORDERS WHERE id=='+j;
-                            console.log(sqls);
-                            tx2.executeSql(sqls, [], function (tx2, results2) {
-                                console.log(results2.rows.item(0).retailerid);
-                            }, function (tx2, results2) {});
-
-                        });
-                        
-                    };
+            syncsendorders: function (sqls, dsqls) {
+                //function after email success
+                var emailsend = function (data, status) {
+                    console.log(data);
                 };
-
-
-
-                //where 1, take retailer id, user id, take product id (make array, keep pushing) and delete that row
-                //make array of retailerid and user id, cart
-                //send the order
-                //next
+                //funtion after sms success
+                var smssuccess = function (data, status) {
+                    console.log(data);
+                };
+                //function after the success of the syncing of the order
+                var syncordersuccess = function (data, status) {
+                    MyServices.sendorderemail(data.id, data.retail, data.amount, data.sales, data.timestamp, data.quantity, data.remark).success(emailsend);
+                    db.transaction(function (tx3) {
+                        tx3.executeSql(dsqls, [], function (tx3, results3) {
+                            console.log(results3);
+                            console.log(data);
+                            $.jStorage.set("offlineorderid", $.jStorage.get("offlineorderid") - 1);
+                        }, function (tx3, results3) {});
+                    });
+                };
+                //user and retailer and cart variables
+                var retaileridtosend = 0;
+                var useridtosend, retailertosend, usertosend, remarktosend, totalq, totalp, number1, number2;
+                var carttosend = [];
+                var userme = MyServices.getuser();
+                console.log(sqls);
+                db.transaction(function (tx2) {
+                    //selecting idividual orders
+                    tx2.executeSql(sqls, [], function (tx2, results2) {
+                        for (var i = 0; i < results2.rows.length; i++) {
+                            //getting retailer id and the user id of the order
+                            retaileridtosend = results2.rows.item(i).retailerid;
+                            useridtosend = results2.rows.item(i).userid;
+                            //remark of that order
+                            remarktosend = results2.rows.item(i).remark;
+                            //total quantity
+                            totalq += results2.rows.item(i).quantity;
+                            totalp += results2.rows.item(i).totalprice;
+                            //creating the cart
+                            if (results2.rows.item(i).id != null) {
+                                carttosend.push({
+                                    id: results2.rows.item(i).id,
+                                    productcode: results2.rows.item(i).productcode,
+                                    name: results2.rows.item(i).name,
+                                    quantity: results2.rows.item(i).quantity,
+                                    mrp: results2.rows.item(i).mrp,
+                                    totalprice: results2.rows.item(i).totalprice,
+                                    category: results2.rows.item(i).category
+                                });
+                            };
+                        };
+                        if (retaileridtosend == 0) {
+                            $.jStorage.set("offlineorderid", $.jStorage.get("offlineorderid") - 1);
+                        };
+                        //checking if user is the current user
+                        if (useridtosend == userme.id) {
+                            //retrieving the retailer object
+                            var rsqls = 'SELECT * FROM RETAILER WHERE id=' + retaileridtosend;
+                            tx2.executeSql(rsqls, [], function (tx2, results2) {
+                                retailertosend = results2.rows.item(0);
+                                retailertosend.remark = remarktosend;
+                                //get number to send sms
+                                number1 = retailertosend.contactnumber;
+                                number2 = retailertosend.ownernumber;
+                                //sending order
+                                MyServices.sendSyncOrderNow(carttosend, retailertosend).success(syncordersuccess);
+                                //send sms
+                                if (carttosend.length > 0) {
+                                    MyServices.sms(number1, number2, totalq, totalp).success(smssuccess);
+                                };
+                            }, function (tx2, results2) {});
+                        };
+                    }, function (tx2, results2) {});
+                });
             },
-
-
         }
     });

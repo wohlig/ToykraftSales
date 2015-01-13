@@ -9,6 +9,7 @@ var myservices = angular.module('myservices', [])
     var area = 0;
     var searchtxt = "";
     var areaID = 0;
+    var offlinemode = false;
     var d = new Date();
     //var myorderdate="2014-08-08";
     var myorderdate = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
@@ -217,6 +218,15 @@ var myservices = angular.module('myservices', [])
             cart = [];
             console.log(cart);
         },
+        sendSyncOrderNow: function (scart, retailer) {
+
+            return $http.post(adminurl + "orders/makeorder", {
+                cart: scart,
+                user: user,
+                retailer: retailer,
+            });
+            console.log(scart);
+        },
         removeObject: function (oid) {
 
             cart.splice(oid, 1);
@@ -296,8 +306,6 @@ var myservices = angular.module('myservices', [])
             return $http.get(adminurl + "product/gettoptenproducts");
         },
         editretailerdetails: function (data) {
-            console.log("DATA/////////////////////");
-            console.log(data);
             return $http.get(adminurl + "retailer/updatecontact", {
                 params: data
             });
@@ -314,6 +322,30 @@ var myservices = angular.module('myservices', [])
                     id: id
                 }
             });
+        },
+        sms: function (number1, number2, quantity, totalprice) {
+            if (number1 != null) {
+                number1.toString();
+                if (number1.length == 10) {
+                    number1 = "91" + number1;
+                }
+                var smscall = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno=' + number1 + '&message=Dear Customer, We thank you for your order. The order for' + quantity + 'pcs with MRP value of Rs' + totalprice + 'is under process. Team Toykraft';
+                return $http.post(smscall);
+            };
+            if (number2 != null) {
+                number2.toString();
+                if (number2.length == 10) {
+                    number2 = "91" + number2;
+                }
+                var smscall2 = 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?username=toykraft &password=1220363582&sendername=TYKRFT&mobileno=' + number2 + '&message=Dear Customer, We thank you for your order. The order for ' + quantity + ' pcs with MRP value of Rs.' + totalprice + ' is under process. Team Toykraft';
+                return $http.post(smscall2);
+            };
+        },
+        setmode: function(val) {
+            offlinemode = val;
+        },
+        getmode: function() {
+            return offlinemode;
         },
 
     }

@@ -42,6 +42,7 @@
     <gap:plugin name="org.apache.cordova.file-transfer" />
     <gap:plugin name="com.ionic.keyboard" />
     <gap:plugin name="org.apache.cordova.network-information" />
+    <gap:plugin name="nl.x-services.plugins.toast" />
    
 
 
