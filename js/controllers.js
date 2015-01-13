@@ -1512,7 +1512,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
 })
 
-.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, $location, $ionicLoading, $cordovaGeolocation) {
+.controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, MyDatabase, $location, $ionicLoading, $cordovaGeolocation, $cordovaNetwork) {
+    var offline = MyServices.getmode();
+    //CHECK IF INTERNET IS CONNECTED
+    $scope.type = $cordovaNetwork.getNetwork();
+    var isOnline = $cordovaNetwork.isOnline();
+    offline = !(isOnline);
+
     $ionicLoading.hide();
 
     var aid = $stateParams.areaid;
@@ -1556,10 +1562,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     $scope.addretailer = {};
     $scope.addretailer.area = aid;
     $scope.addretailer.name = '';
+    $scope.addretailer.number = '';
     $scope.addretailer.address = '';
     $scope.addretailer.code = '';
     $scope.addretailer.contactname = '';
     $scope.addretailer.contactnumber = '';
+    $scope.addretailer.ownername = '';
+    $scope.addretailer.ownernumber = '';
     $scope.addretailer.dob = '';
     $scope.addretailer.type_of_area = '';
     $scope.addretailer.sq_feet = '';
@@ -1584,8 +1593,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
                 $location.path(pathToGo);
 
             };
-
-            MyServices.addNewRetailer($scope.addretailer).success(addRetailerSuccess);
+            if (offline) {
+                MyDatabase.addnewretailer($scope.addretailer);
+            } else {
+                MyServices.addNewRetailer($scope.addretailer).success(addRetailerSuccess);
+            };
 
         }
 

@@ -302,5 +302,20 @@ var mydatabase = angular.module('mydatabase', [])
                     }, function (tx2, results2) {});
                 });
             },
+            addnewretailer: function (data) {
+                db.transaction(function (tx) {
+                    db.transaction(function (tx) {
+                        for (var i = 0; i < data.length; i++) {
+                            var sqls = 'INSERT INTO RETAILER (id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync) VALUES (null,"' + data[i].lat + '","' + data[i].long + '","' + data[i].area + '","' + data[i].dob + '","' + data[i].type_of_area + '","' + data[i].sq_feet + '","' + data[i].store_image + '","' + data[i].name + '","' + data[i].number + '","' + data[i].email + '","' + data[i].address + '","' + data[i].ownername + '","' + data[i].ownernumber + '","' + data[i].contactname + '","' + data[i].contactnumber + '",null, "false")';
+                            console.log(sqls);
+                            tx.executeSql(sqls, [], function (tx, results) {
+                                console.log("RAOW INSERTED");
+                            }, function (tx, results) {
+                                console.log("RAOW NOT INSERTED");
+                            });
+                        };
+                    });
+                });
+            },
         }
     });
