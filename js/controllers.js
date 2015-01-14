@@ -436,9 +436,9 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //GET OFFLINE MODE VALUE
     var offline = MyServices.getmode();
     //CHECK IF INTERNET IS CONNECTED
-    $scope.type = $cordovaNetwork.getNetwork();
+    /*$scope.type = $cordovaNetwork.getNetwork();
     var isOnline = $cordovaNetwork.isOnline();
-    offline = !(isOnline);
+    offline = !(isOnline);*/
 
     $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
@@ -786,7 +786,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         $scope.oModal2 = modal;
     });
     var editretailersuccess = function (data, status) {
-        //$scope.toptendata = data;
+        console.log(data);
         $scope.oModal2.hide();
     };
     $scope.gettopen = function () {
@@ -794,7 +794,12 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     };
     $scope.editRetailerFunction = function () {
         console.log($scope.editretailer.number);
-        MyServices.editretailerdetails($scope.editretailer).success(editretailersuccess);
+        if (true) {
+            MyDatabase.editaretailer($scope.editretailer, $scope.retailerdata2.name);
+        } else {
+            MyServices.editretailerdetails($scope.editretailer).success(editretailersuccess);
+        };
+
         $scope.oModal2.hide();
     };
 
@@ -1514,10 +1519,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
 .controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, MyDatabase, $location, $ionicLoading, $cordovaGeolocation, $cordovaNetwork) {
     var offline = MyServices.getmode();
+    console.log("OFFLINE MODE IS " + offline);
     //CHECK IF INTERNET IS CONNECTED
-    $scope.type = $cordovaNetwork.getNetwork();
+    /* $scope.type = $cordovaNetwork.getNetwork();
     var isOnline = $cordovaNetwork.isOnline();
-    offline = !(isOnline);
+    offline = !(isOnline);*/
 
     $ionicLoading.hide();
 
@@ -1594,6 +1600,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
             };
             if (offline) {
+                console.log("ADD TO OFFLINE DB");
                 MyDatabase.addnewretailer($scope.addretailer);
             } else {
                 MyServices.addNewRetailer($scope.addretailer).success(addRetailerSuccess);

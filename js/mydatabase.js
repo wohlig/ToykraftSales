@@ -71,7 +71,7 @@ var mydatabase = angular.module('mydatabase', [])
                     console.log("Area created");
                 });
                 db.transaction(function (tx5) {
-                    tx5.executeSql('CREATE TABLE IF NOT EXISTS RETAILER (id INTEGER PRIMARY KEY,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync)');
+                    tx5.executeSql('CREATE TABLE IF NOT EXISTS RETAILER (id INTEGER ,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync)');
                     //tx5.executeSql('DROP TABLE RETAILER');
                     console.log("Retailer created");
                 });
@@ -303,19 +303,29 @@ var mydatabase = angular.module('mydatabase', [])
                 });
             },
             addnewretailer: function (data) {
+                console.log(data.area);
                 db.transaction(function (tx) {
                     db.transaction(function (tx) {
-                        for (var i = 0; i < data.length; i++) {
-                            var sqls = 'INSERT INTO RETAILER (id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync) VALUES (null,"' + data[i].lat + '","' + data[i].long + '","' + data[i].area + '","' + data[i].dob + '","' + data[i].type_of_area + '","' + data[i].sq_feet + '","' + data[i].store_image + '","' + data[i].name + '","' + data[i].number + '","' + data[i].email + '","' + data[i].address + '","' + data[i].ownername + '","' + data[i].ownernumber + '","' + data[i].contactname + '","' + data[i].contactnumber + '",null, "false")';
+                            var sqls = 'INSERT INTO RETAILER (id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync) VALUES (null,"' + data.lat + '","' + data.long + '","' + data.area + '","' + data.dob + '","' + data.type_of_area + '","' + data.sq_feet + '","' + data.store_image + '","' + data.name + '","' + data.number + '","' + data.email + '","' + data.address + '","' + data.ownername + '","' + data.ownernumber + '","' + data.contactname + '","' + data.contactnumber + '",null, "false")';
                             console.log(sqls);
                             tx.executeSql(sqls, [], function (tx, results) {
                                 console.log("RAOW INSERTED");
                             }, function (tx, results) {
                                 console.log("RAOW NOT INSERTED");
                             });
-                        };
                     });
                 });
+            },
+            editaretailer: function(data, name) {
+                    db.transaction(function (tx) {
+                            var sqls = 'UPDATE RETAILER SET email = "'+data.email+'", ownername = "'+data.ownername+'", ownernumber = "'+data.ownernumber+'", contactname = "'+data.contactname+'", contactnumber = "'+data.contactnumber+'", sync = "false" WHERE id = '+data.id+' AND name ="'+name+'"';
+                            console.log(sqls);
+                            tx.executeSql(sqls, [], function (tx, results) {
+                                console.log("RAOW UPDATED");
+                            }, function (tx, results) {
+                                console.log("RAOW NOT INSERTED");
+                            });
+                    });
             },
         }
     });
