@@ -66,14 +66,41 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         var offline = MyServices.getmode();
         $scope.userz = {};
         $scope.userz.zone = ""
+        //OFFLINE MODE BUTTON
         $scope.offlinemodebutton = false;
         $scope.offlinemoder = function () {
             $scope.offlinemodebutton = !($scope.offlinemodebutton);
             console.log($scope.offlinemodebutton);
             MyServices.setmode($scope.offlinemodebutton);
+            $cordovaToast.show('Offline Mode'+$scope.offlinemodebutton, 'long', 'bottom')
         };
 
-        //$cordovaToast.show('Offline Mode'+$scope.offlinemodebutton, 'long', 'bottom')
+        //DUMMY OBJECTS TO STORE RECIEVED DATA
+        var sd, cd, ad, rd = [];
+        var successretailer = function (data, status) {
+            rd = data;
+            MyDatabase.getalldata(sd, cd, ad, rd);
+        };
+        var successarea = function (data, status) {
+            ad = data;
+            MyDatabase.syncinretailerdata().success(successretailer);
+        };
+        var successcity = function (data, status) {
+            cd = data;
+            MyDatabase.syncinretailerareadata().success(successarea);
+        };
+        var successstate = function (data, status) {
+            sd = data;
+            MyDatabase.syncinretailercitydata().success(successcity);
+        };
+        //MyDatabase.syncinretailerstatedata().success(successstate);
+        //MyDatabase.getalldata();
+        MyDatabase.test2();
+        var checkdata = function () {
+
+        };
+
+        
 
         /*var type = $cordovaNetwork.getNetwork();
         console.log("The type of network is" + type);
@@ -85,6 +112,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         //CREATE TABLES
         MyDatabase.createretailertables();
 
+    
         //RETRIEVING DATA INTO TABLES
         syncretailerstatedatasuccess = function (data, status) {
             console.log(data);
@@ -142,26 +170,14 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         };
 
 
-        db.transaction(function (tx) {
-            var sqls = 'SELECT * FROM RETAILER WHERE "id" = "' + $scope.retailerid + '"';
-            tx.executeSql(sqls, [], function (tx, results) {
-                var length = results.rows.length;
-                for (var i = 0; i < length; i++) {
-                    $scope.retailerdata2 = results.rows.item(i);
-                    console.log($scope.retailerdata2);
-                };
-                $ionicLoading.hide();
-                $scope.firstclick = 0;
-                //DEALER EMAIL ID
-                $scope.dealeremail = $scope.retailerdata2.distributor;
-                //EDIT RETAILER INFO
-                $scope.editretailer.ownername = $scope.retailerdata2.ownername;
-                $scope.editretailer.ownernumber = $scope.retailerdata2.ownernumber;
-                $scope.editretailer.contactname = $scope.retailerdata2.contactname;
-                $scope.editretailer.contactnumber = $scope.retailerdata2.contactnumber;
-                $scope.editretailer.email = $scope.retailerdata2.email;
-            }, function (tx, results) {});
-        });
+        $scope.updateretailerdata = function () {
+            db.transaction(function (tx) {
+                tx.executeSql('SELECT * FROM RETAILER WHERE sync = "false" AND id != null', [], function (tx, results) {
+                    fo
+                    console.log(results.rows.item(1));
+                }, function (tx, results) {});
+            })
+        };
     })
 
 .controller('LoginCtrl', function ($scope, $stateParams, MyServices, $location, MyDatabase) {
@@ -794,7 +810,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     };
     $scope.editRetailerFunction = function () {
         console.log($scope.editretailer.number);
-        if (true) {
+        if (offline) {
             MyDatabase.editaretailer($scope.editretailer, $scope.retailerdata2.name);
         } else {
             MyServices.editretailerdetails($scope.editretailer).success(editretailersuccess);

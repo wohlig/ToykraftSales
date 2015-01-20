@@ -19,6 +19,10 @@ var mydatabase = angular.module('mydatabase', [])
     .factory('MyDatabase', function ($http, $location, $cordovaNetwork, MyServices) {
 
         var statedata = [];
+        var checkstatedata = [];
+        var checkcitydata = [];
+        var checkareadata = [];
+        var checkretailerdata = [];
         var categorydata = [];
         if ($.jStorage.get("categoriesdata")) {
             var categorydata = $.jStorage.get("categoriesdata");
@@ -116,6 +120,18 @@ var mydatabase = angular.module('mydatabase', [])
                         console.log(sqls);
                         tx.executeSql(sqls, [], function (tx, results) {
                             console.log("RAOW INSERTED");
+                        }, null);
+                    };
+                });
+            },
+            updatecitydata: function(data)
+            {
+                db.transaction(function (tx) {
+                    for (var i = 0; i < data.length; i++) {
+                        var sqls = 'UPDATE CITY SET id = '+data[i].id+', state = "'+data[i].state+'", name = "'+data[i].name+'" WHERE id = '+data[i].id;
+                        console.log(sqls);
+                        tx.executeSql(sqls, [], function (tx, results) {
+                            console.log("RAOW UPDATED");
                         }, null);
                     };
                 });
@@ -306,26 +322,109 @@ var mydatabase = angular.module('mydatabase', [])
                 console.log(data.area);
                 db.transaction(function (tx) {
                     db.transaction(function (tx) {
-                            var sqls = 'INSERT INTO RETAILER (id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync) VALUES (null,"' + data.lat + '","' + data.long + '","' + data.area + '","' + data.dob + '","' + data.type_of_area + '","' + data.sq_feet + '","' + data.store_image + '","' + data.name + '","' + data.number + '","' + data.email + '","' + data.address + '","' + data.ownername + '","' + data.ownernumber + '","' + data.contactname + '","' + data.contactnumber + '",null, "false")';
-                            console.log(sqls);
-                            tx.executeSql(sqls, [], function (tx, results) {
-                                console.log("RAOW INSERTED");
-                            }, function (tx, results) {
-                                console.log("RAOW NOT INSERTED");
-                            });
+                        var sqls = 'INSERT INTO RETAILER (id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync) VALUES (null,"' + data.lat + '","' + data.long + '","' + data.area + '","' + data.dob + '","' + data.type_of_area + '","' + data.sq_feet + '","' + data.store_image + '","' + data.name + '","' + data.number + '","' + data.email + '","' + data.address + '","' + data.ownername + '","' + data.ownernumber + '","' + data.contactname + '","' + data.contactnumber + '",null, "false")';
+                        console.log(sqls);
+                        tx.executeSql(sqls, [], function (tx, results) {
+                            console.log("RAOW INSERTED");
+                        }, function (tx, results) {
+                            console.log("RAOW NOT INSERTED");
+                        });
                     });
                 });
             },
-            editaretailer: function(data, name) {
-                    db.transaction(function (tx) {
-                            var sqls = 'UPDATE RETAILER SET email = "'+data.email+'", ownername = "'+data.ownername+'", ownernumber = "'+data.ownernumber+'", contactname = "'+data.contactname+'", contactnumber = "'+data.contactnumber+'", sync = "false" WHERE id = '+data.id+' AND name ="'+name+'"';
+            editaretailer: function (data, name) {
+                db.transaction(function (tx) {
+                    var sqls = 'UPDATE RETAILER SET email = "' + data.email + '", ownername = "' + data.ownername + '", ownernumber = "' + data.ownernumber + '", contactname = "' + data.contactname + '", contactnumber = "' + data.contactnumber + '", sync = "false" WHERE id = ' + data.id + ' AND name ="' + name + '"';
+                    console.log(sqls);
+                    tx.executeSql(sqls, [], function (tx, results) {
+                        console.log("RAOW UPDATED");
+                    }, function (tx, results) {
+                        console.log("RAOW NOT INSERTED");
+                    });
+                });
+            },
+            getalldata: function (s, c, a, r) {
+                console.log(r);
+                db.transaction(function (tx) {
+                    var sqls = 'SELECT * FROM STATE';
+                    console.log(sqls);
+                    tx.executeSql(sqls, [], function (tx, results) {
+                        for (var i = 0; i < results.rows.length; i++) {
+                            checkstatedata.push(results.rows.item(i));
+                        };
+                        var sqls = 'SELECT * FROM CITY';
+                        console.log(sqls);
+                        tx.executeSql(sqls, [], function (tx, results) {
+                            for (var i = 0; i < results.rows.length; i++) {
+                                checkcitydata.push(results.rows.item(i));
+                            };
+                            //console.log(checkcitydata);
+                            var sqls = 'SELECT * FROM AREA';
                             console.log(sqls);
                             tx.executeSql(sqls, [], function (tx, results) {
-                                console.log("RAOW UPDATED");
+                                for (var i = 0; i < results.rows.length; i++) {
+                                    checkareadata.push(results.rows.item(i));
+                                };
+                                console.log(checkareadata);
+                                console.log(a);
+                                var sqls = 'SELECT * FROM RETAILER';
+                                console.log(sqls);
+                                tx.executeSql(sqls, [], function (tx, results) {
+                                    for (var i = 0; i < results.rows.length; i++) {
+                                        checkretailerdata.push(results.rows.item(i));
+                                    };
+                                    //console.log(checkretailerdata);
+
+                                    // FINAL SUCCESS //
+                                    
+                                    if (s.length == checkstatedata.length) {
+                                        console.log("state is same");
+                                    } else {
+                                        console.log("Its not same");
+                                        //SYNC STATE
+                                        this.insertretailerstatedata(s);
+                                    };
+                                    if (c.length == checkcitydata.length) {
+                                        console.log("city is same");
+                                    } else {
+                                        console.log("city not same");
+                                        //SYNC CITY
+                                        this.updatecitydata(c);
+                                    };
+                                    if (a.length == checkareadata.length) {
+                                        console.log("area is same");
+                                    } else {
+                                        console.log("area not same");
+                                        //SYNC AREA
+                                        this.insertretailerareadata(a);
+                                    };
+                                    if (r.length == checkretailerdata.length) {
+                                        console.log("retaler is same");
+                                    } else {
+                                        console.log("retailer not same");
+                                        //SYNC RETIALER
+                                        this.insertretailerdata(r);
+                                    };
+
+                                }, function (tx, results) {
+                                    console.log("RAOW NOT INSERTED");
+                                });
                             }, function (tx, results) {
                                 console.log("RAOW NOT INSERTED");
                             });
+                        }, function (tx, results) {
+                            console.log("RAOW NOT INSERTED");
+                        });
+                    }, function (tx, results) {
+                        console.log("RAOW NOT INSERTED");
                     });
+                });
+            },
+            test1: function(){
+                console.log("test is working");
+            },
+            test2: function() {
+                this.test1();
             },
         }
     });
