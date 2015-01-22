@@ -16,7 +16,7 @@ db.transaction(function (tx) {
 console.log("ABHAY RISHI OMKAR");
 
 var mydatabase = angular.module('mydatabase', [])
-    .factory('MyDatabase', function ($http, $location, $cordovaNetwork, MyServices) {
+    .factory('MyDatabase', function ($http, $location, $cordovaNetwork, MyServices, $cordovaToast) {
 
         var statedata = [];
         var checkstatedata = [];
@@ -106,6 +106,7 @@ var mydatabase = angular.module('mydatabase', [])
                             console.log("RAOW INSERTED");
                         }, null);
                     };
+                    $cordovaToast.show('States Data Imported', 'long', 'bottom');
                 });
             },
             syncinretailercitydata: function () {
@@ -122,13 +123,13 @@ var mydatabase = angular.module('mydatabase', [])
                             console.log("RAOW INSERTED");
                         }, null);
                     };
+                    $cordovaToast.show('City Data Imported', 'long', 'bottom');
                 });
             },
-            updatecitydata: function(data)
-            {
+            updatecitydata: function (data) {
                 db.transaction(function (tx) {
                     for (var i = 0; i < data.length; i++) {
-                        var sqls = 'UPDATE CITY SET id = '+data[i].id+', state = "'+data[i].state+'", name = "'+data[i].name+'" WHERE id = '+data[i].id;
+                        var sqls = 'UPDATE CITY SET id = ' + data[i].id + ', state = "' + data[i].state + '", name = "' + data[i].name + '" WHERE id = ' + data[i].id;
                         console.log(sqls);
                         tx.executeSql(sqls, [], function (tx, results) {
                             console.log("RAOW UPDATED");
@@ -150,6 +151,7 @@ var mydatabase = angular.module('mydatabase', [])
                             console.log("RAOW INSERTED");
                         }, null);
                     };
+                    $cordovaToast.show('Area Data Imported', 'long', 'bottom');
                 });
             },
             syncinretailerdata: function () {
@@ -171,6 +173,7 @@ var mydatabase = angular.module('mydatabase', [])
                             console.log("RAOW NOT INSERTED");
                         });
                     };
+                    $cordovaToast.show('Retailer Data Imported', 'long', 'bottom');
                 });
             },
             syncinproductdata: function () {
@@ -189,6 +192,7 @@ var mydatabase = angular.module('mydatabase', [])
                             console.log("PRODUCT RAOW NOT INSERTED");
                         });
                     };
+                    $cordovaToast.show('Product Data Imported', 'long', 'bottom');
                 });
             },
             synccategorydata: function (data) {
@@ -223,23 +227,25 @@ var mydatabase = angular.module('mydatabase', [])
                         }, function (tx, results) {
                             console.log('did not add no product with no name');
                         });
-                    };
-                    for (var i = 0; i < ocart.length; i++) {
-                        var sqls = 'INSERT INTO ORDERS (orderid, userid, retailerid, id, productcode, name, quantity, mrp, totalprice, category, remark) VALUES (' + orderid + ',' + ouid + ',' + orid + ',' + ocart[i].id + ',"' + ocart[i].productcode + '","' + ocart[i].name + '",' + ocart[i].quantity + ',"' + ocart[i].mrp + '","' + ocart[i].totalprice + '","' + ocart[i].category + '","' + remark + '")';
-                        console.log(sqls);
-                        tx.executeSql(sqls, [], function (tx, results) {
-                            console.log('added ' + i + ' products with order id ' + orderid);
-                            var aid = MyServices.getareaid();
-                            MyServices.clearcart();
-                            MyServices.setretailer(0);
-                            if (aid > 0) {
-                                window.location.replace(window.location.origin + window.location.pathname + "#/app/retailer/" + aid);
-                            } else {
-                                window.location.replace(window.location.origin + window.location.pathname + "#/app/home");
-                            };
-                        }, function (tx, results) {
-                            console.log('did not add product with name' + ocart.name);
-                        });
+                    } else {
+                        for (var i = 0; i < ocart.length; i++) {
+                            var sqls = 'INSERT INTO ORDERS (orderid, userid, retailerid, id, productcode, name, quantity, mrp, totalprice, category, remark) VALUES (' + orderid + ',' + ouid + ',' + orid + ',' + ocart[i].id + ',"' + ocart[i].productcode + '","' + ocart[i].name + '",' + ocart[i].quantity + ',"' + ocart[i].mrp + '","' + ocart[i].totalprice + '","' + ocart[i].category + '","' + remark + '")';
+                            console.log(sqls);
+                            tx.executeSql(sqls, [], function (tx, results) {
+                                console.log('added ' + i + ' products with order id ' + orderid);
+                                var aid = MyServices.getareaid();
+                                MyServices.clearcart();
+                                MyServices.setretailer(0);
+                                if (aid > 0) {
+                                    window.location.replace(window.location.origin + window.location.pathname + "#/app/retailer/" + aid);
+                                } else {
+                                    window.location.replace(window.location.origin + window.location.pathname + "#/app/home");
+                                };
+                            }, function (tx, results) {
+                                console.log('did not add product with name' + ocart.name);
+                            });
+                        };
+                        $cordovaToast.show('Order Placed Offline', 'long', 'bottom');
                     };
                 });
             },
@@ -376,7 +382,7 @@ var mydatabase = angular.module('mydatabase', [])
                                     //console.log(checkretailerdata);
 
                                     // FINAL SUCCESS //
-                                    
+
                                     if (s.length == checkstatedata.length) {
                                         console.log("state is same");
                                     } else {
@@ -420,10 +426,10 @@ var mydatabase = angular.module('mydatabase', [])
                     });
                 });
             },
-            test1: function(){
+            test1: function () {
                 console.log("test is working");
             },
-            test2: function() {
+            test2: function () {
                 this.test1();
             },
         }

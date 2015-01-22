@@ -72,7 +72,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             $scope.offlinemodebutton = !($scope.offlinemodebutton);
             console.log($scope.offlinemodebutton);
             MyServices.setmode($scope.offlinemodebutton);
-            $cordovaToast.show('Offline Mode'+$scope.offlinemodebutton, 'long', 'bottom')
+            $cordovaToast.show('Offline Mode if now '+$scope.offlinemodebutton, 'long', 'bottom');
         };
 
         //DUMMY OBJECTS TO STORE RECIEVED DATA
@@ -113,7 +113,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         MyDatabase.createretailertables();
 
     
-        //RETRIEVING DATA INTO TABLES
+        //RETRIEVING DATA INTO TABLES (FIRST TIME)
         syncretailerstatedatasuccess = function (data, status) {
             console.log(data);
             MyDatabase.insertretailerstatedata(data);
@@ -316,6 +316,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     alert(isOnline);
     //IF NO INTERNET THEN
     if (offline) {
+        alert("your in offline mode");
         db.transaction(function (tx) {
             var sqls = 'SELECT * FROM STATE WHERE "zone" = "' + zoneID + '"';
             tx.executeSql(sqls, [], function (tx, results) {
@@ -353,6 +354,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     alert(isOnline);
     //IF NO INTERNET THEN
     if (offline) {
+        alert("your in offline mode");
         db.transaction(function (tx) {
             var sqls = 'SELECT * FROM CITY WHERE "state" = "' + stateID + '"';
             tx.executeSql(sqls, [], function (tx, results) {
@@ -387,9 +389,10 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     $scope.type = $cordovaNetwork.getNetwork();
     var isOnline = $cordovaNetwork.isOnline();
     offline = !(isOnline);
-    alert(isOnline);
+    
     //IF NO INTERNET THEN
     if (offline) {
+        alert("your in offline mode");
         db.transaction(function (tx) {
             var sqls = 'SELECT * FROM AREA WHERE "city" = "' + cityID + '"';
             tx.executeSql(sqls, [], function (tx, results) {
@@ -430,6 +433,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     alert(isOnline);
     //IF NO INTERNET THEN
     if (offline) {
+        alert("your in offline mode");
         db.transaction(function (tx) {
             var sqls = 'SELECT * FROM RETAILER WHERE "area" = "' + areaID + '"';
             tx.executeSql(sqls, [], function (tx, results) {
@@ -452,9 +456,9 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //GET OFFLINE MODE VALUE
     var offline = MyServices.getmode();
     //CHECK IF INTERNET IS CONNECTED
-    /*$scope.type = $cordovaNetwork.getNetwork();
+    $scope.type = $cordovaNetwork.getNetwork();
     var isOnline = $cordovaNetwork.isOnline();
-    offline = !(isOnline);*/
+    offline = !(isOnline);
 
     $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
@@ -752,8 +756,6 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         $location.path("/app/dealer/" + $scope.retailerid + "/" + cid);
         $location.replace();
     };
-
-
 
 
     //SEARCH
