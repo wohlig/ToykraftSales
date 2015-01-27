@@ -310,6 +310,9 @@ var myservices = angular.module('myservices', [])
                 params: data
             });
         },
+        print: function() {
+            console.log("PRINTED");
+        },
         sendemail: function (data) {
             return $http.post("https://mandrillapp.com/api/1.0/messages/send-template.json", data);
         },

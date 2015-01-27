@@ -72,7 +72,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             $scope.offlinemodebutton = !($scope.offlinemodebutton);
             console.log($scope.offlinemodebutton);
             MyServices.setmode($scope.offlinemodebutton);
-            $cordovaToast.show('Offline Mode if now '+$scope.offlinemodebutton, 'long', 'bottom');
+            $cordovaToast.show('Offline Mode if now ' + $scope.offlinemodebutton, 'long', 'bottom');
         };
 
         //DUMMY OBJECTS TO STORE RECIEVED DATA
@@ -100,7 +100,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
         };
 
-        
+
 
         /*var type = $cordovaNetwork.getNetwork();
         console.log("The type of network is" + type);
@@ -112,7 +112,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         //CREATE TABLES
         MyDatabase.createretailertables();
 
-    
+
         //RETRIEVING DATA INTO TABLES (FIRST TIME)
         syncretailerstatedatasuccess = function (data, status) {
             console.log(data);
@@ -148,6 +148,22 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             MyServices.getcategoriesname().success(synccategorydatasuccess);
         };
 
+        var toptendatasuccess = function (data, status) {
+            MyDatabase.inserttopten(data);
+        };
+        $scope.gettoptendata = function () {
+            db.transaction(function (tx) {
+                var sqls = 'TRUNCATE TABLE TOPTEN';
+                console.log(sqls);
+                tx.executeSql(sqls, [], function (tx, results) {
+                    console.log("TOP TEN RAOW DELETED");
+                }, function (tx, results) {
+                    console.log("TOP TEN NOT DELETED");
+                });
+            });
+            MyServices.gettoptenproducts().success(toptendatasuccess);
+        };
+
         $scope.sendofflineorders = function () {
             db.transaction(function (tx) {
                 var sqls = 'SELECT max(orderid) as maxorder FROM ORDERS';
@@ -171,12 +187,13 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
 
         $scope.updateretailerdata = function () {
-            db.transaction(function (tx) {
+           /* db.transaction(function (tx) {
                 tx.executeSql('SELECT * FROM RETAILER WHERE sync = "false" AND id != null', [], function (tx, results) {
-                    fo
                     console.log(results.rows.item(1));
                 }, function (tx, results) {});
-            })
+            });*/
+            MyDatabase.sendretailerupdate('SELECT id, contactname, contactnumber, ownername, ownernumber FROM RETAILER WHERE sync = "false" AND id > 0');
+            MyDatabase.sendnewretailer('SELECT * FROM RETAILER WHERE sync = "false" AND id = 0');
         };
     })
 
@@ -389,7 +406,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     $scope.type = $cordovaNetwork.getNetwork();
     var isOnline = $cordovaNetwork.isOnline();
     offline = !(isOnline);
-    
+
     //IF NO INTERNET THEN
     if (offline) {
         alert("your in offline mode");
@@ -456,10 +473,11 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //GET OFFLINE MODE VALUE
     var offline = MyServices.getmode();
     //CHECK IF INTERNET IS CONNECTED
-    $scope.type = $cordovaNetwork.getNetwork();
+    /*$scope.type = $cordovaNetwork.getNetwork();
     var isOnline = $cordovaNetwork.isOnline();
     offline = !(isOnline);
-
+    */
+    offline = true;
     $scope.firstclick = 1;
     $scope.heightVal = $window.innerHeight - 44;
 
@@ -538,7 +556,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         });
     };
 
-    //IF INTERNET CONNECTION EXISTS
+    //GET RETAILER INFORMATION
     if (offline) {
         getretailerdataoffline();
     } else {
@@ -672,8 +690,27 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     //OFFLINE PRODUCT CALL FUNCTION
     nextproductoffline = function (productid, next) {
         var tempproducts = [];
+        var sqls2;
+        if (parseInt($scope.categoryid) > 0) {
+            sqls2 = 'SELECT * FROM PRODUCT WHERE "category" = "' + $scope.categoryid + '"';
+        } else {
+            if ($scope.categoryid == "new") {
+                sqls2 = 'SELECT * FROM PRODUCT WHERE "isnew" = "1"';
+            } else {
+                if ($scope.categoryid == "scheme") {
+                    sqls2 = 'SELECT * FROM PRODUCT WHERE "scheme" > 3';
+                } else {
+                    var findindicator = $scope.categoryid.charAt(0);
+                    if (findindicator == "f") {
+                        var value = $scope.categoryid.slice(1);
+                        sqls2 = 'SELECT * FROM PRODUCT WHERE name LIKE "%' + value + '%"';
+                    };
+                };
+            };
+        };
         db.transaction(function (tx2) {
-            var sqls2 = 'SELECT * FROM PRODUCT WHERE "category" = "' + $scope.categoryid + '"';
+
+            console.log(sqls2);
             tx2.executeSql(sqls2, [], function (tx2, results2) {
                 for (var i = 0; i < results2.rows.length; i++) {
                     tempproducts.push(results2.rows.item(i));
@@ -728,7 +765,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
     };
 
-    //INITITAL FUNCTION CALL ON PAGE LOAD
+    //INITITAL FUNCTION CALL ON PAGE LOAD FOR PRODUCT
     var initialproductcall = function () {
         if (offline) {
             nextproductoffline(0, 1);
@@ -744,7 +781,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             nextproductoffline($scope.categoryproductdata.id, next);
         } else {
             MyServices.findnext($scope.categoryproductdata.id, next).success(oncategoryproductsuccess);
-        }
+        };
 
     };
 
@@ -774,7 +811,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
     };
 
     //TOP TEN ORDERS
-    $scope.toptendata = {};
+    $scope.toptendata = [];
     $ionicModal.fromTemplateUrl('templates/topten.html', {
         id: '1',
         scope: $scope,
@@ -783,12 +820,29 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
         $scope.oModal1 = modal;
     });
     var toptendatasuccess = function (data, status) {
+        console.log(data);
         $scope.toptendata = data;
         $ionicLoading.hide();
     };
     $scope.gettopten = function () {
         $scope.oModal1.show();
-        MyServices.gettoptenproducts().success(toptendatasuccess);
+        if (offline) {
+            db.transaction(function (tx) {
+                var sqls = 'SELECT * FROM TOPTEN';
+                console.log(sqls);
+                tx.executeSql(sqls, [], function (tx, results) {
+                    for (var i = 0; i < results.rows.length; i++) {
+                        console.log(i);
+                        if ($scope.toptendata.length < 10) {
+                            $scope.toptendata.push(results.rows.item(i));
+                        };
+                    };
+                }, function (tx, results) {});
+            });
+
+        } else {
+            MyServices.gettoptenproducts().success(toptendatasuccess);
+        };
     };
 
     //EDIT RETAILERS
@@ -1537,6 +1591,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
 .controller('AddshopCtrl', function ($scope, $stateParams, $cordovaCamera, $cordovaFile, $http, MyServices, MyDatabase, $location, $ionicLoading, $cordovaGeolocation, $cordovaNetwork) {
     var offline = MyServices.getmode();
+    offline = true;
     console.log("OFFLINE MODE IS " + offline);
     //CHECK IF INTERNET IS CONNECTED
     /* $scope.type = $cordovaNetwork.getNetwork();

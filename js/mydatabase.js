@@ -90,6 +90,11 @@ var mydatabase = angular.module('mydatabase', [])
                     //tx7.executeSql('DROP TABLE ORDERS');
                     console.log("Order Transaction Table created");
                 });
+                db.transaction(function (tx8) {
+                    tx8.executeSql('CREATE TABLE IF NOT EXISTS TOPTEN (product INTEGER, productcode, name, totalquantity)');
+                    //tx8.executeSql('DROP TABLE TOPTEN');
+                    console.log("TOP TEN Table created");
+                });
             },
             syncinretailerstatedata: function () {
                 return $http.get(adminurl + "state/find", {
@@ -106,7 +111,7 @@ var mydatabase = angular.module('mydatabase', [])
                             console.log("RAOW INSERTED");
                         }, null);
                     };
-                    $cordovaToast.show('States Data Imported', 'long', 'bottom');
+                    //$cordovaToast.show('States Data Imported', 'long', 'bottom');
                 });
             },
             syncinretailercitydata: function () {
@@ -123,7 +128,7 @@ var mydatabase = angular.module('mydatabase', [])
                             console.log("RAOW INSERTED");
                         }, null);
                     };
-                    $cordovaToast.show('City Data Imported', 'long', 'bottom');
+                    //$cordovaToast.show('City Data Imported', 'long', 'bottom');
                 });
             },
             updatecitydata: function (data) {
@@ -151,7 +156,7 @@ var mydatabase = angular.module('mydatabase', [])
                             console.log("RAOW INSERTED");
                         }, null);
                     };
-                    $cordovaToast.show('Area Data Imported', 'long', 'bottom');
+                    //$cordovaToast.show('Area Data Imported', 'long', 'bottom');
                 });
             },
             syncinretailerdata: function () {
@@ -173,7 +178,7 @@ var mydatabase = angular.module('mydatabase', [])
                             console.log("RAOW NOT INSERTED");
                         });
                     };
-                    $cordovaToast.show('Retailer Data Imported', 'long', 'bottom');
+                    //$cordovaToast.show('Retailer Data Imported', 'long', 'bottom');
                 });
             },
             syncinproductdata: function () {
@@ -192,7 +197,22 @@ var mydatabase = angular.module('mydatabase', [])
                             console.log("PRODUCT RAOW NOT INSERTED");
                         });
                     };
-                    $cordovaToast.show('Product Data Imported', 'long', 'bottom');
+                    //$cordovaToast.show('Product Data Imported', 'long', 'bottom');
+                });
+            },
+            inserttopten: function (data) {
+
+                db.transaction(function (tx) {
+                    for (var i = 0; i < data.length; i++) {
+                        var sqls = 'INSERT INTO TOPTEN (product, productcode, name, totalquantity) VALUES (' + data[i].product + ',"' + data[i].productcode + '","' + data[i].name + '","' + data[i].totalquantity + '")';
+                        console.log(sqls);
+                        tx.executeSql(sqls, [], function (tx, results) {
+                            console.log("TOP TEN RAOW INSERTED");
+                        }, function (tx, results) {
+                            console.log("TOP TEN NOT INSERTED");
+                        });
+                    };
+                    //$cordovaToast.show('Top Ten Data Imported', 'long', 'bottom');
                 });
             },
             synccategorydata: function (data) {
@@ -245,7 +265,7 @@ var mydatabase = angular.module('mydatabase', [])
                                 console.log('did not add product with name' + ocart.name);
                             });
                         };
-                        $cordovaToast.show('Order Placed Offline', 'long', 'bottom');
+                        //$cordovaToast.show('Order Placed Offline', 'long', 'bottom');
                     };
                 });
             },
@@ -328,7 +348,7 @@ var mydatabase = angular.module('mydatabase', [])
                 console.log(data.area);
                 db.transaction(function (tx) {
                     db.transaction(function (tx) {
-                        var sqls = 'INSERT INTO RETAILER (id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync) VALUES (null,"' + data.lat + '","' + data.long + '","' + data.area + '","' + data.dob + '","' + data.type_of_area + '","' + data.sq_feet + '","' + data.store_image + '","' + data.name + '","' + data.number + '","' + data.email + '","' + data.address + '","' + data.ownername + '","' + data.ownernumber + '","' + data.contactname + '","' + data.contactnumber + '",null, "false")';
+                        var sqls = 'INSERT INTO RETAILER (id,lat,long,area,dob,type_of_area,sq_feet,store_image,name,number,email,address,ownername,ownernumber,contactname,contactnumber,timestamp, sync) VALUES (0,"' + data.lat + '","' + data.long + '","' + data.area + '","' + data.dob + '","' + data.type_of_area + '","' + data.sq_feet + '","' + data.store_image + '","' + data.name + '","' + data.number + '","' + data.email + '","' + data.address + '","' + data.ownername + '","' + data.ownernumber + '","' + data.contactname + '","' + data.contactnumber + '",null, "false")';
                         console.log(sqls);
                         tx.executeSql(sqls, [], function (tx, results) {
                             console.log("RAOW INSERTED");
@@ -432,5 +452,61 @@ var mydatabase = angular.module('mydatabase', [])
             test2: function () {
                 this.test1();
             },
+            sendretailerupdate: function (sqls) {
+                var editretailersuccess = function (data, status) {
+
+                    console.log(data);
+                    /*db.transaction(function (tx) {
+                    var sqls2 = 'UPDATE RETAILER SET sync = true WHERE id = '+data.id;
+                    tx.executeSql(sqls, [], function (tx, results) {
+                        console.log("UPDATED");
+                    }, function (tx, results) {
+
+                    });
+                    //$cordovaToast.show('Top Ten Data Imported', 'long', 'bottom');
+                });*/
+                };
+                db.transaction(function (tx) {
+                    console.log(sqls);
+                    MyServices.print();
+                    tx.executeSql(sqls, [], function (tx, results) {
+                        for (var i = 0; i < results.rows.length; i++) {
+                            console.log(results.rows.item(i));
+                            MyServices.editretailerdetails(results.rows.item(i)).success(editretailersuccess);
+                        };
+                    }, function (tx, results) {
+
+                    });
+                    //$cordovaToast.show('Top Ten Data Imported', 'long', 'bottom');
+                });
+            },
+            sendnewretailer: function (sqls) {
+                var addRetailerSuccess = function (data, status) {
+                    console.log(data);
+                    /*db.transaction(function (tx) {
+                    var sqls2 = 'UPDATE RETAILER SET sync = true, id = '+data.id+' WHERE name = '+data.name+'AND area = '+data.area ;
+                    tx.executeSql(sqls, [], function (tx, results) {
+                        console.log("UPDATED");
+                    }, function (tx, results) {
+
+                    });
+                    //$cordovaToast.show('Top Ten Data Imported', 'long', 'bottom');
+                });*/
+                };
+                db.transaction(function (tx) {
+                    console.log(sqls);
+                    tx.executeSql(sqls, [], function (tx, results) {
+                        console.log(results.rows.length);
+                        for (var i = 0; i < results.rows.length; i++) {
+                            console.log(results.rows.item(i));
+                            MyServices.addNewRetailer(results.rows.item(i)).success(addRetailerSuccess);
+                        };
+                    }, function (tx, results) {
+
+                    });
+                    //$cordovaToast.show('Top Ten Data Imported', 'long', 'bottom');
+                });
+            },
+
         }
     });
