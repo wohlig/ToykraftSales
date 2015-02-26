@@ -8,6 +8,8 @@ var db = openDatabase('toykraftapp2', '1.0', 'toykraftapp DB', 50 * 1024 * 1024)
 //CREATE ALL TABLES
 db.transaction(function (tx) {
     tx.executeSql('CREATE TABLE IF NOT EXISTS ZONE (id Integer PRIMARY KEY, name, email)');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS USERS (id Integer PRIMARY KEY, name, password)');
+    tx.executeSql('INSERT INTO USERS (id, name, password) VALUES ("1", "wohlig", "wohlig123")');
     console.log("created");
     //tx.executeSql('DROP DATABASE toykraftapp')
     //    /tx.executeSql('DROP TABLE ZONE');

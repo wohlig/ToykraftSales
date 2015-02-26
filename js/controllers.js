@@ -196,7 +196,7 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
             MyDatabase.sendnewretailer('SELECT * FROM RETAILER WHERE sync = "false" AND id = 0');
         };
     })
-
+/*
 .controller('LoginCtrl', function ($scope, $stateParams, MyServices, $location, MyDatabase) {
     $scope.login = {};
     console.log($scope.login)
@@ -214,6 +214,28 @@ angular.module('starter.controllers', ['ngCordova', 'myservices', 'mydatabase', 
 
     $scope.loginFunction = function (login) {
         MyServices.loginFunc(login).success(loginSuccess);
+    };
+
+
+})*/
+.controller('LoginCtrl', function ($scope, $stateParams, MyServices, $location, MyDatabase) {
+    $scope.login = {};
+    console.log($scope.login)
+
+    $scope.loginFunction = function (login) {
+        db.transaction(function (tx) {
+            console.log(login.password);
+            var sqls = 'SELECT * FROM USERS WHERE name = "' + login.username + '"';
+            tx.executeSql(sqls, [], function (tx, results) {
+                console.log(results.rows.item(0).password);
+                if (results.rows.item(0).password == login.password) {
+                    $location.path("#/app/home");
+                    MyServices.setuser(results.rows.item(0));
+                };
+            }, function (tx, results) {
+                $scope.alert = "Username or password incorrect";
+            });
+        });
     };
 
 
